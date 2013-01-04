@@ -3,6 +3,6 @@ pretty-mode-plus
 
 Redisplay parts of the Emacs buffer as pretty symbols.
 
-The code functionality is original from the author, I just tweaked the pretty symbols and packaged it up. 
+Arthur Danskin <arthurdanskin@gmail.com> released the excellent pretty-mode which fontifies various symbols here: http://www.emacswiki.org/emacs/pretty-mode.el
 
-See source for details.
+My addition was to add support for some Lispy stuff, Unicode character documentation, and Unicode source references.

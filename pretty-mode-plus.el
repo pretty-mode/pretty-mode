@@ -341,7 +341,7 @@ expected by `pretty-patterns'"
        (?\u03BB ("lambda" ,@all)
                 ("fn" sml clojure)
                 ("fun" tuareg)
-                ("\\\\" haskell))
+                ("\\" haskell))
 
        ;; 039B Λ GREEK CAPITAL LETTER LAMDA
        (?\u039B ("LAMBDA" ,@all)

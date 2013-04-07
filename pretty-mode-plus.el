@@ -146,7 +146,8 @@ expected by `pretty-patterns'"
 
 (defvar pretty-patterns
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess))
-         (mley '(tuareg haskell sml))
+         (haskelly '(haskell literate-haskell))
+         (mley (append haskelly '(tuareg sml)))
          (c-like '(c c++ perl sh python java ess ruby))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
@@ -180,7 +181,7 @@ expected by `pretty-patterns'"
                 ("not=" clojure)
                 ("<>" tuareg octave)
                 ("~=" octave)
-                ("/=" haskell))
+                ("/=" ,@haskelly))
 
        ;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 ("<=" ,@all))
@@ -206,12 +207,12 @@ expected by `pretty-patterns'"
        ;; 2227 ∧ LOGICAL AND
        (?\u2227 ("and"     ,@lispy python)
                 ("andalso" sml)
-                ("&&"            c c++ perl haskell))
+                ("&&"            c c++ perl ,@haskelly))
 
        ;; 2228 ∨ LOGICAL OR
        (?\u2228 ("or"      ,@lispy)
                 ("orelse"  sml)
-                ("||"            c c++ perl haskell))
+                ("||"            c c++ perl ,@haskelly))
 
        ;; Superscripts and Subscripts
 
@@ -341,7 +342,7 @@ expected by `pretty-patterns'"
        (?\u03BB ("lambda" ,@all)
                 ("fn" sml clojure)
                 ("fun" tuareg)
-                ("\\" haskell))
+                ("\\" ,@haskelly))
 
        ;; 039B Λ GREEK CAPITAL LETTER LAMDA
        (?\u039B ("LAMBDA" ,@all)
@@ -451,7 +452,7 @@ expected by `pretty-patterns'"
        ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
        ;; 00AC ¬ NOT SIGN
        (?\u00AC ("!"       c c++ perl sh)
-                ("not"     ,@lispy haskell sml))
+                ("not"     ,@lispy ,@haskelly sml))
 
        )))
   "*List of pretty patterns.

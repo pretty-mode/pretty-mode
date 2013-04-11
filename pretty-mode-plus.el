@@ -155,52 +155,78 @@ expected by `pretty-patterns'"
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
 
+       ;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+       (?\u00AB ("<<" ,@haskelly))
+
        ;; 00AC ¬ NOT SIGN
        (?\u00AC ("!" c c++ perl sh)
                 ("not" ,@lispy ,@haskelly sml))
 
        ;; 00B2 ² SUPERSCRIPT TWO
-       (?\u00B2 ("**2" python tuareg octave))
+       (?\u00B2 ("**2" python tuareg octave)
+                ("^2" ,@haskelly))
 
        ;; 00B3 ³ SUPERSCRIPT THREE
-       (?\u00B3 ("**3" python tuareg octave))
+       (?\u00B3 ("**3" python tuareg octave)
+                ("^3" ,@haskelly))
+
+       ;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+       (?\u00BB (">>" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2000.pdf', located at http://unicode.org/charts/PDF/U2000.pdf
 
+       ;; 2025 ‥ TWO DOT LEADER
+       (?\u2025 (".." ,@haskelly ruby))
+
        ;; 2026 … HORIZONTAL ELLIPSIS
        (?\u2026 ("..." scheme))
+
+       ;; 203C ‼ DOUBLE EXCLAMATION MARK
+       (?\u203C ("!!" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2070.pdf', located at http://unicode.org/charts/PDF/U2070.pdf
 
        ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
-       (?\u207F ("**n" python tuareg octave))
+       (?\u207F ("**n" python tuareg octave)
+                ("^n" ,@haskelly))
 
        ;; 2080 ₀ SUBSCRIPT ZERO
        (?\u2080 ("[0]" ,@c-like)
                 ("(0)" octave)
-                (".(0)" tuareg))
+                (".(0)" tuareg)
+                ("!!0" ,@haskelly))
 
        ;; 2081 ₁ SUBSCRIPT ONE
        (?\u2081 ("[1]" ,@c-like)
                 ("(1)" octave)
-                (".(1)" tuareg))
+                (".(1)" tuareg)
+                ("!!1" ,@haskelly))
 
        ;; 2082 ₂ SUBSCRIPT TWO
        (?\u2082 ("[2]" ,@c-like)
                 ("(2)" octave)
-                (".(2)" tuareg))
+                (".(2)" tuareg)
+                ("!!2" ,@haskelly))
 
        ;; 2083 ₃ SUBSCRIPT THREE
        (?\u2083 ("[3]" ,@c-like)
                 ("(3)" octave)
-                (".(3)" tuareg))
+                (".(3)" tuareg)
+                ("!!3" ,@haskelly))
 
        ;; 2084 ₄ SUBSCRIPT FOUR
        (?\u2084 ("[4]" ,@c-like)
                 ("(4)" octave)
-                (".(4)" tuareg))
+                (".(4)" tuareg)
+                ("!!4" ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2100.pdf', located at http://unicode.org/charts/PDF/U2100.pdf
+
+       ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
+       (?\u2124 ("Integer" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2190.pdf', located at http://unicode.org/charts/PDF/U2190.pdf
@@ -218,10 +244,19 @@ expected by `pretty-patterns'"
        (?\u21A0 ("->>" ,@lispy))
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
-       (?\u21D2 ("=>" sml perl ruby ,@lispy))
+       (?\u21D2 ("=>" sml perl ruby ,@lispy ,@haskelly))
+
+       ;; 21F9 ⇹ LEFT RIGHT ARROW WITH VERTICAL STROKE
+       (?\u21F9 ("<|>" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2200.pdf', located at http://unicode.org/charts/PDF/U2200.pdf
+
+       ;; 2200 ∀ FOR ALL
+       (?\u2200 ("forall" ,@haskelly))
+
+       ;; 2203 ∃ THERE EXISTS
+       (?\u2203 ("exists" ,@haskelly))
 
        ;; 2205 ∅ EMPTY SET
        (?\u2205 ("nil" emacs-lisp ruby clojure)
@@ -230,23 +265,38 @@ expected by `pretty-patterns'"
                 ("empty" scheme)
                 ("NULL" c c++)
                 ;; ("None" python)
-                ("()" ,@mley))
+                ("()" ,@mley)
+                ("[]" ,@mley))
+
+       ;; 2208 ∈ ELEMENT OF
+       (?\u2208 ("`elem`" ,@haskelly)
+                ("in" python))
+
+       ;; 2209 ∉ NOT AN ELEMENT OF
+       (?\u2209 ("`notElem`" ,@haskelly)
+                ("not in" python))
+
+       ;; 220F ∏ N-ARY PRODUCT
+       (?\u220F ("product" ,@haskelly))
 
        ;; 2211 Σ N-ARY SUMMATION
-       (?\u2211 ("sum" python))
+       (?\u2211 ("sum" python ,@haskelly))
 
        ;; 221a √ SQUARE ROOT
        (?\u221A ("sqrt" ,@all))
 
        ;; 2227 ∧ LOGICAL AND
-       (?\u2227 ("and" ,@lispy python)
+       (?\u2227 ("and" ,@lispy python ruby)
                 ("andalso" sml)
-                ("&&" c c++ perl ,@haskelly))
+                ("&&" c c++ perl ,@haskelly ruby))
 
        ;; 2228 ∨ LOGICAL OR
-       (?\u2228 ("or" ,@lispy)
+       (?\u2228 ("or" ,@lispy python ruby)
                 ("orelse" sml)
-                ("||" c c++ perl ,@haskelly))
+                ("||" c c++ perl ,@haskelly ruby))
+
+       ;; 2237 ∷ PROPORTION
+       (?\u2237 ("::" ,@haskelly))
 
        ;; 2260 ≠ NOT EQUAL TO
        (?\u2260 ("!=" ,@c-like scheme octave)
@@ -255,15 +305,65 @@ expected by `pretty-patterns'"
                 ("~=" octave)
                 ("/=" ,@haskelly))
 
+       ;; 2261 ≡ IDENTICAL TO
+       (?\u2261 ("==" ,@c-like ,@haskelly))
+
        ;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 ("<=" ,@all))
 
        ;; 2265 ≥ GREATER-THAN OR EQUAL TO
        (?\u2265 (">=" ,@all))
 
+       ;; 22A5 ⊥ UP TACK
+       (?\u22A5 ("undefined" ,@haskelly))
+
+       ;; 22C0 ⋀ N-ARY LOGICAL AND
+       (?\u22C0 ("and" ,@haskelly))
+
+       ;; 22C1 ⋁ N-ARY LOGICAL OR
+       (?\u22C1 ("or" ,@haskelly))
+
+       ;; 22C5 ⋅ DOT OPERATOR
+       (?\u22C5 ("\." ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U27C0.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
+
+       ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
+       (?\u27E6 ("[|" ,@haskelly))
+
+       ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
+       (?\u27E7 ("|]" ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2900.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
+
+       ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
+       (?\u2919 ("-<" ,@haskelly))
+
+       ;; 291A ⤚ RIGHTWARDS ARROW-TAIL
+       (?\u291A (">-" ,@haskelly))
+
+       ;; 291B ⤛ LEFTWARDS DOUBLE ARROW-TAIL
+       (?\u291B ("-<<" ,@haskelly))
+
+       ;; 291C ⤜ RIGHTWARDS DOUBLE ARROW-TAIL
+       (?\u291C (">>-" ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
+
+       ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
+       (?\u2987 ("(|" ,@haskelly))
+
+       ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
+       (?\u2988 ("|)" ,@haskelly))
+
+       ;; 29FA ⧺ DOUBLE PLUS
+       (?\u29FA ("++" ,@haskelly))
+
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
-
 
        ;; 0391 Α GREEK CAPITAL LETTER ALPHA
        (?\u0391 ("ALPHA" ,@all))

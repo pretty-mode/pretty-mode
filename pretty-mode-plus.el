@@ -459,6 +459,15 @@ expected by `pretty-patterns'"
 
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)")
 
+(defun pretty-dont-use-pattern (regexp &rest languages)
+  "Don't show a pretty symbol instead of REGEXP in LANGUAGES"
+  (loop for language in languages do
+        (let* ((mode (intern (concat (symbol-name language) "-mode")))
+               (cell (assq mode pretty-patterns)))
+          (setcdr cell
+                  (remove* regexp (cdr cell)
+                           :test 'equal
+                           :key 'car)))))
 
 (defun pretty-add-keywords (mode keywords)
   "Add pretty character KEYWORDS to MODE

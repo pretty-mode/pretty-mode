@@ -152,42 +152,270 @@ expected by `pretty-patterns'"
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
      `(
-       ;; Arrows
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
+
+       ;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+       (?\u00AB ("<<" ,@haskelly))
+
+       ;; 00AC ¬ NOT SIGN
+       (?\u00AC ("!" c c++ perl sh)
+                ("not" ,@lispy ,@haskelly sml))
+
+       ;; 00B2 ² SUPERSCRIPT TWO
+       (?\u00B2 ("**2" python tuareg octave)
+                ("^2" ,@haskelly))
+
+       ;; 00B3 ³ SUPERSCRIPT THREE
+       (?\u00B3 ("**3" python tuareg octave)
+                ("^3" ,@haskelly))
+
+       ;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+       (?\u00BB (">>" ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
+
+       ;; 0391 Α GREEK CAPITAL LETTER ALPHA
+       (?\u0391 ("ALPHA" ,@all))
+
+       ;; 0392 Β GREEK CAPITAL LETTER BETA
+       (?\u0392 ("BETA" ,@all))
+
+       ;; 0393 Γ GREEK CAPITAL LETTER GAMMA
+       (?\u0393 ("GAMMA" ,@all))
+
+       ;; 0394 Δ GREEK CAPITAL LETTER DELTA
+       (?\u0394 ("DELTA" ,@all))
+
+       ;; 0395 Ε GREEK CAPITAL LETTER EPSILON
+       (?\u0395 ("EPSILON" ,@all))
+
+       ;; 0396 Ζ GREEK CAPITAL LETTER ZETA
+       (?\u0396 ("ZETA" ,@all))
+
+       ;; 0397 Η GREEK CAPITAL LETTER ETA
+       (?\u0397 ("ETA" ,@all))
+
+       ;; 0398 Θ GREEK CAPITAL LETTER THETA
+       (?\u0398 ("THETA" ,@all))
+
+       ;; 0399 Ι GREEK CAPITAL LETTER IOTA
+       (?\u0399 ("IOTA" ,@all))
+
+       ;; 039A Κ GREEK CAPITAL LETTER KAPPA
+       (?\u039A ("KAPPA" ,@all))
+
+       ;; 039B Λ GREEK CAPITAL LETTER LAMDA
+       (?\u039B ("LAMBDA" ,@all)
+                ("FN" sml)
+                ("FUN" tuareg))
+
+       ;; 039C Μ GREEK CAPITAL LETTER MU
+       (?\u039C ("MU" ,@all))
+
+       ;; 039D Ν GREEK CAPITAL LETTER NU
+       (?\u039D ("NU" ,@all))
+
+       ;; 039E Ξ GREEK CAPITAL LETTER XI
+       (?\u039E ("XI" ,@all))
+
+       ;; 039F Ο GREEK CAPITAL LETTER OMICRON
+       (?\u039F ("OMICRON" ,@all))
+
+       ;; 03A0 Π GREEK CAPITAL LETTER PI
+       (?\u03A0 ("PI" ,@all))
+
+       ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
+       (?\u03A1 ("RHO" ,@all))
+
+       ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
+       (?\u03A3 ("SIGMA" ,@all))
+
+       ;; 03A4 Τ GREEK CAPITAL LETTER TAU
+       (?\u03A4 ("TAU" ,@all))
+
+       ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
+       (?\u03A5 ("UPSILON" ,@all))
+
+       ;; 03A6 Φ GREEK CAPITAL LETTER PHI
+       (?\u03A6 ("PHI" ,@all))
+
+       ;; 03A7 Χ GREEK CAPITAL LETTER CHI
+       (?\u03A7 ("CHI" ,@all))
+
+       ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
+       (?\u03A8 ("PSI" ,@all))
+
+       ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
+       (?\u03A9 ("OMEGA" ,@all))
+
+       ;; 03B1 α GREEK SMALL LETTER ALPHA
+       (?\u03B1 ("alpha" ,@all)
+                ("'a" ,@mley))
+
+       ;; 03B2 β GREEK SMALL LETTER BETA
+       (?\u03B2 ("beta" ,@all)
+                ("'b" ,@mley))
+
+       ;; 03B3 γ GREEK SMALL LETTER GAMMA
+       (?\u03B3 ("gamma" ,@all)
+                ("'c" ,@mley))
+
+       ;; 03B4 δ GREEK SMALL LETTER DELTA
+       (?\u03B4 ("delta" ,@all)
+                ("'d" ,@mley))
+
+       ;; 03B5 ε GREEK SMALL LETTER EPSILON
+       (?\u03B5 ("epsilon" ,@all)
+                ("'e" ,@mley))
+
+       ;; 03B6 ζ GREEK SMALL LETTER ZETA
+       (?\u03B6 ("zeta" ,@all))
+
+       ;; 03B7 η GREEK SMALL LETTER ETA
+       (?\u03B7 ("eta" ,@all))
+       ;; Theta
+
+       ;; 03B8 θ GREEK SMALL LETTER THETA
+       (?\u03B8 ("theta" ,@all))
+
+       ;; 03B9 ι GREEK SMALL LETTER IOTA
+       (?\u03B9 ("iota" ,@all))
+
+       ;; 03BA κ GREEK SMALL LETTER KAPPA
+       (?\u03BA ("kappa" ,@all))
+
+       ;; 03BB λ GREEK SMALL LETTER LAMDA
+       (?\u03BB ("lambda" ,@all)
+                ("fn" sml clojure)
+                ("fun" tuareg)
+                ("\\" ,@haskelly))
+
+       ;; 03BC μ GREEK SMALL LETTER MU
+       (?\u03BC ("mu" ,@all))
+
+       ;; 03BD ν GREEK SMALL LETTER NU
+       (?\u03BD ("nu" ,@all))
+
+       ;; 03BE ξ GREEK SMALL LETTER XI
+       (?\u03BE ("xi" ,@all))
+
+       ;; 03BF ο GREEK SMALL LETTER OMICRON
+       (?\u03BF ("omicron" ,@all))
+
+       ;; 03C0 π GREEK SMALL LETTER PI
+       (?\u03C0 ("pi" ,@all)
+                ("M_PI" c c++))
+
+       ;; 03C1 ρ GREEK SMALL LETTER RHO
+       (?\u03C1 ("rho" ,@all))
+
+       ;; 03C3 σ GREEK SMALL LETTER SIGMA
+       (?\u03C3 ("sigma" ,@all))
+
+       ;; 03C4 τ GREEK SMALL LETTER TAU
+       (?\u03C4 ("tau" ,@all))
+
+       ;; 03C5 υ GREEK SMALL LETTER UPSILON
+       (?\u03C5 ("upsilon" ,@all))
+
+       ;; 03C6 φ GREEK SMALL LETTER PHI
+       (?\u03C6 ("phi" ,@all))
+
+       ;; 03C7 χ GREEK SMALL LETTER CHI
+       (?\u03C7 ("chi" ,@all))
+
+       ;; 03C8 ψ GREEK SMALL LETTER PSI
+       (?\u03C8 ("psi" ,@all))
+
+       ;; 03C9 ω GREEK SMALL LETTER OMEGA
+       (?\u03C9 ("omega" ,@all))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2000.pdf', located at http://unicode.org/charts/PDF/U2000.pdf
+
+       ;; 2025 ‥ TWO DOT LEADER
+       (?\u2025 (".." ,@haskelly ruby))
+
+       ;; 2026 … HORIZONTAL ELLIPSIS
+       (?\u2026 ("..." scheme))
+
+       ;; 203C ‼ DOUBLE EXCLAMATION MARK
+       (?\u203C ("!!" ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2070.pdf', located at http://unicode.org/charts/PDF/U2070.pdf
+
+       ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
+       (?\u207F ("**n" python tuareg octave)
+                ("^n" ,@haskelly))
+
+       ;; 2080 ₀ SUBSCRIPT ZERO
+       (?\u2080 ("[0]" ,@c-like)
+                ("(0)" octave)
+                (".(0)" tuareg)
+                ("!!0" ,@haskelly))
+
+       ;; 2081 ₁ SUBSCRIPT ONE
+       (?\u2081 ("[1]" ,@c-like)
+                ("(1)" octave)
+                (".(1)" tuareg)
+                ("!!1" ,@haskelly))
+
+       ;; 2082 ₂ SUBSCRIPT TWO
+       (?\u2082 ("[2]" ,@c-like)
+                ("(2)" octave)
+                (".(2)" tuareg)
+                ("!!2" ,@haskelly))
+
+       ;; 2083 ₃ SUBSCRIPT THREE
+       (?\u2083 ("[3]" ,@c-like)
+                ("(3)" octave)
+                (".(3)" tuareg)
+                ("!!3" ,@haskelly))
+
+       ;; 2084 ₄ SUBSCRIPT FOUR
+       (?\u2084 ("[4]" ,@c-like)
+                ("(4)" octave)
+                (".(4)" tuareg)
+                ("!!4" ,@haskelly))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2100.pdf', located at http://unicode.org/charts/PDF/U2100.pdf
+
+       ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
+       (?\u2124 ("Integer" ,@haskelly))
+
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2190.pdf', located at http://unicode.org/charts/PDF/U2190.pdf
 
        ;; 2190 ← LEFTWARDS ARROW
        (?\u2190 ("<-" ,@mley ess ,@lispy))
 
-       ;; 2192 → RIGHTWARDS ARROW
-       (?\u2192 ("->" ,@mley ess c c++ perl ,@lispy))
-
-       ;; 2190 ↠ RIGHTWARDS TWO HEADED ARROW
-       (?\u21A0 ("->>" ,@lispy))
-
        ;; 2191 ↑ UPWARDS ARROW
        (?\u2191 ("\\^" tuareg))
 
-       ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
-       (?\u21D2 ("=>" sml perl ruby ,@lispy))
+       ;; 2192 → RIGHTWARDS ARROW
+       (?\u2192 ("->" ,@mley ess c c++ perl ,@lispy))
 
-       ;; Mathematical Operators
+       ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
+       (?\u21A0 ("->>" ,@lispy))
+
+       ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
+       (?\u21D2 ("=>" sml perl ruby ,@lispy ,@haskelly))
+
+       ;; 21F9 ⇹ LEFT RIGHT ARROW WITH VERTICAL STROKE
+       (?\u21F9 ("<|>" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2200.pdf', located at http://unicode.org/charts/PDF/U2200.pdf
 
-       ;; 2260 ≠ NOT EQUAL TO
-       (?\u2260 ("!=" ,@c-like scheme octave)
-                ("not=" clojure)
-                ("<>" tuareg octave)
-                ("~=" octave)
-                ("/=" ,@haskelly))
+       ;; 2200 ∀ FOR ALL
+       (?\u2200 ("forall" ,@haskelly))
 
-       ;; 2264 ≤ LESS-THAN OR EQUAL TO
-       (?\u2264 ("<=" ,@all))
-
-       ;; 2265 ≥ GREATER-THAN OR EQUAL TO
-       (?\u2265 (">=" ,@all))
+       ;; 2203 ∃ THERE EXISTS
+       (?\u2203 ("exists" ,@haskelly))
 
        ;; 2205 ∅ EMPTY SET
        (?\u2205 ("nil" emacs-lisp ruby clojure)
@@ -196,263 +424,102 @@ expected by `pretty-patterns'"
                 ("empty" scheme)
                 ("NULL" c c++)
                 ;; ("None" python)
-                ("()" ,@mley))
+                ("()" ,@mley)
+                ("[]" ,@mley))
+
+       ;; 2208 ∈ ELEMENT OF
+       (?\u2208 ("`elem`" ,@haskelly)
+                ("in" python))
+
+       ;; 2209 ∉ NOT AN ELEMENT OF
+       (?\u2209 ("`notElem`" ,@haskelly)
+                ("not in" python))
+
+       ;; 220F ∏ N-ARY PRODUCT
+       (?\u220F ("product" ,@haskelly))
+
+       ;; 2211 Σ N-ARY SUMMATION
+       (?\u2211 ("sum" python ,@haskelly))
 
        ;; 221a √ SQUARE ROOT
        (?\u221A ("sqrt" ,@all))
 
-       ;; 2211 Σ N-ARY SUMMATION
-       (?\u2211 ("sum" python))
-
        ;; 2227 ∧ LOGICAL AND
-       (?\u2227 ("and"     ,@lispy python)
+       (?\u2227 ("and" ,@lispy python ruby)
                 ("andalso" sml)
-                ("&&"            c c++ perl ,@haskelly))
+                ("&&" c c++ perl ,@haskelly ruby))
 
        ;; 2228 ∨ LOGICAL OR
-       (?\u2228 ("or"      ,@lispy)
-                ("orelse"  sml)
-                ("||"            c c++ perl ,@haskelly))
+       (?\u2228 ("or" ,@lispy python ruby)
+                ("orelse" sml)
+                ("||" c c++ perl ,@haskelly ruby))
 
-       ;; Superscripts and Subscripts
+       ;; 2237 ∷ PROPORTION
+       (?\u2237 ("::" ,@haskelly))
 
-       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
-       ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
+       ;; 2260 ≠ NOT EQUAL TO
+       (?\u2260 ("!=" ,@c-like scheme octave)
+                ("not=" clojure)
+                ("<>" tuareg octave)
+                ("~=" octave)
+                ("/=" ,@haskelly))
 
-       ;; 00B2 ² SUPERSCRIPT TWO
-       (?\u00B2 ("**2" python tuareg octave))
+       ;; 2261 ≡ IDENTICAL TO
+       (?\u2261 ("==" ,@c-like ,@haskelly))
 
-       ;; 00B3 ³ SUPERSCRIPT THREE
-       (?\u00B3 ("**3" python tuareg octave))
+       ;; 2264 ≤ LESS-THAN OR EQUAL TO
+       (?\u2264 ("<=" ,@all))
 
-       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
-       ;; in `U2070.pdf', located at http://unicode.org/charts/PDF/U2070.pdf
+       ;; 2265 ≥ GREATER-THAN OR EQUAL TO
+       (?\u2265 (">=" ,@all))
 
-       ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
-       (?\u207F ("**n" python tuareg octave))
+       ;; 22A5 ⊥ UP TACK
+       (?\u22A5 ("undefined" ,@haskelly))
 
-       ;; 2080 ₀ SUBSCRIPT ZERO
-       (?\u2080 ("[0]" ,@c-like)
-                ("(0)" octave)
-                (".(0)" tuareg))
+       ;; 22C0 ⋀ N-ARY LOGICAL AND
+       (?\u22C0 ("and" ,@haskelly))
 
-       ;; 2081 ₁ SUBSCRIPT ONE
-       (?\u2081 ("[1]" ,@c-like)
-                ("(1)" octave)
-                (".(1)" tuareg))
+       ;; 22C1 ⋁ N-ARY LOGICAL OR
+       (?\u22C1 ("or" ,@haskelly))
 
-       ;; 2082 ₂ SUBSCRIPT TWO
-       (?\u2082 ("[2]" ,@c-like)
-                ("(2)" octave)
-                (".(2)" tuareg))
-
-       ;; 2083 ₃ SUBSCRIPT THREE
-       (?\u2083 ("[3]" ,@c-like)
-                ("(3)" octave)
-                (".(3)" tuareg))
-
-       ;; 2084 ₄ SUBSCRIPT FOUR
-       (?\u2084 ("[4]" ,@c-like)
-                ("(4)" octave)
-                (".(4)" tuareg))
-
-       ;; Greek alphabet
+       ;; 22C5 ⋅ DOT OPERATOR
+       (?\u22C5 ("\." ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
-       ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
+       ;; in `U27C0.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
-       ;; Alpha
+       ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
+       (?\u27E6 ("[|" ,@haskelly))
 
-       ;; 03B1 α GREEK SMALL LETTER ALPHA
-       (?\u03B1 ("alpha" ,@all)
-                ("'a" ,@mley))
-       ;; 0391 Α GREEK CAPITAL LETTER ALPHA
-       (?\u0391 ("ALPHA" ,@all))
+       ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
+       (?\u27E7 ("|]" ,@haskelly))
 
-       ;; Beta
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2900.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
-       ;; 03B2 β GREEK SMALL LETTER BETA
-       (?\u03B2 ("beta" ,@all)
-                ("'b" ,@mley))
-       ;; 0392 Β GREEK CAPITAL LETTER BETA
-       (?\u0392 ("BETA" ,@all))
+       ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
+       (?\u2919 ("-<" ,@haskelly))
 
-       ;; Gamma
+       ;; 291A ⤚ RIGHTWARDS ARROW-TAIL
+       (?\u291A (">-" ,@haskelly))
 
-       ;; 03B3 γ GREEK SMALL LETTER GAMMA
-       (?\u03B3 ("gamma" ,@all)
-                ("'c" ,@mley))
-       ;; 0393 Γ GREEK CAPITAL LETTER GAMMA
-       (?\u0393 ("GAMMA" ,@all))
+       ;; 291B ⤛ LEFTWARDS DOUBLE ARROW-TAIL
+       (?\u291B ("-<<" ,@haskelly))
 
-       ;; Delta
+       ;; 291C ⤜ RIGHTWARDS DOUBLE ARROW-TAIL
+       (?\u291C (">>-" ,@haskelly))
 
-       ;; 03B4 δ GREEK SMALL LETTER DELTA
-       (?\u03B4 ("delta" ,@all)
-                ("'d" ,@mley))
-       ;; 0394 Δ GREEK CAPITAL LETTER DELTA
-       (?\u0394 ("DELTA" ,@all))
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
-       ;; Epsilon
+       ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
+       (?\u2987 ("(|" ,@haskelly))
 
-       ;; 03B5 ε GREEK SMALL LETTER EPSILON
-       (?\u03B5 ("epsilon" ,@all)
-                ("'e" ,@mley))
-       ;; 0395 Ε GREEK CAPITAL LETTER EPSILON
-       (?\u0395 ("EPSILON" ,@all))
+       ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
+       (?\u2988 ("|)" ,@haskelly))
 
-       ;; Zeta
-
-       ;; 03B6 ζ GREEK SMALL LETTER ZETA
-       (?\u03B6 ("zeta" ,@all))
-       ;; 0396 Ζ GREEK CAPITAL LETTER ZETA
-       (?\u0396 ("ZETA" ,@all))
-
-       ;; Eta
-
-       ;; 03B7 η GREEK SMALL LETTER ETA
-       (?\u03B7 ("eta" ,@all))
-       ;; 0397 Η GREEK CAPITAL LETTER ETA
-       (?\u0397 ("ETA" ,@all))
-
-       ;; Theta
-
-       ;; 03B8 θ GREEK SMALL LETTER THETA
-       (?\u03B8 ("theta" ,@all))
-       ;; 0398 Θ GREEK CAPITAL LETTER THETA
-       (?\u0398 ("THETA" ,@all))
-
-       ;; Iota
-
-       ;; 03B9 ι GREEK SMALL LETTER IOTA
-       (?\u03B9 ("iota" ,@all))
-       ;; 0399 Ι GREEK CAPITAL LETTER IOTA
-       (?\u0399 ("IOTA" ,@all))
-
-       ;; Kappa
-
-       ;; 03BA κ GREEK SMALL LETTER KAPPA
-       (?\u03BA ("kappa" ,@all))
-       ;; 039A Κ GREEK CAPITAL LETTER KAPPA
-       (?\u039A ("KAPPA" ,@all))
-
-       ;; Lambda
-
-       ;; 03BB λ GREEK SMALL LETTER LAMDA
-       (?\u03BB ("lambda" ,@all)
-                ("fn" sml clojure)
-                ("fun" tuareg)
-                ("\\" ,@haskelly))
-
-       ;; 039B Λ GREEK CAPITAL LETTER LAMDA
-       (?\u039B ("LAMBDA" ,@all)
-                ("FN" sml)
-                ("FUN" tuareg))
-
-       ;; Mu
-
-       ;; 03BC μ GREEK SMALL LETTER MU
-       (?\u03BC ("mu" ,@all))
-       ;; 039C Μ GREEK CAPITAL LETTER MU
-       (?\u039C ("MU" ,@all))
-
-       ;; Nu
-
-       ;; 03BD ν GREEK SMALL LETTER NU
-       (?\u03BD ("nu" ,@all))
-       ;; 039D Ν GREEK CAPITAL LETTER NU
-       (?\u039D ("NU" ,@all))
-
-       ;; Xi
-
-       ;; 03BE ξ GREEK SMALL LETTER XI
-       (?\u03BE ("xi" ,@all))
-       ;; 039E Ξ GREEK CAPITAL LETTER XI
-       (?\u039E ("XI" ,@all))
-
-       ;; Omicron
-
-       ;; 03BF ο GREEK SMALL LETTER OMICRON
-       (?\u03BF ("omicron" ,@all))
-       ;; 039F Ο GREEK CAPITAL LETTER OMICRON
-       (?\u039F ("OMICRON" ,@all))
-
-       ;; Pi
-
-       ;; 03C0 π GREEK SMALL LETTER PI
-       (?\u03C0 ("pi" ,@all)
-                ("M_PI" c c++))
-       ;; 03A0 Π GREEK CAPITAL LETTER PI
-       (?\u03A0 ("PI" ,@all))
-
-       ;; Rho
-
-       ;; 03C1 ρ GREEK SMALL LETTER RHO
-       (?\u03C1 ("rho" ,@all))
-       ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
-       (?\u03A1 ("RHO" ,@all))
-
-       ;; Sigma
-
-       ;; 03C3 σ GREEK SMALL LETTER SIGMA
-       (?\u03C3 ("sigma" ,@all))
-       ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
-       (?\u03A3 ("SIGMA" ,@all))
-
-       ;; Tau
-
-       ;; 03C4 τ GREEK SMALL LETTER TAU
-       (?\u03C4 ("tau" ,@all))
-       ;; 03A4 Τ GREEK CAPITAL LETTER TAU
-       (?\u03A4 ("TAU" ,@all))
-
-       ;; Upsilon
-
-       ;; 03C5 υ GREEK SMALL LETTER UPSILON
-       (?\u03C5 ("upsilon" ,@all))
-       ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
-       (?\u03A5 ("UPSILON" ,@all))
-
-       ;; Phi
-
-       ;; 03C6 φ GREEK SMALL LETTER PHI
-       (?\u03C6 ("phi" ,@all))
-       ;; 03A6 Φ GREEK CAPITAL LETTER PHI
-       (?\u03A6 ("PHI" ,@all))
-
-       ;; Chi
-
-       ;; 03C7 χ GREEK SMALL LETTER CHI
-       (?\u03C7 ("chi" ,@all))
-       ;; 03A7 Χ GREEK CAPITAL LETTER CHI
-       (?\u03A7 ("CHI" ,@all))
-
-       ;; Psi
-
-       ;; 03C8 ψ GREEK SMALL LETTER PSI
-       (?\u03C8 ("psi" ,@all))
-       ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
-       (?\u03A8 ("PSI" ,@all))
-
-       ;; Omega
-
-       ;; 03C9 ω GREEK SMALL LETTER OMEGA
-       (?\u03C9 ("omega" ,@all))
-       ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
-       (?\u03A9 ("OMEGA" ,@all))
-
-       ;; Various Symbols
-
-       ;; Value taken directly from `The Unicode Standard, Version 5.2' documented
-       ;; in `U2000.pdf', located at http://unicode.org/charts/PDF/U2000.pdf
-       ;; 2026 … HORIZONTAL ELLIPSIS
-       (?\u2026 ("..." scheme))
-
-       ;; Value taken directly from `The Unicode Standard, Version 5.2' documented
-       ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
-       ;; 00AC ¬ NOT SIGN
-       (?\u00AC ("!"       c c++ perl sh)
-                ("not"     ,@lispy ,@haskelly sml))
+       ;; 29FA ⧺ DOUBLE PLUS
+       (?\u29FA ("++" ,@haskelly))
 
        )))
   "*List of pretty patterns.

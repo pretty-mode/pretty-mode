@@ -174,6 +174,165 @@ expected by `pretty-patterns'"
        (?\u00BB (">>" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
+
+       ;; 0391 Α GREEK CAPITAL LETTER ALPHA
+       (?\u0391 ("ALPHA" ,@all))
+
+       ;; 0392 Β GREEK CAPITAL LETTER BETA
+       (?\u0392 ("BETA" ,@all))
+
+       ;; 0393 Γ GREEK CAPITAL LETTER GAMMA
+       (?\u0393 ("GAMMA" ,@all))
+
+       ;; 0394 Δ GREEK CAPITAL LETTER DELTA
+       (?\u0394 ("DELTA" ,@all))
+
+       ;; 0395 Ε GREEK CAPITAL LETTER EPSILON
+       (?\u0395 ("EPSILON" ,@all))
+
+       ;; 0396 Ζ GREEK CAPITAL LETTER ZETA
+       (?\u0396 ("ZETA" ,@all))
+
+       ;; 0397 Η GREEK CAPITAL LETTER ETA
+       (?\u0397 ("ETA" ,@all))
+
+       ;; 0398 Θ GREEK CAPITAL LETTER THETA
+       (?\u0398 ("THETA" ,@all))
+
+       ;; 0399 Ι GREEK CAPITAL LETTER IOTA
+       (?\u0399 ("IOTA" ,@all))
+
+       ;; 039A Κ GREEK CAPITAL LETTER KAPPA
+       (?\u039A ("KAPPA" ,@all))
+
+       ;; 039B Λ GREEK CAPITAL LETTER LAMDA
+       (?\u039B ("LAMBDA" ,@all)
+                ("FN" sml)
+                ("FUN" tuareg))
+
+       ;; 039C Μ GREEK CAPITAL LETTER MU
+       (?\u039C ("MU" ,@all))
+
+       ;; 039D Ν GREEK CAPITAL LETTER NU
+       (?\u039D ("NU" ,@all))
+
+       ;; 039E Ξ GREEK CAPITAL LETTER XI
+       (?\u039E ("XI" ,@all))
+
+       ;; 039F Ο GREEK CAPITAL LETTER OMICRON
+       (?\u039F ("OMICRON" ,@all))
+
+       ;; 03A0 Π GREEK CAPITAL LETTER PI
+       (?\u03A0 ("PI" ,@all))
+
+       ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
+       (?\u03A1 ("RHO" ,@all))
+
+       ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
+       (?\u03A3 ("SIGMA" ,@all))
+
+       ;; 03A4 Τ GREEK CAPITAL LETTER TAU
+       (?\u03A4 ("TAU" ,@all))
+
+       ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
+       (?\u03A5 ("UPSILON" ,@all))
+
+       ;; 03A6 Φ GREEK CAPITAL LETTER PHI
+       (?\u03A6 ("PHI" ,@all))
+
+       ;; 03A7 Χ GREEK CAPITAL LETTER CHI
+       (?\u03A7 ("CHI" ,@all))
+
+       ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
+       (?\u03A8 ("PSI" ,@all))
+
+       ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
+       (?\u03A9 ("OMEGA" ,@all))
+
+       ;; 03B1 α GREEK SMALL LETTER ALPHA
+       (?\u03B1 ("alpha" ,@all)
+                ("'a" ,@mley))
+
+       ;; 03B2 β GREEK SMALL LETTER BETA
+       (?\u03B2 ("beta" ,@all)
+                ("'b" ,@mley))
+
+       ;; 03B3 γ GREEK SMALL LETTER GAMMA
+       (?\u03B3 ("gamma" ,@all)
+                ("'c" ,@mley))
+
+       ;; 03B4 δ GREEK SMALL LETTER DELTA
+       (?\u03B4 ("delta" ,@all)
+                ("'d" ,@mley))
+
+       ;; 03B5 ε GREEK SMALL LETTER EPSILON
+       (?\u03B5 ("epsilon" ,@all)
+                ("'e" ,@mley))
+
+       ;; 03B6 ζ GREEK SMALL LETTER ZETA
+       (?\u03B6 ("zeta" ,@all))
+
+       ;; 03B7 η GREEK SMALL LETTER ETA
+       (?\u03B7 ("eta" ,@all))
+       ;; Theta
+
+       ;; 03B8 θ GREEK SMALL LETTER THETA
+       (?\u03B8 ("theta" ,@all))
+
+       ;; 03B9 ι GREEK SMALL LETTER IOTA
+       (?\u03B9 ("iota" ,@all))
+
+       ;; 03BA κ GREEK SMALL LETTER KAPPA
+       (?\u03BA ("kappa" ,@all))
+
+       ;; 03BB λ GREEK SMALL LETTER LAMDA
+       (?\u03BB ("lambda" ,@all)
+                ("fn" sml clojure)
+                ("fun" tuareg)
+                ("\\" ,@haskelly))
+
+       ;; 03BC μ GREEK SMALL LETTER MU
+       (?\u03BC ("mu" ,@all))
+
+       ;; 03BD ν GREEK SMALL LETTER NU
+       (?\u03BD ("nu" ,@all))
+
+       ;; 03BE ξ GREEK SMALL LETTER XI
+       (?\u03BE ("xi" ,@all))
+
+       ;; 03BF ο GREEK SMALL LETTER OMICRON
+       (?\u03BF ("omicron" ,@all))
+
+       ;; 03C0 π GREEK SMALL LETTER PI
+       (?\u03C0 ("pi" ,@all)
+                ("M_PI" c c++))
+
+       ;; 03C1 ρ GREEK SMALL LETTER RHO
+       (?\u03C1 ("rho" ,@all))
+
+       ;; 03C3 σ GREEK SMALL LETTER SIGMA
+       (?\u03C3 ("sigma" ,@all))
+
+       ;; 03C4 τ GREEK SMALL LETTER TAU
+       (?\u03C4 ("tau" ,@all))
+
+       ;; 03C5 υ GREEK SMALL LETTER UPSILON
+       (?\u03C5 ("upsilon" ,@all))
+
+       ;; 03C6 φ GREEK SMALL LETTER PHI
+       (?\u03C6 ("phi" ,@all))
+
+       ;; 03C7 χ GREEK SMALL LETTER CHI
+       (?\u03C7 ("chi" ,@all))
+
+       ;; 03C8 ψ GREEK SMALL LETTER PSI
+       (?\u03C8 ("psi" ,@all))
+
+       ;; 03C9 ω GREEK SMALL LETTER OMEGA
+       (?\u03C9 ("omega" ,@all))
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2000.pdf', located at http://unicode.org/charts/PDF/U2000.pdf
 
        ;; 2025 ‥ TWO DOT LEADER
@@ -361,165 +520,6 @@ expected by `pretty-patterns'"
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA ("++" ,@haskelly))
-
-       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
-       ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
-
-       ;; 0391 Α GREEK CAPITAL LETTER ALPHA
-       (?\u0391 ("ALPHA" ,@all))
-
-       ;; 0392 Β GREEK CAPITAL LETTER BETA
-       (?\u0392 ("BETA" ,@all))
-
-       ;; 0393 Γ GREEK CAPITAL LETTER GAMMA
-       (?\u0393 ("GAMMA" ,@all))
-
-       ;; 0394 Δ GREEK CAPITAL LETTER DELTA
-       (?\u0394 ("DELTA" ,@all))
-
-       ;; 0395 Ε GREEK CAPITAL LETTER EPSILON
-       (?\u0395 ("EPSILON" ,@all))
-
-       ;; 0396 Ζ GREEK CAPITAL LETTER ZETA
-       (?\u0396 ("ZETA" ,@all))
-
-       ;; 0397 Η GREEK CAPITAL LETTER ETA
-       (?\u0397 ("ETA" ,@all))
-
-       ;; 0398 Θ GREEK CAPITAL LETTER THETA
-       (?\u0398 ("THETA" ,@all))
-
-       ;; 0399 Ι GREEK CAPITAL LETTER IOTA
-       (?\u0399 ("IOTA" ,@all))
-
-       ;; 039A Κ GREEK CAPITAL LETTER KAPPA
-       (?\u039A ("KAPPA" ,@all))
-
-       ;; 039B Λ GREEK CAPITAL LETTER LAMDA
-       (?\u039B ("LAMBDA" ,@all)
-                ("FN" sml)
-                ("FUN" tuareg))
-
-       ;; 039C Μ GREEK CAPITAL LETTER MU
-       (?\u039C ("MU" ,@all))
-
-       ;; 039D Ν GREEK CAPITAL LETTER NU
-       (?\u039D ("NU" ,@all))
-
-       ;; 039E Ξ GREEK CAPITAL LETTER XI
-       (?\u039E ("XI" ,@all))
-
-       ;; 039F Ο GREEK CAPITAL LETTER OMICRON
-       (?\u039F ("OMICRON" ,@all))
-
-       ;; 03A0 Π GREEK CAPITAL LETTER PI
-       (?\u03A0 ("PI" ,@all))
-
-       ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
-       (?\u03A1 ("RHO" ,@all))
-
-       ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
-       (?\u03A3 ("SIGMA" ,@all))
-
-       ;; 03A4 Τ GREEK CAPITAL LETTER TAU
-       (?\u03A4 ("TAU" ,@all))
-
-       ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
-       (?\u03A5 ("UPSILON" ,@all))
-
-       ;; 03A6 Φ GREEK CAPITAL LETTER PHI
-       (?\u03A6 ("PHI" ,@all))
-
-       ;; 03A7 Χ GREEK CAPITAL LETTER CHI
-       (?\u03A7 ("CHI" ,@all))
-
-       ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
-       (?\u03A8 ("PSI" ,@all))
-
-       ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
-       (?\u03A9 ("OMEGA" ,@all))
-
-       ;; 03B1 α GREEK SMALL LETTER ALPHA
-       (?\u03B1 ("alpha" ,@all)
-                ("'a" ,@mley))
-
-       ;; 03B2 β GREEK SMALL LETTER BETA
-       (?\u03B2 ("beta" ,@all)
-                ("'b" ,@mley))
-
-       ;; 03B3 γ GREEK SMALL LETTER GAMMA
-       (?\u03B3 ("gamma" ,@all)
-                ("'c" ,@mley))
-
-       ;; 03B4 δ GREEK SMALL LETTER DELTA
-       (?\u03B4 ("delta" ,@all)
-                ("'d" ,@mley))
-
-       ;; 03B5 ε GREEK SMALL LETTER EPSILON
-       (?\u03B5 ("epsilon" ,@all)
-                ("'e" ,@mley))
-
-       ;; 03B6 ζ GREEK SMALL LETTER ZETA
-       (?\u03B6 ("zeta" ,@all))
-
-       ;; 03B7 η GREEK SMALL LETTER ETA
-       (?\u03B7 ("eta" ,@all))
-       ;; Theta
-
-       ;; 03B8 θ GREEK SMALL LETTER THETA
-       (?\u03B8 ("theta" ,@all))
-
-       ;; 03B9 ι GREEK SMALL LETTER IOTA
-       (?\u03B9 ("iota" ,@all))
-
-       ;; 03BA κ GREEK SMALL LETTER KAPPA
-       (?\u03BA ("kappa" ,@all))
-
-       ;; 03BB λ GREEK SMALL LETTER LAMDA
-       (?\u03BB ("lambda" ,@all)
-                ("fn" sml clojure)
-                ("fun" tuareg)
-                ("\\" ,@haskelly))
-
-       ;; 03BC μ GREEK SMALL LETTER MU
-       (?\u03BC ("mu" ,@all))
-
-       ;; 03BD ν GREEK SMALL LETTER NU
-       (?\u03BD ("nu" ,@all))
-
-       ;; 03BE ξ GREEK SMALL LETTER XI
-       (?\u03BE ("xi" ,@all))
-
-       ;; 03BF ο GREEK SMALL LETTER OMICRON
-       (?\u03BF ("omicron" ,@all))
-
-       ;; 03C0 π GREEK SMALL LETTER PI
-       (?\u03C0 ("pi" ,@all)
-                ("M_PI" c c++))
-
-       ;; 03C1 ρ GREEK SMALL LETTER RHO
-       (?\u03C1 ("rho" ,@all))
-
-       ;; 03C3 σ GREEK SMALL LETTER SIGMA
-       (?\u03C3 ("sigma" ,@all))
-
-       ;; 03C4 τ GREEK SMALL LETTER TAU
-       (?\u03C4 ("tau" ,@all))
-
-       ;; 03C5 υ GREEK SMALL LETTER UPSILON
-       (?\u03C5 ("upsilon" ,@all))
-
-       ;; 03C6 φ GREEK SMALL LETTER PHI
-       (?\u03C6 ("phi" ,@all))
-
-       ;; 03C7 χ GREEK SMALL LETTER CHI
-       (?\u03C7 ("chi" ,@all))
-
-       ;; 03C8 ψ GREEK SMALL LETTER PSI
-       (?\u03C8 ("psi" ,@all))
-
-       ;; 03C9 ω GREEK SMALL LETTER OMEGA
-       (?\u03C9 ("omega" ,@all))
 
        )))
   "*List of pretty patterns.

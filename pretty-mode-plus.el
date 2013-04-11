@@ -189,7 +189,7 @@ expected by `pretty-patterns'"
        (?\u2265 (">=" ,@all))
 
        ;; 2205 ∅ EMPTY SET
-       (?\u2205 ("nil" emacs-lisp ruby)
+       (?\u2205 ("nil" emacs-lisp ruby clojure)
                 ("null" scheme java)
                 ("'()" scheme)
                 ("empty" scheme)
@@ -341,7 +341,7 @@ expected by `pretty-patterns'"
        (?\u03BB ("lambda" ,@all)
                 ("fn" sml clojure)
                 ("fun" tuareg)
-                ("\\\\" haskell))
+                ("\\" haskell))
 
        ;; 039B Λ GREEK CAPITAL LETTER LAMDA
        (?\u039B ("LAMBDA" ,@all)

@@ -454,6 +454,13 @@ expected by `pretty-patterns'"
                 ("orelse" sml)
                 ("||" c c++ perl ,@haskelly ruby))
 
+       ;; 2229 ∩ INTERSECTION
+       (?\u2229 ("`intersect`" ,@haskelly)     ; Data.List
+                ("`intersection`" ,@haskelly)) ; Data.Set
+
+       ;; 222A ∪ UNION
+       (?\u222A ("`union`" ,@haskelly)) ; Data.List, Data.Set
+
        ;; 2237 ∷ PROPORTION
        (?\u2237 ("::" ,@haskelly))
 
@@ -473,6 +480,12 @@ expected by `pretty-patterns'"
        ;; 2265 ≥ GREATER-THAN OR EQUAL TO
        (?\u2265 (">=" ,@all))
 
+       ;; 2282 ⊂ SUBSET OF
+       (?\u2282 ("`isProperSubsetOf`" ,@haskelly)) ; Data.Set
+
+       ;; 2286 ⊆ SUBSET OF OR EQUAL TO
+       (?\u2286 ("`isSubsetOf`" ,@haskelly)) ; Data.Set
+
        ;; 22A5 ⊥ UP TACK
        (?\u22A5 ("undefined" ,@haskelly))
 
@@ -482,8 +495,17 @@ expected by `pretty-patterns'"
        ;; 22C1 ⋁ N-ARY LOGICAL OR
        (?\u22C1 ("or" ,@haskelly))
 
+       ;; 22C3 ⋃ N-ARY UNION
+       (?\u22C3 ("unions" ,@haskelly))  ; Data.Set
+
        ;; 22C5 ⋅ DOT OPERATOR
        (?\u22C5 ("\." ,@haskelly))
+
+       ;; 22D8 ⋘ VERY MUCH LESS-THAN
+       (?\u22D8 ("<<<" ,@haskelly))     ; Control.Arrow
+
+       ;; 22D9 ⋙ VERY MUCH GREATER-THAN
+       (?\u22D9 (">>>" ,@haskelly))     ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U27C0.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
@@ -520,6 +542,15 @@ expected by `pretty-patterns'"
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA ("++" ,@haskelly))
+
+       ;; 29FB ⧻ TRIPLE PLUS
+       (?\u29FB ("+++" ,@haskelly))     ; Control.Arrow
+
+       ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
+       ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
+
+       ;; 2AF4 ⫴ TRIPLE VERTICAL BAR BINARY RELATION
+       (?\u2AF4 ("|||" ,@haskelly))     ; Control.Arrow
 
        )))
   "*List of pretty patterns.

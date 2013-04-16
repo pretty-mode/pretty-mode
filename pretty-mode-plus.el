@@ -130,7 +130,7 @@ PATTERNS should be of the form ((GLYPH (REGEXP MODE ...) ...)
 major mode without the \"-mode\". Returns patterns in the form
 expected by `pretty-patterns'"
   (let ((pretty-patterns))
-    (loop for (glyph . pairs) in patterns do
+    (loop for (glyph names groups . pairs) in patterns do
           (loop for (regexp . major-modes) in pairs do
                 (loop for mode in major-modes do
                       (let* ((mode (intern (concat (symbol-name mode)
@@ -156,227 +156,288 @@ expected by `pretty-patterns'"
        ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
 
        ;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
-       (?\u00AB ("<<" ,@haskelly))
+       (?\u00AB (:ll) (:relations)
+                ("<<" ,@haskelly))
 
        ;; 00AC ¬ NOT SIGN
-       (?\u00AC ("!" c c++ perl sh)
+       (?\u00AC (:neg) (:logical)
+                ("!" c c++ perl sh)
                 ("not" ,@lispy ,@haskelly sml))
 
        ;; 00B2 ² SUPERSCRIPT TWO
-       (?\u00B2 ("**2" python tuareg octave)
+       (?\u00B2 (:sup-2) (:superscripts)
+                ("**2" python tuareg octave)
                 ("^2" ,@haskelly))
 
        ;; 00B3 ³ SUPERSCRIPT THREE
-       (?\u00B3 ("**3" python tuareg octave)
+       (?\u00B3 (:sup-3) (:superscripts)
+                ("**3" python tuareg octave)
                 ("^3" ,@haskelly))
 
        ;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-       (?\u00BB (">>" ,@haskelly))
+       (?\u00BB (:gg) (:relations)
+                (">>" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
 
        ;; 0391 Α GREEK CAPITAL LETTER ALPHA
-       (?\u0391 ("ALPHA" ,@all))
+       (?\u0391 (:Alpha) (:greek-capitals)
+                ("ALPHA" ,@all))
 
        ;; 0392 Β GREEK CAPITAL LETTER BETA
-       (?\u0392 ("BETA" ,@all))
+       (?\u0392 (:Beta) (:greek-capitals)
+                ("BETA" ,@all))
 
        ;; 0393 Γ GREEK CAPITAL LETTER GAMMA
-       (?\u0393 ("GAMMA" ,@all))
+       (?\u0393 (:Gamma)  (:greek-capitals)
+                ("GAMMA" ,@all))
 
        ;; 0394 Δ GREEK CAPITAL LETTER DELTA
-       (?\u0394 ("DELTA" ,@all))
+       (?\u0394 (:Delta)  (:greek-capitals)
+                ("DELTA" ,@all))
 
        ;; 0395 Ε GREEK CAPITAL LETTER EPSILON
-       (?\u0395 ("EPSILON" ,@all))
+       (?\u0395 (:Epsilon) (:greek-capitals)
+                ("EPSILON" ,@all))
 
        ;; 0396 Ζ GREEK CAPITAL LETTER ZETA
-       (?\u0396 ("ZETA" ,@all))
+       (?\u0396 (:Zeta) (:greek-capitals)
+                ("ZETA" ,@all))
 
        ;; 0397 Η GREEK CAPITAL LETTER ETA
-       (?\u0397 ("ETA" ,@all))
+       (?\u0397 (:Eta) (:greek-capitals)
+                ("ETA" ,@all))
 
        ;; 0398 Θ GREEK CAPITAL LETTER THETA
-       (?\u0398 ("THETA" ,@all))
+       (?\u0398 (:Theta) (:greek-capitals)
+                ("THETA" ,@all))
 
        ;; 0399 Ι GREEK CAPITAL LETTER IOTA
-       (?\u0399 ("IOTA" ,@all))
+       (?\u0399 (:Iota) (:greek-capitals)
+                ("IOTA" ,@all))
 
        ;; 039A Κ GREEK CAPITAL LETTER KAPPA
-       (?\u039A ("KAPPA" ,@all))
+       (?\u039A (:Kapp) (:greek-capitals)
+                ("KAPPA" ,@all))
 
        ;; 039B Λ GREEK CAPITAL LETTER LAMDA
-       (?\u039B ("LAMBDA" ,@all)
+       (?\u039B (:Lambda) (:greek-capitals)
+                ("LAMBDA" ,@all)
                 ("FN" sml)
                 ("FUN" tuareg))
 
        ;; 039C Μ GREEK CAPITAL LETTER MU
-       (?\u039C ("MU" ,@all))
+       (?\u039C (:Mu) (:greek-capitals)
+                ("MU" ,@all))
 
        ;; 039D Ν GREEK CAPITAL LETTER NU
-       (?\u039D ("NU" ,@all))
+       (?\u039D (:Nu) (:greek-capitals)
+                ("NU" ,@all))
 
        ;; 039E Ξ GREEK CAPITAL LETTER XI
-       (?\u039E ("XI" ,@all))
+       (?\u039E (:Xi) (:greek-capitals)
+                ("XI" ,@all))
 
        ;; 039F Ο GREEK CAPITAL LETTER OMICRON
-       (?\u039F ("OMICRON" ,@all))
+       (?\u039F (:Omicron) (:greek-capitals)
+                ("OMICRON" ,@all))
 
        ;; 03A0 Π GREEK CAPITAL LETTER PI
-       (?\u03A0 ("PI" ,@all))
+       (?\u03A0 (:Pi) (:greek-capitals)
+                ("PI" ,@all))
 
        ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
-       (?\u03A1 ("RHO" ,@all))
+       (?\u03A1 (:Rho) (:greek-capitals)
+                ("RHO" ,@all))
 
        ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
-       (?\u03A3 ("SIGMA" ,@all))
+       (?\u03A3 (:Sigma) (:greek-capitals)
+                ("SIGMA" ,@all))
 
        ;; 03A4 Τ GREEK CAPITAL LETTER TAU
-       (?\u03A4 ("TAU" ,@all))
+       (?\u03A4 (:Tau) (:greek-capitals)
+                ("TAU" ,@all))
 
        ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
-       (?\u03A5 ("UPSILON" ,@all))
+       (?\u03A5 (:Upsilon) (:greek-capitals)
+                ("UPSILON" ,@all))
 
        ;; 03A6 Φ GREEK CAPITAL LETTER PHI
-       (?\u03A6 ("PHI" ,@all))
+       (?\u03A6 (:Phi) (:greek-capitals)
+                ("PHI" ,@all))
 
        ;; 03A7 Χ GREEK CAPITAL LETTER CHI
-       (?\u03A7 ("CHI" ,@all))
+       (?\u03A7 (:Chi) (:greek-capitals)
+                ("CHI" ,@all))
 
        ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
-       (?\u03A8 ("PSI" ,@all))
+       (?\u03A8 (:Psi) (:greek-capitals)
+                ("PSI" ,@all))
 
        ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
-       (?\u03A9 ("OMEGA" ,@all))
+       (?\u03A9 (:Omega) (:greek-capitals)
+                ("OMEGA" ,@all))
 
        ;; 03B1 α GREEK SMALL LETTER ALPHA
-       (?\u03B1 ("alpha" ,@all)
+       (?\u03B1 (:alpha) (:greek-small)
+                ("alpha" ,@all)
                 ("'a" ,@mley))
 
        ;; 03B2 β GREEK SMALL LETTER BETA
-       (?\u03B2 ("beta" ,@all)
+       (?\u03B2 (:beta) (:greek-small)
+                ("beta" ,@all)
                 ("'b" ,@mley))
 
        ;; 03B3 γ GREEK SMALL LETTER GAMMA
-       (?\u03B3 ("gamma" ,@all)
+       (?\u03B3 (:gamma) (:greek-small)
+                ("gamma" ,@all)
                 ("'c" ,@mley))
 
        ;; 03B4 δ GREEK SMALL LETTER DELTA
-       (?\u03B4 ("delta" ,@all)
+       (?\u03B4 (:delta) (:greek-small)
+                ("delta" ,@all)
                 ("'d" ,@mley))
 
        ;; 03B5 ε GREEK SMALL LETTER EPSILON
-       (?\u03B5 ("epsilon" ,@all)
+       (?\u03B5 (:epsilon) (:greek-small)
+                ("epsilon" ,@all)
                 ("'e" ,@mley))
 
        ;; 03B6 ζ GREEK SMALL LETTER ZETA
-       (?\u03B6 ("zeta" ,@all))
+       (?\u03B6 (:zeta) (:greek-small)
+                ("zeta" ,@all))
 
        ;; 03B7 η GREEK SMALL LETTER ETA
-       (?\u03B7 ("eta" ,@all))
-       ;; Theta
+       (?\u03B7 (:eta) (:greek-small)
+                ("eta" ,@all))
 
        ;; 03B8 θ GREEK SMALL LETTER THETA
-       (?\u03B8 ("theta" ,@all))
+       (?\u03B8 (:theta) (:greek-small)
+                ("theta" ,@all))
 
        ;; 03B9 ι GREEK SMALL LETTER IOTA
-       (?\u03B9 ("iota" ,@all))
+       (?\u03B9 (:iota) (:greek-small)
+                ("iota" ,@all))
 
        ;; 03BA κ GREEK SMALL LETTER KAPPA
-       (?\u03BA ("kappa" ,@all))
+       (?\u03BA (:kappa) (:greek-small)
+                ("kappa" ,@all))
 
        ;; 03BB λ GREEK SMALL LETTER LAMDA
-       (?\u03BB ("lambda" ,@all)
+       (?\u03BB (:lambda) (:greek-small)
+                ("lambda" ,@all)
                 ("fn" sml clojure)
                 ("fun" tuareg)
                 ("\\" ,@haskelly))
 
        ;; 03BC μ GREEK SMALL LETTER MU
-       (?\u03BC ("mu" ,@all))
+       (?\u03BC (:mu) (:greek-small)
+                ("mu" ,@all))
 
        ;; 03BD ν GREEK SMALL LETTER NU
-       (?\u03BD ("nu" ,@all))
+       (?\u03BD (:nu) (:greek-small)
+                ("nu" ,@all))
 
        ;; 03BE ξ GREEK SMALL LETTER XI
-       (?\u03BE ("xi" ,@all))
+       (?\u03BE (:xi) (:greek-small)
+                ("xi" ,@all))
 
        ;; 03BF ο GREEK SMALL LETTER OMICRON
-       (?\u03BF ("omicron" ,@all))
+       (?\u03BF (:omicron) (:greek-small)
+                ("omicron" ,@all))
 
        ;; 03C0 π GREEK SMALL LETTER PI
-       (?\u03C0 ("pi" ,@all)
+       (?\u03C0 (:pi) (:greek-small)
+                ("pi" ,@all)
                 ("M_PI" c c++))
 
        ;; 03C1 ρ GREEK SMALL LETTER RHO
-       (?\u03C1 ("rho" ,@all))
+       (?\u03C1 (:rho) (:greek-small)
+                ("rho" ,@all))
 
        ;; 03C3 σ GREEK SMALL LETTER SIGMA
-       (?\u03C3 ("sigma" ,@all))
+       (?\u03C3 (:sigma) (:greek-small)
+                ("sigma" ,@all))
 
        ;; 03C4 τ GREEK SMALL LETTER TAU
-       (?\u03C4 ("tau" ,@all))
+       (?\u03C4 (:tau) (:greek-small)
+                ("tau" ,@all))
 
        ;; 03C5 υ GREEK SMALL LETTER UPSILON
-       (?\u03C5 ("upsilon" ,@all))
+       (?\u03C5 (:upsilon) (:greek-small)
+                ("upsilon" ,@all))
 
        ;; 03C6 φ GREEK SMALL LETTER PHI
-       (?\u03C6 ("phi" ,@all))
+       (?\u03C6 (:phi) (:greek-small)
+                ("phi" ,@all))
 
        ;; 03C7 χ GREEK SMALL LETTER CHI
-       (?\u03C7 ("chi" ,@all))
+       (?\u03C7 (:chi) (:greek-small)
+                ("chi" ,@all))
 
        ;; 03C8 ψ GREEK SMALL LETTER PSI
-       (?\u03C8 ("psi" ,@all))
+       (?\u03C8 (:psi) (:greek-small)
+                ("psi" ,@all))
 
        ;; 03C9 ω GREEK SMALL LETTER OMEGA
-       (?\u03C9 ("omega" ,@all))
+       (?\u03C9 (:omega) (:greek-small)
+                ("omega" ,@all))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2000.pdf', located at http://unicode.org/charts/PDF/U2000.pdf
 
        ;; 2025 ‥ TWO DOT LEADER
-       (?\u2025 (".." ,@haskelly ruby))
+       (?\u2025 (:dots-2) (:punctuation)
+                (".." ,@haskelly ruby))
 
        ;; 2026 … HORIZONTAL ELLIPSIS
-       (?\u2026 ("..." scheme))
+       (?\u2026 (:dots) (:punctuation)
+                ("..." scheme))
 
        ;; 203C ‼ DOUBLE EXCLAMATION MARK
-       (?\u203C ("!!" ,@haskelly))
+       (?\u203C () (:punctuation)
+                ("!!" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2070.pdf', located at http://unicode.org/charts/PDF/U2070.pdf
 
        ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
-       (?\u207F ("**n" python tuareg octave)
+       (?\u207F (:sup-n) (:superscripts)
+                ("**n" python tuareg octave)
                 ("^n" ,@haskelly))
 
        ;; 2080 ₀ SUBSCRIPT ZERO
-       (?\u2080 ("[0]" ,@c-like)
+       (?\u2080 (:sub-0) (:subscripts)
+                ("[0]" ,@c-like)
                 ("(0)" octave)
                 (".(0)" tuareg)
                 ("!!0" ,@haskelly))
 
        ;; 2081 ₁ SUBSCRIPT ONE
-       (?\u2081 ("[1]" ,@c-like)
+       (?\u2081 (:sub-1) (:subscripts)
+                ("[1]" ,@c-like)
                 ("(1)" octave)
                 (".(1)" tuareg)
                 ("!!1" ,@haskelly))
 
        ;; 2082 ₂ SUBSCRIPT TWO
-       (?\u2082 ("[2]" ,@c-like)
+       (?\u2082 (:sub-2) (:subscripts)
+                ("[2]" ,@c-like)
                 ("(2)" octave)
                 (".(2)" tuareg)
                 ("!!2" ,@haskelly))
 
        ;; 2083 ₃ SUBSCRIPT THREE
-       (?\u2083 ("[3]" ,@c-like)
+       (?\u2083 (:sub-3)  (:subscripts)
+                ("[3]" ,@c-like)
                 ("(3)" octave)
                 (".(3)" tuareg)
                 ("!!3" ,@haskelly))
 
        ;; 2084 ₄ SUBSCRIPT FOUR
-       (?\u2084 ("[4]" ,@c-like)
+       (?\u2084 (:sub-4)  (:subscripts)
+                ("[4]" ,@c-like)
                 ("(4)" octave)
                 (".(4)" tuareg)
                 ("!!4" ,@haskelly))
@@ -385,40 +446,50 @@ expected by `pretty-patterns'"
        ;; in `U2100.pdf', located at http://unicode.org/charts/PDF/U2100.pdf
 
        ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
-       (?\u2124 ("Integer" ,@haskelly))
+       (?\u2124 (:Z) (:sets)
+                ("Integer" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2190.pdf', located at http://unicode.org/charts/PDF/U2190.pdf
 
        ;; 2190 ← LEFTWARDS ARROW
-       (?\u2190 ("<-" ,@mley ess ,@lispy))
+       (?\u2190 (:leftarrow) (:arrows)
+                ("<-" ,@mley ess ,@lispy))
 
        ;; 2191 ↑ UPWARDS ARROW
-       (?\u2191 ("\\^" tuareg))
+       (?\u2191 (:uparrow) (:arrows)
+                ("\\^" tuareg))
 
        ;; 2192 → RIGHTWARDS ARROW
-       (?\u2192 ("->" ,@mley ess c c++ perl ,@lispy))
+       (?\u2192 (:rightarrow) (:arrows)
+                ("->" ,@mley ess c c++ perl ,@lispy))
 
        ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
-       (?\u21A0 ("->>" ,@lispy))
+       (?\u21A0 (:twoheadrightarrow) (:arrows)
+                ("->>" ,@lispy))
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
-       (?\u21D2 ("=>" sml perl ruby ,@lispy ,@haskelly))
+       (?\u21D2 (:Rightarrow) (:arrows)
+                ("=>" sml perl ruby ,@lispy ,@haskelly))
 
        ;; 21F9 ⇹ LEFT RIGHT ARROW WITH VERTICAL STROKE
-       (?\u21F9 ("<|>" ,@haskelly))
+       (?\u21F9 (:nleftrightarrow) (:arrows)
+                ("<|>" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2200.pdf', located at http://unicode.org/charts/PDF/U2200.pdf
 
        ;; 2200 ∀ FOR ALL
-       (?\u2200 ("forall" ,@haskelly))
+       (?\u2200 (:forall) (:quantifiers)
+                ("forall" ,@haskelly))
 
        ;; 2203 ∃ THERE EXISTS
-       (?\u2203 ("exists" ,@haskelly))
+       (?\u2203 (:exists) (:quantifiers)
+                ("exists" ,@haskelly))
 
        ;; 2205 ∅ EMPTY SET
-       (?\u2205 ("nil" emacs-lisp ruby clojure)
+       (?\u2205 (:emptyset) (:sets)
+                ("nil" emacs-lisp ruby clojure)
                 ("null" scheme java)
                 ("'()" scheme)
                 ("empty" scheme)
@@ -428,129 +499,163 @@ expected by `pretty-patterns'"
                 ("[]" ,@mley))
 
        ;; 2208 ∈ ELEMENT OF
-       (?\u2208 ("`elem`" ,@haskelly)
+       (?\u2208 (:in) (:relations)
+                ("`elem`" ,@haskelly)
                 ("in" python))
 
        ;; 2209 ∉ NOT AN ELEMENT OF
-       (?\u2209 ("`notElem`" ,@haskelly)
+       (?\u2209 (:notin) (:relations)
+                ("`notElem`" ,@haskelly)
                 ("not in" python))
 
        ;; 220F ∏ N-ARY PRODUCT
-       (?\u220F ("product" ,@haskelly))
+       (?\u220F (:prod) (:nary)
+                ("product" ,@haskelly))
 
        ;; 2211 Σ N-ARY SUMMATION
-       (?\u2211 ("sum" python ,@haskelly))
+       (?\u2211 (:sum) (:nary)
+                ("sum" python ,@haskelly))
 
        ;; 221a √ SQUARE ROOT
-       (?\u221A ("sqrt" ,@all))
+       (?\u221A (:sqrt) (:arithmetic)
+                ("sqrt" ,@all))
 
        ;; 2227 ∧ LOGICAL AND
-       (?\u2227 ("and" ,@lispy python ruby)
+       (?\u2227 (:wedge) ()
+                ("and" ,@lispy python ruby)
                 ("andalso" sml)
                 ("&&" c c++ perl ,@haskelly ruby))
 
        ;; 2228 ∨ LOGICAL OR
-       (?\u2228 ("or" ,@lispy python ruby)
+       (?\u2228 (:vee) ()
+                ("or" ,@lispy python ruby)
                 ("orelse" sml)
                 ("||" c c++ perl ,@haskelly ruby))
 
        ;; 2229 ∩ INTERSECTION
-       (?\u2229 ("`intersect`" ,@haskelly)     ; Data.List
+       (?\u2229 (:cap) (:relations)
+                ("`intersect`" ,@haskelly)     ; Data.List
                 ("`intersection`" ,@haskelly)) ; Data.Set
 
        ;; 222A ∪ UNION
-       (?\u222A ("`union`" ,@haskelly)) ; Data.List, Data.Set
+       (?\u222A (:cup) (:relations)
+                ("`union`" ,@haskelly)) ; Data.List, Data.Set
 
        ;; 2237 ∷ PROPORTION
-       (?\u2237 ("::" ,@haskelly))
+       (?\u2237 (:Proportion) (:punctuation)
+                ("::" ,@haskelly))
 
        ;; 2260 ≠ NOT EQUAL TO
-       (?\u2260 ("!=" ,@c-like scheme octave)
+       (?\u2260 (:neq) (:relations)
+                ("!=" ,@c-like scheme octave)
                 ("not=" clojure)
                 ("<>" tuareg octave)
                 ("~=" octave)
                 ("/=" ,@haskelly))
 
        ;; 2261 ≡ IDENTICAL TO
-       (?\u2261 ("==" ,@c-like ,@haskelly))
+       (?\u2261 (:equiv) (:relations)
+                ("==" ,@c-like ,@haskelly))
 
        ;; 2264 ≤ LESS-THAN OR EQUAL TO
-       (?\u2264 ("<=" ,@all))
+       (?\u2264 (:leq) (:relations)
+                ("<=" ,@all))
 
        ;; 2265 ≥ GREATER-THAN OR EQUAL TO
-       (?\u2265 (">=" ,@all))
+       (?\u2265 (:geq) (:relations)
+                (">=" ,@all))
 
        ;; 2282 ⊂ SUBSET OF
-       (?\u2282 ("`isProperSubsetOf`" ,@haskelly)) ; Data.Set
+       (?\u2282 (:subset) (:relations)
+                ("`isProperSubsetOf`" ,@haskelly)) ; Data.Set
 
        ;; 2286 ⊆ SUBSET OF OR EQUAL TO
-       (?\u2286 ("`isSubsetOf`" ,@haskelly)) ; Data.Set
+       (?\u2286 (:subseteq) (:relations)
+                ("`isSubsetOf`" ,@haskelly)) ; Data.Set
 
        ;; 22A5 ⊥ UP TACK
-       (?\u22A5 ("undefined" ,@haskelly))
+       (?\u22A5 (:bot) ()
+                ("undefined" ,@haskelly))
 
        ;; 22C0 ⋀ N-ARY LOGICAL AND
-       (?\u22C0 ("and" ,@haskelly))
+       (?\u22C0 (:bigwedge) (:nary)
+                ("and" ,@haskelly))
 
        ;; 22C1 ⋁ N-ARY LOGICAL OR
-       (?\u22C1 ("or" ,@haskelly))
+       (?\u22C1 (:bigvee) (:nary)
+                ("or" ,@haskelly))
 
        ;; 22C3 ⋃ N-ARY UNION
-       (?\u22C3 ("unions" ,@haskelly))  ; Data.Set
+       (?\u22C3 (:bigcup) (:nary)
+                ("unions" ,@haskelly))  ; Data.Set
 
        ;; 22C5 ⋅ DOT OPERATOR
-       (?\u22C5 ("\." ,@haskelly))
+       (?\u22C5 (:.) (:punctuation)
+                ("\." ,@haskelly))
 
        ;; 22D8 ⋘ VERY MUCH LESS-THAN
-       (?\u22D8 ("<<<" ,@haskelly))     ; Control.Arrow
+       (?\u22D8 (:lll) (:relations)
+                ("<<<" ,@haskelly))     ; Control.Arrow
 
        ;; 22D9 ⋙ VERY MUCH GREATER-THAN
-       (?\u22D9 (">>>" ,@haskelly))     ; Control.Arrow
+       (?\u22D9 (:rrr) (:relations)
+                (">>>" ,@haskelly))     ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U27C0.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
        ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
-       (?\u27E6 ("[|" ,@haskelly))
+       (?\u27E6 (:llbracket) (:parentheses)
+                ("[|" ,@haskelly))
 
        ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
-       (?\u27E7 ("|]" ,@haskelly))
+       (?\u27E7 (:rrbracket) (:parentheses)
+                ("|]" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2900.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
        ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
-       (?\u2919 ("-<" ,@haskelly))
+       (?\u2919 () (:arrows)
+                ("-<" ,@haskelly))
 
        ;; 291A ⤚ RIGHTWARDS ARROW-TAIL
-       (?\u291A (">-" ,@haskelly))
+       (?\u291A () (:arrows)
+                (">-" ,@haskelly))
 
        ;; 291B ⤛ LEFTWARDS DOUBLE ARROW-TAIL
-       (?\u291B ("-<<" ,@haskelly))
+       (?\u291B () (:arrows)
+                ("-<<" ,@haskelly))
 
        ;; 291C ⤜ RIGHTWARDS DOUBLE ARROW-TAIL
-       (?\u291C (">>-" ,@haskelly))
+       (?\u291C () (:arrows)
+                (">>-" ,@haskelly))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
        ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
-       (?\u2987 ("(|" ,@haskelly))
+       (?\u2987 (:limg :Lparen) (:parentheses)
+                ("(|" ,@haskelly))
 
        ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
-       (?\u2988 ("|)" ,@haskelly))
+       (?\u2988 (:rimg :Rparen) (:parentheses)
+                ("|)" ,@haskelly))
 
        ;; 29FA ⧺ DOUBLE PLUS
-       (?\u29FA ("++" ,@haskelly))
+       (?\u29FA () ()
+                ("++" ,@haskelly))
 
        ;; 29FB ⧻ TRIPLE PLUS
-       (?\u29FB ("+++" ,@haskelly))     ; Control.Arrow
+       (?\u29FB () ()
+                ("+++" ,@haskelly))     ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
        ;; 2AF4 ⫴ TRIPLE VERTICAL BAR BINARY RELATION
-       (?\u2AF4 ("|||" ,@haskelly))     ; Control.Arrow
+       (?\u2AF4 (:VERT) ()
+                ("|||" ,@haskelly))     ; Control.Arrow
 
        )))
   "*List of pretty patterns.

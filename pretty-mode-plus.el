@@ -73,15 +73,138 @@ REPLACE-CHAR) ...)."
        (0 (pretty-font-lock-compose-symbol
            ',alist))))))
 
+(defun ensure-list (arg)
+  "Return ARG if it is a list or pack it inside one if it isn't."
+  (if (listp arg)
+      arg
+    (list arg)))
+
+(defun ensure-mode (mode)
+  "Return MODE if it is a symbol ending in \"-mode\", or derive the
+implied mode from MODE and return it."
+  (let* ((name (if (stringp mode)
+                   mode
+                 (symbol-name mode)))
+         (name (if (string= ":" (substring name 0 1))
+                   (substring name 1)
+                 name)))
+    (intern (if (string= "mode"
+                         (car (last (split-string name "-"))))
+                name
+              (concat name "-mode")))))
+
+(defvar pretty-default-groups
+  '(:relations :greek-capitals :logical :greek-capitals :greek-small)
+  "A list of groups that should be activated by default.")
+
+(defvar pretty-supported-modes
+  '(ruby-mode
+    ess-mode java-mode octave-mode tuareg-mode
+    python-mode sml-mode jess-mode clojure-mode
+    lisp-mode emacs-lisp-mode scheme-mode sh-mode
+    perl-mode c++-mode c-mode
+    literate-haskell-mode haskell-mode)
+  "A list of all supported modes.")
+
+(defun ensure-modes (modes)
+  "Return a list of symbols ending in \"-mode\". If MODES is empty,
+returns all modes, otherwise it calls `ensure-mode' on every member
+of MODES."
+  (if (null modes)
+      pretty-supported-modes
+    (mapcar* 'ensure-mode (ensure-list modes))))
+
+(defvar pretty-active-groups
+  (mapcar* (lambda (mode)
+             (cons mode (copy-sequence pretty-default-groups)))
+           pretty-supported-modes)
+  "Alist mapping from a mode to a list of active groups for that
+mode. An entry has the form (MODE . (GROUP1 ...)), where each
+GROUP is a keyword.")
+
+(defvar pretty-active-patterns
+  (mapcar* (lambda (mode)
+             (cons mode nil))
+           pretty-supported-modes)
+  "Alist mapping from a mode to a list of active patterns for that
+mode that should be used, even though their group(s) aren't active.
+An entry has the form (MODE . (PATTERN1 ...)), where each PATTERN
+ is either a keyword or a string.")
+
+(defvar pretty-deactivated-patterns
+  (mapcar* (lambda (mode)
+             (cons mode nil))
+           pretty-supported-modes)
+  "Alist mapping from a mode to a list of deactivated patterns for
+that mode that should be not be used, even though their group(s) may
+be active. An entry has the form (MODE . (PATTERN1 ...)), where each
+PATTERN is either a keyword or a string.")
+
+(defun pretty-is-active-pattern (regexp mode names groups)
+  "Checks whether a given pattern is currently active according to the
+pretty-active-patterns/groups and pretty-deactivated-patterns variables."
+  (let ((agroups (assoc mode pretty-active-groups))
+        (apatterns (assoc mode pretty-active-patterns))
+        (dpatterns (assoc mode pretty-deactivated-patterns))
+        (patterns (cons regexp names)))
+    (or (intersection patterns apatterns)
+       (and (subsetp groups agroups)
+          (not (intersection patterns dpatterns))))
+    ))
+
+(defun pretty-activate-groups (modes groups)
+  "Add GROUPS to each entry in `pretty-active-groups' for every entry
+in MODES. If MODES is empty, assumes that all modes should be affected."
+  (let ((modes (ensure-modes modes))
+        (groups (ensure-list groups)))
+    (loop for mode in modes do
+          (let ((cell (assq mode pretty-active-groups)))
+            (setcdr cell (union (cdr cell) groups))))))
+
+(defun pretty-deactivate-groups (modes groups)
+  "Remove all members of GROUPS from every entry in
+`pretty-active-groups' associated with each entry in MODES. If MODES is
+empty, assumes that all modes should be affected."
+  (let ((modes (ensure-modes modes))
+        (groups (ensure-list groups)))
+    (loop for mode in modes do
+          (let ((cell (assq mode pretty-active-groups)))
+            (setcdr cell (set-difference (cdr cell) groups))))))
+
+(defun pretty-activate-patterns (modes patterns)
+  "Add PATTERNS to each entry in `pretty-active-patterns' for every entry
+in MODES and remove them from `pretty-deactivated-patterns'. If MODES is
+empty, assumes that all modes should be affected."
+  (let ((modes (ensure-modes modes))
+        (patterns (ensure-list patterns)))
+    (loop for mode in modes do
+          (let ((cell (assq mode pretty-active-patterns)))
+            (setcdr cell (union (cdr cell) patterns)))
+          (let ((cell (assq mode pretty-deactivated-patterns)))
+            (setcdr cell (set-difference (cdr cell) patterns))))))
+
+(defun pretty-deactivate-patterns (modes patterns)
+  "Remove all members of PATTERNS from every entry in
+`pretty-active-patterns' associated with each entry in MODES and add them
+to `pretty-deactivated-patterns'. If MODES is empty, assumes that all
+modes should be affected."
+  (let ((modes (ensure-modes modes))
+        (patterns (ensure-list patterns)))
+    (loop for mode in modes do
+          (let ((cell (assq mode pretty-active-patterns)))
+            (setcdr cell (set-difference (cdr cell) patterns)))
+          (let ((cell (assq mode pretty-deactivated-patterns)))
+            (setcdr cell (union (cdr cell) patterns))))))
+
 (defun pretty-keywords (&optional mode)
   "Return the font-lock keywords for MODE, or the current mode if
 MODE is nil. Return nil if there are no keywords."
   (let* ((mode (or mode major-mode))
          (kwds (cdr-safe
-                (or (assoc mode pretty-patterns)
+                (or (assoc mode (pretty-patterns))
                    (assoc (cdr-safe
                            (assoc mode pretty-interaction-mode-alist))
-                          pretty-patterns)))))
+                          (pretty-patterns))))))
     (pretty-font-lock-keywords kwds)))
 
 (defgroup pretty nil "Minor mode for replacing text with symbols "
@@ -125,26 +248,30 @@ displayed as λ in lisp modes."
 (defun pretty-compile-patterns (patterns)
   "Set pretty patterns in a convenient way.
 
-PATTERNS should be of the form ((GLYPH (REGEXP MODE ...) ...)
-...). GLYPH should be a character. MODE should be the name of a
+PATTERNS should be of the form ((GLYPH NAMES GROUPS (REGEXP MODE ...) ...)
+...). GLYPH should be a character. NAMES and GROUPS should both be lists of keywords,
+MODE should be the name of a
 major mode without the \"-mode\". Returns patterns in the form
 expected by `pretty-patterns'"
   (let ((pretty-patterns))
     (loop for (glyph names groups . pairs) in patterns do
           (loop for (regexp . major-modes) in pairs do
                 (loop for mode in major-modes do
-                      (let* ((mode (intern (concat (symbol-name mode)
-                                                   "-mode")))
+                      (let* ((mode (ensure-mode mode))
                              (assoc-pair (assoc mode pretty-patterns))
-                             
                              (entry (cons regexp glyph)))
-                        (if assoc-pair
-                            (push entry (cdr assoc-pair))
-                          (push (cons mode (list entry))
-                                pretty-patterns))))))
+                        (when (pretty-is-active-pattern regexp mode
+                                                        names groups)
+                          (if assoc-pair
+                              (push entry (cdr assoc-pair))
+                            (push (cons mode (list entry))
+                                  pretty-patterns)))))))
     pretty-patterns))
 
-(defvar pretty-patterns
+(defun pretty-patterns ()
+    "*List of pretty patterns.
+
+Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess))
          (haskelly '(haskell literate-haskell))
          (mley (append haskelly '(tuareg sml)))
@@ -642,6 +769,10 @@ expected by `pretty-patterns'"
        (?\u2988 (:rimg :Rparen) (:parentheses)
                 ("|)" ,@haskelly))
 
+       ;; 29F5 ⧵ REVERSE SOLIDUS OPERATOR
+       (?\u29F5 (:setminus) (:relations)
+                ("\\\\" ,@haskelly))
+
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA () ()
                 ("++" ,@haskelly))
@@ -657,20 +788,7 @@ expected by `pretty-patterns'"
        (?\u2AF4 (:VERT) ()
                 ("|||" ,@haskelly))     ; Control.Arrow
 
-       )))
-  "*List of pretty patterns.
-
-Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)")
-
-(defun pretty-dont-use-pattern (regexp &rest languages)
-  "Don't show a pretty symbol instead of REGEXP in LANGUAGES"
-  (loop for language in languages do
-        (let* ((mode (intern (concat (symbol-name language) "-mode")))
-               (cell (assq mode pretty-patterns)))
-          (setcdr cell
-                  (remove* regexp (cdr cell)
-                           :test 'equal
-                           :key 'car)))))
+       ))))
 
 (defun pretty-add-keywords (mode keywords)
   "Add pretty character KEYWORDS to MODE

@@ -57,6 +57,7 @@
     (inferior-ess-mode . ess-mode)
     (literate-haskell-mode . haskell-mode)
     (inf-haskell-mode . haskell-mode)
+    (nrepl-mode . clojure-mode)
     (tuareg-interactive-mode . tuareg-mode)
     (inferior-python-mode . python-mode)
     (inferior-octave-mode . octave-mode)

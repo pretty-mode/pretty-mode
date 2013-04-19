@@ -50,19 +50,21 @@
   ;; Return nil because we're not adding any face property.
   nil)
 
-(defvar pretty-interaction-mode-alist
+(defvar pretty-modes-aliases
   '((inferior-scheme-mode . scheme-mode)
     (lisp-interaction-mode . emacs-lisp-mode)
     (inferior-lisp-mode . lisp-mode)
     (inferior-ess-mode . ess-mode)
+    (literate-haskell-mode . haskell-mode)
     (inf-haskell-mode . haskell-mode)
     (tuareg-interactive-mode . tuareg-mode)
     (inferior-python-mode . python-mode)
     (inferior-octave-mode . octave-mode)
     (inferior-ruby-mode . ruby-mode))
-  "Alist mapping from inferior process interaction modes to their
-  corresponding script editing modes.")
-
+  "Alist mapping from modes that should have the same substitution
+patterns as to the mode they are mapping to. Usually these are
+inferior process interaction modes corresponding to their main
+script editing modes.")
 
 (defun pretty-font-lock-keywords (alist)
   "Return a `font-lock-keywords' style entry for replacing
@@ -203,7 +205,7 @@ MODE is nil. Return nil if there are no keywords."
          (kwds (cdr-safe
                 (or (assoc mode (pretty-patterns))
                    (assoc (cdr-safe
-                           (assoc mode pretty-interaction-mode-alist))
+                           (assoc mode pretty-modes-aliases))
                           (pretty-patterns))))))
     (pretty-font-lock-keywords kwds)))
 
@@ -273,8 +275,7 @@ expected by `pretty-patterns'"
 
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess))
-         (haskelly '(haskell literate-haskell))
-         (mley (append haskelly '(tuareg sml)))
+         (mley '(haskell tuareg sml))
          (c-like '(c c++ perl sh python java ess ruby))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
@@ -284,26 +285,26 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
        (?\u00AB (:ll) (:relations)
-                ("<<" ,@haskelly))
+                ("<<" haskell))
 
        ;; 00AC ¬ NOT SIGN
        (?\u00AC (:neg) (:logical)
                 ("!" c c++ perl sh)
-                ("not" ,@lispy ,@haskelly sml))
+                ("not" ,@lispy haskell sml))
 
        ;; 00B2 ² SUPERSCRIPT TWO
        (?\u00B2 (:sup-2) (:superscripts)
                 ("**2" python tuareg octave)
-                ("^2" ,@haskelly))
+                ("^2" haskell))
 
        ;; 00B3 ³ SUPERSCRIPT THREE
        (?\u00B3 (:sup-3) (:superscripts)
                 ("**3" python tuareg octave)
-                ("^3" ,@haskelly))
+                ("^3" haskell))
 
        ;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
        (?\u00BB (:gg) (:relations)
-                (">>" ,@haskelly))
+                (">>" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
@@ -345,12 +346,13 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("IOTA" ,@all))
 
        ;; 039A Κ GREEK CAPITAL LETTER KAPPA
-       (?\u039A (:Kapp) (:greek-capitals)
+       (?\u039A (:Kappa) (:greek-capitals)
                 ("KAPPA" ,@all))
 
        ;; 039B Λ GREEK CAPITAL LETTER LAMDA
        (?\u039B (:Lambda) (:greek-capitals)
-                ("LAMBDA" ,@all)
+                ("LAMBDA" ,@all))
+       (?\u039B (:Function) (:function)
                 ("FN" sml)
                 ("FUN" tuareg))
 
@@ -453,10 +455,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 03BB λ GREEK SMALL LETTER LAMDA
        (?\u03BB (:lambda) (:greek-small)
-                ("lambda" ,@all)
+                ("lambda" ,@all))
+       (?\u03BB (:function) (:function)
                 ("fn" sml clojure)
                 ("fun" tuareg)
-                ("\\" ,@haskelly))
+                ("\\" haskell))
 
        ;; 03BC μ GREEK SMALL LETTER MU
        (?\u03BC (:mu) (:greek-small)
@@ -516,7 +519,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2025 ‥ TWO DOT LEADER
        (?\u2025 (:dots-2) (:punctuation)
-                (".." ,@haskelly ruby))
+                (".." haskell ruby))
 
        ;; 2026 … HORIZONTAL ELLIPSIS
        (?\u2026 (:dots) (:punctuation)
@@ -524,7 +527,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 203C ‼ DOUBLE EXCLAMATION MARK
        (?\u203C () (:punctuation)
-                ("!!" ,@haskelly))
+                ("!!" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2070.pdf', located at http://unicode.org/charts/PDF/U2070.pdf
@@ -532,49 +535,49 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
        (?\u207F (:sup-n) (:superscripts)
                 ("**n" python tuareg octave)
-                ("^n" ,@haskelly))
+                ("^n" haskell))
 
        ;; 2080 ₀ SUBSCRIPT ZERO
        (?\u2080 (:sub-0) (:subscripts)
                 ("[0]" ,@c-like)
                 ("(0)" octave)
                 (".(0)" tuareg)
-                ("!!0" ,@haskelly))
+                ("!!0" haskell))
 
        ;; 2081 ₁ SUBSCRIPT ONE
        (?\u2081 (:sub-1) (:subscripts)
                 ("[1]" ,@c-like)
                 ("(1)" octave)
                 (".(1)" tuareg)
-                ("!!1" ,@haskelly))
+                ("!!1" haskell))
 
        ;; 2082 ₂ SUBSCRIPT TWO
        (?\u2082 (:sub-2) (:subscripts)
                 ("[2]" ,@c-like)
                 ("(2)" octave)
                 (".(2)" tuareg)
-                ("!!2" ,@haskelly))
+                ("!!2" haskell))
 
        ;; 2083 ₃ SUBSCRIPT THREE
        (?\u2083 (:sub-3)  (:subscripts)
                 ("[3]" ,@c-like)
                 ("(3)" octave)
                 (".(3)" tuareg)
-                ("!!3" ,@haskelly))
+                ("!!3" haskell))
 
        ;; 2084 ₄ SUBSCRIPT FOUR
        (?\u2084 (:sub-4)  (:subscripts)
                 ("[4]" ,@c-like)
                 ("(4)" octave)
                 (".(4)" tuareg)
-                ("!!4" ,@haskelly))
+                ("!!4" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2100.pdf', located at http://unicode.org/charts/PDF/U2100.pdf
 
        ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
        (?\u2124 (:Z) (:sets)
-                ("Integer" ,@haskelly))
+                ("Integer" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2190.pdf', located at http://unicode.org/charts/PDF/U2190.pdf
@@ -597,22 +600,22 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
        (?\u21D2 (:Rightarrow) (:arrows)
-                ("=>" sml perl ruby ,@lispy ,@haskelly))
+                ("=>" sml perl ruby ,@lispy haskell))
 
        ;; 21F9 ⇹ LEFT RIGHT ARROW WITH VERTICAL STROKE
        (?\u21F9 (:nleftrightarrow) (:arrows)
-                ("<|>" ,@haskelly))
+                ("<|>" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2200.pdf', located at http://unicode.org/charts/PDF/U2200.pdf
 
        ;; 2200 ∀ FOR ALL
        (?\u2200 (:forall) (:quantifiers)
-                ("forall" ,@haskelly))
+                ("forall" haskell))
 
        ;; 2203 ∃ THERE EXISTS
        (?\u2203 (:exists) (:quantifiers)
-                ("exists" ,@haskelly))
+                ("exists" haskell))
 
        ;; 2205 ∅ EMPTY SET
        (?\u2205 (:emptyset) (:sets)
@@ -627,50 +630,50 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2208 ∈ ELEMENT OF
        (?\u2208 (:in) (:relations)
-                ("`elem`" ,@haskelly)
+                ("`elem`" haskell)
                 ("in" python))
 
        ;; 2209 ∉ NOT AN ELEMENT OF
        (?\u2209 (:notin) (:relations)
-                ("`notElem`" ,@haskelly)
+                ("`notElem`" haskell)
                 ("not in" python))
 
        ;; 220F ∏ N-ARY PRODUCT
        (?\u220F (:prod) (:nary)
-                ("product" ,@haskelly))
+                ("product" haskell))
 
        ;; 2211 Σ N-ARY SUMMATION
        (?\u2211 (:sum) (:nary)
-                ("sum" python ,@haskelly))
+                ("sum" python haskell))
 
        ;; 221a √ SQUARE ROOT
        (?\u221A (:sqrt) (:arithmetic)
                 ("sqrt" ,@all))
 
        ;; 2227 ∧ LOGICAL AND
-       (?\u2227 (:wedge) ()
+       (?\u2227 (:wedge) (:logical)
                 ("and" ,@lispy python ruby)
                 ("andalso" sml)
-                ("&&" c c++ perl ,@haskelly ruby))
+                ("&&" c c++ perl haskell ruby))
 
        ;; 2228 ∨ LOGICAL OR
-       (?\u2228 (:vee) ()
+       (?\u2228 (:vee) (:logical)
                 ("or" ,@lispy python ruby)
                 ("orelse" sml)
-                ("||" c c++ perl ,@haskelly ruby))
+                ("||" c c++ perl haskell ruby))
 
        ;; 2229 ∩ INTERSECTION
        (?\u2229 (:cap) (:relations)
-                ("`intersect`" ,@haskelly)     ; Data.List
-                ("`intersection`" ,@haskelly)) ; Data.Set
+                ("`intersect`" haskell)     ; Data.List
+                ("`intersection`" haskell)) ; Data.Set
 
        ;; 222A ∪ UNION
        (?\u222A (:cup) (:relations)
-                ("`union`" ,@haskelly)) ; Data.List, Data.Set
+                ("`union`" haskell))    ; Data.List, Data.Set
 
        ;; 2237 ∷ PROPORTION
        (?\u2237 (:Proportion) (:punctuation)
-                ("::" ,@haskelly))
+                ("::" haskell))
 
        ;; 2260 ≠ NOT EQUAL TO
        (?\u2260 (:neq) (:relations)
@@ -678,11 +681,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("not=" clojure)
                 ("<>" tuareg octave)
                 ("~=" octave)
-                ("/=" ,@haskelly))
+                ("/=" haskell))
 
        ;; 2261 ≡ IDENTICAL TO
        (?\u2261 (:equiv) (:relations)
-                ("==" ,@c-like ,@haskelly))
+                ("==" ,@c-like haskell))
 
        ;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 (:leq) (:relations)
@@ -694,99 +697,99 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2282 ⊂ SUBSET OF
        (?\u2282 (:subset) (:relations)
-                ("`isProperSubsetOf`" ,@haskelly)) ; Data.Set
+                ("`isProperSubsetOf`" haskell)) ; Data.Set
 
        ;; 2286 ⊆ SUBSET OF OR EQUAL TO
        (?\u2286 (:subseteq) (:relations)
-                ("`isSubsetOf`" ,@haskelly)) ; Data.Set
+                ("`isSubsetOf`" haskell)) ; Data.Set
 
        ;; 22A5 ⊥ UP TACK
-       (?\u22A5 (:bot) ()
-                ("undefined" ,@haskelly))
+       (?\u22A5 (:bot) (:undefined)
+                ("undefined" haskell))
 
        ;; 22C0 ⋀ N-ARY LOGICAL AND
        (?\u22C0 (:bigwedge) (:nary)
-                ("and" ,@haskelly))
+                ("and" haskell))
 
        ;; 22C1 ⋁ N-ARY LOGICAL OR
        (?\u22C1 (:bigvee) (:nary)
-                ("or" ,@haskelly))
+                ("or" haskell))
 
        ;; 22C3 ⋃ N-ARY UNION
        (?\u22C3 (:bigcup) (:nary)
-                ("unions" ,@haskelly))  ; Data.Set
+                ("unions" haskell))     ; Data.Set
 
        ;; 22C5 ⋅ DOT OPERATOR
        (?\u22C5 (:.) (:punctuation)
-                ("\." ,@haskelly))
+                ("\." haskell))
 
        ;; 22D8 ⋘ VERY MUCH LESS-THAN
        (?\u22D8 (:lll) (:relations)
-                ("<<<" ,@haskelly))     ; Control.Arrow
+                ("<<<" haskell))        ; Control.Arrow
 
        ;; 22D9 ⋙ VERY MUCH GREATER-THAN
        (?\u22D9 (:rrr) (:relations)
-                (">>>" ,@haskelly))     ; Control.Arrow
+                (">>>" haskell))        ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U27C0.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
        ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
        (?\u27E6 (:llbracket) (:parentheses)
-                ("[|" ,@haskelly))
+                ("[|" haskell))
 
        ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
        (?\u27E7 (:rrbracket) (:parentheses)
-                ("|]" ,@haskelly))
+                ("|]" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2900.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
        ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
-       (?\u2919 () (:arrows)
-                ("-<" ,@haskelly))
+       (?\u2919 () (:arrows-tails)
+                ("-<" haskell))
 
        ;; 291A ⤚ RIGHTWARDS ARROW-TAIL
-       (?\u291A () (:arrows)
-                (">-" ,@haskelly))
+       (?\u291A () (:arrows-tails)
+                (">-" haskell))
 
        ;; 291B ⤛ LEFTWARDS DOUBLE ARROW-TAIL
-       (?\u291B () (:arrows)
-                ("-<<" ,@haskelly))
+       (?\u291B () (:arrows-tails)
+                ("-<<" haskell))
 
        ;; 291C ⤜ RIGHTWARDS DOUBLE ARROW-TAIL
-       (?\u291C () (:arrows)
-                (">>-" ,@haskelly))
+       (?\u291C () (:arrows-tails)
+                (">>-" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
        ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
        (?\u2987 (:limg :Lparen) (:parentheses)
-                ("(|" ,@haskelly))
+                ("(|" haskell))
 
        ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
        (?\u2988 (:rimg :Rparen) (:parentheses)
-                ("|)" ,@haskelly))
+                ("|)" haskell))
 
        ;; 29F5 ⧵ REVERSE SOLIDUS OPERATOR
        (?\u29F5 (:setminus) (:relations)
-                ("\\\\" ,@haskelly))
+                ("\\\\" haskell))
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA () ()
-                ("++" ,@haskelly))
+                ("++" haskell))
 
        ;; 29FB ⧻ TRIPLE PLUS
        (?\u29FB () ()
-                ("+++" ,@haskelly))     ; Control.Arrow
+                ("+++" haskell))        ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
        ;; 2AF4 ⫴ TRIPLE VERTICAL BAR BINARY RELATION
        (?\u2AF4 (:VERT) ()
-                ("|||" ,@haskelly))     ; Control.Arrow
+                ("|||" haskell))        ; Control.Arrow
 
        ))))
 

@@ -97,7 +97,25 @@ implied mode from MODE and return it."
               (concat name "-mode")))))
 
 (defvar pretty-default-groups
-  '(:relations :greek-capitals :logical :greek-capitals :greek-small)
+  '(:function
+    :greek-capitals :greek-lowercase
+    ;; turn on :greek manually
+    :equality
+    :ordering :ordering-double :ordering-triple
+    :logic
+    ;; turn on :logic-nary manually
+    :nil
+    :sets :sets-operations :sets-relations
+    ;; turn on :sets-operations-nary manually
+    :arrows :arrows-twoheaded
+    ;; turn on :arrows-tails and :arrows-tails-double manually
+    :arithmetic :arithmetic-double
+    ;; turn on :arithmetic-triple and :arithmetic-nary manually
+    :punctuation
+    ;; turn on :subscripts and :superscripts manually
+    ;; turn on :parentheses manually
+    ;; turn on :types manually
+    )
   "A list of groups that should be activated by default.")
 
 (defvar pretty-supported-modes
@@ -105,8 +123,7 @@ implied mode from MODE and return it."
     ess-mode java-mode octave-mode tuareg-mode
     python-mode sml-mode jess-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
-    perl-mode c++-mode c-mode
-    literate-haskell-mode haskell-mode)
+    perl-mode c++-mode c-mode haskell-mode)
   "A list of all supported modes.")
 
 (defun ensure-modes (modes)
@@ -285,11 +302,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; in `U0080.pdf', located at http://unicode.org/charts/PDF/U0080.pdf
 
        ;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
-       (?\u00AB (:ll) (:relations)
+       (?\u00AB (:ll :<<) (:ordering :ordering-double)
                 ("<<" haskell))
 
        ;; 00AC ¬ NOT SIGN
-       (?\u00AC (:neg) (:logical)
+       (?\u00AC (:neg :not) (:logic)
                 ("!" c c++ perl sh)
                 ("not" ,@lispy haskell sml))
 
@@ -304,230 +321,230 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("^3" haskell))
 
        ;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-       (?\u00BB (:gg) (:relations)
+       (?\u00BB (:gg :>>) (:ordering :ordering-double)
                 (">>" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U0370.pdf', located at http://unicode.org/charts/PDF/U0370.pdf
 
        ;; 0391 Α GREEK CAPITAL LETTER ALPHA
-       (?\u0391 (:Alpha) (:greek-capitals)
+       (?\u0391 (:Alpha :ALPHA) (:greek :greek-capitals)
                 ("ALPHA" ,@all))
 
        ;; 0392 Β GREEK CAPITAL LETTER BETA
-       (?\u0392 (:Beta) (:greek-capitals)
+       (?\u0392 (:Beta :BETA) (:greek :greek-capitals)
                 ("BETA" ,@all))
 
        ;; 0393 Γ GREEK CAPITAL LETTER GAMMA
-       (?\u0393 (:Gamma)  (:greek-capitals)
+       (?\u0393 (:Gamma :GAMMA)  (:greek :greek-capitals)
                 ("GAMMA" ,@all))
 
        ;; 0394 Δ GREEK CAPITAL LETTER DELTA
-       (?\u0394 (:Delta)  (:greek-capitals)
+       (?\u0394 (:Delta :DELTA)  (:greek :greek-capitals)
                 ("DELTA" ,@all))
 
        ;; 0395 Ε GREEK CAPITAL LETTER EPSILON
-       (?\u0395 (:Epsilon) (:greek-capitals)
+       (?\u0395 (:Epsilon :EPSILON) (:greek :greek-capitals)
                 ("EPSILON" ,@all))
 
        ;; 0396 Ζ GREEK CAPITAL LETTER ZETA
-       (?\u0396 (:Zeta) (:greek-capitals)
+       (?\u0396 (:Zeta :ZETA) (:greek :greek-capitals)
                 ("ZETA" ,@all))
 
        ;; 0397 Η GREEK CAPITAL LETTER ETA
-       (?\u0397 (:Eta) (:greek-capitals)
+       (?\u0397 (:Eta :ETA) (:greek :greek-capitals)
                 ("ETA" ,@all))
 
        ;; 0398 Θ GREEK CAPITAL LETTER THETA
-       (?\u0398 (:Theta) (:greek-capitals)
+       (?\u0398 (:Theta :THETA) (:greek :greek-capitals)
                 ("THETA" ,@all))
 
        ;; 0399 Ι GREEK CAPITAL LETTER IOTA
-       (?\u0399 (:Iota) (:greek-capitals)
+       (?\u0399 (:Iota :IOTA) (:greek :greek-capitals)
                 ("IOTA" ,@all))
 
        ;; 039A Κ GREEK CAPITAL LETTER KAPPA
-       (?\u039A (:Kappa) (:greek-capitals)
+       (?\u039A (:Kappa :KAPPA) (:greek :greek-capitals)
                 ("KAPPA" ,@all))
 
        ;; 039B Λ GREEK CAPITAL LETTER LAMDA
-       (?\u039B (:Lambda) (:greek-capitals)
+       (?\u039B (:Lambda :LAMBDA) (:greek :greek-capitals)
                 ("LAMBDA" ,@all))
-       (?\u039B (:Function) (:function)
+       (?\u039B (:Function :FUNCTION :Fun :FUN :Fn :FN) (:function)
                 ("FN" sml)
                 ("FUN" tuareg))
 
        ;; 039C Μ GREEK CAPITAL LETTER MU
-       (?\u039C (:Mu) (:greek-capitals)
+       (?\u039C (:Mu :MU) (:greek :greek-capitals)
                 ("MU" ,@all))
 
        ;; 039D Ν GREEK CAPITAL LETTER NU
-       (?\u039D (:Nu) (:greek-capitals)
+       (?\u039D (:Nu :NU) (:greek :greek-capitals)
                 ("NU" ,@all))
 
        ;; 039E Ξ GREEK CAPITAL LETTER XI
-       (?\u039E (:Xi) (:greek-capitals)
+       (?\u039E (:Xi :XI) (:greek :greek-capitals)
                 ("XI" ,@all))
 
        ;; 039F Ο GREEK CAPITAL LETTER OMICRON
-       (?\u039F (:Omicron) (:greek-capitals)
+       (?\u039F (:Omicron :OMICRON) (:greek :greek-capitals)
                 ("OMICRON" ,@all))
 
        ;; 03A0 Π GREEK CAPITAL LETTER PI
-       (?\u03A0 (:Pi) (:greek-capitals)
+       (?\u03A0 (:Pi :PI) (:greek :greek-capitals)
                 ("PI" ,@all))
 
        ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
-       (?\u03A1 (:Rho) (:greek-capitals)
+       (?\u03A1 (:Rho :RHO) (:greek :greek-capitals)
                 ("RHO" ,@all))
 
        ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
-       (?\u03A3 (:Sigma) (:greek-capitals)
+       (?\u03A3 (:Sigma :SIGMA) (:greek :greek-capitals)
                 ("SIGMA" ,@all))
 
        ;; 03A4 Τ GREEK CAPITAL LETTER TAU
-       (?\u03A4 (:Tau) (:greek-capitals)
+       (?\u03A4 (:Tau :TAU) (:greek :greek-capitals)
                 ("TAU" ,@all))
 
        ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
-       (?\u03A5 (:Upsilon) (:greek-capitals)
+       (?\u03A5 (:Upsilon :UPSILON) (:greek :greek-capitals)
                 ("UPSILON" ,@all))
 
        ;; 03A6 Φ GREEK CAPITAL LETTER PHI
-       (?\u03A6 (:Phi) (:greek-capitals)
+       (?\u03A6 (:Phi :PHI) (:greek :greek-capitals)
                 ("PHI" ,@all))
 
        ;; 03A7 Χ GREEK CAPITAL LETTER CHI
-       (?\u03A7 (:Chi) (:greek-capitals)
+       (?\u03A7 (:Chi :CHI) (:greek :greek-capitals)
                 ("CHI" ,@all))
 
        ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
-       (?\u03A8 (:Psi) (:greek-capitals)
+       (?\u03A8 (:Psi :PSI) (:greek :greek-capitals)
                 ("PSI" ,@all))
 
        ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
-       (?\u03A9 (:Omega) (:greek-capitals)
+       (?\u03A9 (:Omega :OMEGA) (:greek :greek-capitals)
                 ("OMEGA" ,@all))
 
        ;; 03B1 α GREEK SMALL LETTER ALPHA
-       (?\u03B1 (:alpha) (:greek-small)
+       (?\u03B1 (:alpha) (:greek :greek-lowercase)
                 ("alpha" ,@all)
                 ("'a" ,@mley))
 
        ;; 03B2 β GREEK SMALL LETTER BETA
-       (?\u03B2 (:beta) (:greek-small)
+       (?\u03B2 (:beta) (:greek :greek-lowercase)
                 ("beta" ,@all)
                 ("'b" ,@mley))
 
        ;; 03B3 γ GREEK SMALL LETTER GAMMA
-       (?\u03B3 (:gamma) (:greek-small)
+       (?\u03B3 (:gamma) (:greek :greek-lowercase)
                 ("gamma" ,@all)
                 ("'c" ,@mley))
 
        ;; 03B4 δ GREEK SMALL LETTER DELTA
-       (?\u03B4 (:delta) (:greek-small)
+       (?\u03B4 (:delta) (:greek :greek-lowercase)
                 ("delta" ,@all)
                 ("'d" ,@mley))
 
        ;; 03B5 ε GREEK SMALL LETTER EPSILON
-       (?\u03B5 (:epsilon) (:greek-small)
+       (?\u03B5 (:epsilon) (:greek :greek-lowercase)
                 ("epsilon" ,@all)
                 ("'e" ,@mley))
 
        ;; 03B6 ζ GREEK SMALL LETTER ZETA
-       (?\u03B6 (:zeta) (:greek-small)
+       (?\u03B6 (:zeta) (:greek :greek-lowercase)
                 ("zeta" ,@all))
 
        ;; 03B7 η GREEK SMALL LETTER ETA
-       (?\u03B7 (:eta) (:greek-small)
+       (?\u03B7 (:eta) (:greek :greek-lowercase)
                 ("eta" ,@all))
 
        ;; 03B8 θ GREEK SMALL LETTER THETA
-       (?\u03B8 (:theta) (:greek-small)
+       (?\u03B8 (:theta) (:greek :greek-lowercase)
                 ("theta" ,@all))
 
        ;; 03B9 ι GREEK SMALL LETTER IOTA
-       (?\u03B9 (:iota) (:greek-small)
+       (?\u03B9 (:iota) (:greek :greek-lowercase)
                 ("iota" ,@all))
 
        ;; 03BA κ GREEK SMALL LETTER KAPPA
-       (?\u03BA (:kappa) (:greek-small)
+       (?\u03BA (:kappa) (:greek :greek-lowercase)
                 ("kappa" ,@all))
 
        ;; 03BB λ GREEK SMALL LETTER LAMDA
-       (?\u03BB (:lambda) (:greek-small)
+       (?\u03BB (:lambda) (:greek :greek-lowercase)
                 ("lambda" ,@all))
-       (?\u03BB (:function) (:function)
+       (?\u03BB (:function :fun :fn) (:function)
                 ("fn" sml clojure)
                 ("fun" tuareg)
                 ("\\" haskell))
 
        ;; 03BC μ GREEK SMALL LETTER MU
-       (?\u03BC (:mu) (:greek-small)
+       (?\u03BC (:mu) (:greek :greek-lowercase)
                 ("mu" ,@all))
 
        ;; 03BD ν GREEK SMALL LETTER NU
-       (?\u03BD (:nu) (:greek-small)
+       (?\u03BD (:nu) (:greek :greek-lowercase)
                 ("nu" ,@all))
 
        ;; 03BE ξ GREEK SMALL LETTER XI
-       (?\u03BE (:xi) (:greek-small)
+       (?\u03BE (:xi) (:greek :greek-lowercase)
                 ("xi" ,@all))
 
        ;; 03BF ο GREEK SMALL LETTER OMICRON
-       (?\u03BF (:omicron) (:greek-small)
+       (?\u03BF (:omicron) (:greek :greek-lowercase)
                 ("omicron" ,@all))
 
        ;; 03C0 π GREEK SMALL LETTER PI
-       (?\u03C0 (:pi) (:greek-small)
+       (?\u03C0 (:pi) (:greek :greek-lowercase)
                 ("pi" ,@all)
                 ("M_PI" c c++))
 
        ;; 03C1 ρ GREEK SMALL LETTER RHO
-       (?\u03C1 (:rho) (:greek-small)
+       (?\u03C1 (:rho) (:greek :greek-lowercase)
                 ("rho" ,@all))
 
        ;; 03C3 σ GREEK SMALL LETTER SIGMA
-       (?\u03C3 (:sigma) (:greek-small)
+       (?\u03C3 (:sigma) (:greek :greek-lowercase)
                 ("sigma" ,@all))
 
        ;; 03C4 τ GREEK SMALL LETTER TAU
-       (?\u03C4 (:tau) (:greek-small)
+       (?\u03C4 (:tau) (:greek :greek-lowercase)
                 ("tau" ,@all))
 
        ;; 03C5 υ GREEK SMALL LETTER UPSILON
-       (?\u03C5 (:upsilon) (:greek-small)
+       (?\u03C5 (:upsilon) (:greek :greek-lowercase)
                 ("upsilon" ,@all))
 
        ;; 03C6 φ GREEK SMALL LETTER PHI
-       (?\u03C6 (:phi) (:greek-small)
+       (?\u03C6 (:phi) (:greek :greek-lowercase)
                 ("phi" ,@all))
 
        ;; 03C7 χ GREEK SMALL LETTER CHI
-       (?\u03C7 (:chi) (:greek-small)
+       (?\u03C7 (:chi) (:greek :greek-lowercase)
                 ("chi" ,@all))
 
        ;; 03C8 ψ GREEK SMALL LETTER PSI
-       (?\u03C8 (:psi) (:greek-small)
+       (?\u03C8 (:psi) (:greek :greek-lowercase)
                 ("psi" ,@all))
 
        ;; 03C9 ω GREEK SMALL LETTER OMEGA
-       (?\u03C9 (:omega) (:greek-small)
+       (?\u03C9 (:omega) (:greek :greek-lowercase)
                 ("omega" ,@all))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2000.pdf', located at http://unicode.org/charts/PDF/U2000.pdf
 
        ;; 2025 ‥ TWO DOT LEADER
-       (?\u2025 (:dots-2) (:punctuation)
+       (?\u2025 (:..) (:punctuation)
                 (".." haskell ruby))
 
        ;; 2026 … HORIZONTAL ELLIPSIS
-       (?\u2026 (:dots) (:punctuation)
+       (?\u2026 (:dots :...) (:punctuation)
                 ("..." scheme))
 
        ;; 203C ‼ DOUBLE EXCLAMATION MARK
-       (?\u203C () (:punctuation)
+       (?\u203C (:!!) (:punctuation)
                 ("!!" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
@@ -577,14 +594,14 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; in `U2100.pdf', located at http://unicode.org/charts/PDF/U2100.pdf
 
        ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
-       (?\u2124 (:Z) (:sets)
+       (?\u2124 (:Z) (:types)
                 ("Integer" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2190.pdf', located at http://unicode.org/charts/PDF/U2190.pdf
 
        ;; 2190 ← LEFTWARDS ARROW
-       (?\u2190 (:leftarrow) (:arrows)
+       (?\u2190 (:leftarrow :<-) (:arrows)
                 ("<-" ,@mley ess ,@lispy))
 
        ;; 2191 ↑ UPWARDS ARROW
@@ -592,20 +609,20 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("\\^" tuareg))
 
        ;; 2192 → RIGHTWARDS ARROW
-       (?\u2192 (:rightarrow) (:arrows)
+       (?\u2192 (:rightarrow :->) (:arrows)
                 ("->" ,@mley ess c c++ perl ,@lispy))
 
        ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
-       (?\u21A0 (:twoheadrightarrow) (:arrows)
+       (?\u21A0 (:twoheadrightarrow :->>) (:arrows :arrows-twoheaded)
                 ("->>" ,@lispy))
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
        (?\u21D2 (:Rightarrow) (:arrows)
                 ("=>" sml perl ruby ,@lispy haskell))
 
-       ;; 21F9 ⇹ LEFT RIGHT ARROW WITH VERTICAL STROKE
-       (?\u21F9 (:nleftrightarrow) (:arrows)
-                ("<|>" haskell))
+       ;; ;; 21F9 ⇹ LEFT RIGHT ARROW WITH VERTICAL STROKE
+       ;; (?\u21F9 (:nleftrightarrow) (:arrows)
+       ;;          ("<|>" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2200.pdf', located at http://unicode.org/charts/PDF/U2200.pdf
@@ -619,57 +636,61 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("exists" haskell))
 
        ;; 2205 ∅ EMPTY SET
-       (?\u2205 (:emptyset) (:sets)
+       (?\u2205 (:emptyset :nil :null) (:nil)
                 ("nil" emacs-lisp ruby clojure)
                 ("null" scheme java)
                 ("'()" scheme)
                 ("empty" scheme)
                 ("NULL" c c++)
-                ;; ("None" python)
+                ("None" python)
                 ("()" ,@mley)
                 ("[]" ,@mley))
 
        ;; 2208 ∈ ELEMENT OF
-       (?\u2208 (:in) (:relations)
+       (?\u2208 (:in) (:sets :sets-relations)
                 ("`elem`" haskell)
                 ("in" python))
 
        ;; 2209 ∉ NOT AN ELEMENT OF
-       (?\u2209 (:notin) (:relations)
+       (?\u2209 (:notin) (:sets :sets-relations)
                 ("`notElem`" haskell)
                 ("not in" python))
 
        ;; 220F ∏ N-ARY PRODUCT
-       (?\u220F (:prod) (:nary)
+       (?\u220F (:prod) (:arithmetic :arithmetic-nary)
                 ("product" haskell))
 
        ;; 2211 Σ N-ARY SUMMATION
-       (?\u2211 (:sum) (:nary)
+       (?\u2211 (:sum) (:arithmetic :arithmetic-nary)
                 ("sum" python haskell))
+
+       ;; 2218 ∘ RING OPERATOR
+       (?\u2218 (:circ) (:punctuation)
+                ("\." haskell))
 
        ;; 221a √ SQUARE ROOT
        (?\u221A (:sqrt) (:arithmetic)
                 ("sqrt" ,@all))
 
        ;; 2227 ∧ LOGICAL AND
-       (?\u2227 (:wedge) (:logical)
+       (?\u2227 (:wedge) (:logic)
                 ("and" ,@lispy python ruby)
                 ("andalso" sml)
                 ("&&" c c++ perl haskell ruby))
 
        ;; 2228 ∨ LOGICAL OR
-       (?\u2228 (:vee) (:logical)
+       (?\u2228 (:vee) (:logic)
                 ("or" ,@lispy python ruby)
                 ("orelse" sml)
                 ("||" c c++ perl haskell ruby))
 
        ;; 2229 ∩ INTERSECTION
-       (?\u2229 (:cap) (:relations)
+       (?\u2229 (:cap) (:sets :sets-operations)
                 ("`intersect`" haskell)     ; Data.List
                 ("`intersection`" haskell)) ; Data.Set
 
        ;; 222A ∪ UNION
-       (?\u222A (:cup) (:relations)
+       (?\u222A (:cup) (:sets :sets-operations)
                 ("`union`" haskell))    ; Data.List, Data.Set
 
        ;; 2237 ∷ PROPORTION
@@ -677,7 +698,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("::" haskell))
 
        ;; 2260 ≠ NOT EQUAL TO
-       (?\u2260 (:neq) (:relations)
+       (?\u2260 (:neq) (:equality)
                 ("!=" ,@c-like scheme octave)
                 ("not=" clojure)
                 ("<>" tuareg octave)
@@ -685,51 +706,47 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 ("/=" haskell))
 
        ;; 2261 ≡ IDENTICAL TO
-       (?\u2261 (:equiv) (:relations)
+       (?\u2261 (:equiv :==) (:equality)
                 ("==" ,@c-like haskell))
 
        ;; 2264 ≤ LESS-THAN OR EQUAL TO
-       (?\u2264 (:leq) (:relations)
+       (?\u2264 (:leq) (:ordering)
                 ("<=" ,@all))
 
        ;; 2265 ≥ GREATER-THAN OR EQUAL TO
-       (?\u2265 (:geq) (:relations)
+       (?\u2265 (:geq) (:ordering)
                 (">=" ,@all))
 
        ;; 2282 ⊂ SUBSET OF
-       (?\u2282 (:subset) (:relations)
+       (?\u2282 (:subset) (:sets :sets-relations)
                 ("`isProperSubsetOf`" haskell)) ; Data.Set
 
        ;; 2286 ⊆ SUBSET OF OR EQUAL TO
-       (?\u2286 (:subseteq) (:relations)
+       (?\u2286 (:subseteq) (:sets :sets-relations)
                 ("`isSubsetOf`" haskell)) ; Data.Set
 
        ;; 22A5 ⊥ UP TACK
-       (?\u22A5 (:bot) (:undefined)
+       (?\u22A5 (:bot :undefined) (:undefined)
                 ("undefined" haskell))
 
        ;; 22C0 ⋀ N-ARY LOGICAL AND
-       (?\u22C0 (:bigwedge) (:nary)
+       (?\u22C0 (:bigwedge) (:logic :logic-nary)
                 ("and" haskell))
 
        ;; 22C1 ⋁ N-ARY LOGICAL OR
-       (?\u22C1 (:bigvee) (:nary)
+       (?\u22C1 (:bigvee) (:logic :logic-nary)
                 ("or" haskell))
 
        ;; 22C3 ⋃ N-ARY UNION
-       (?\u22C3 (:bigcup) (:nary)
+       (?\u22C3 (:bigcup) (:sets :sets-operations :sets-operations-nary)
                 ("unions" haskell))     ; Data.Set
 
-       ;; 22C5 ⋅ DOT OPERATOR
-       (?\u22C5 (:.) (:punctuation)
-                ("\." haskell))
-
        ;; 22D8 ⋘ VERY MUCH LESS-THAN
-       (?\u22D8 (:lll) (:relations)
+       (?\u22D8 (:lll) (:ordering :ordering-triple)
                 ("<<<" haskell))        ; Control.Arrow
 
        ;; 22D9 ⋙ VERY MUCH GREATER-THAN
-       (?\u22D9 (:rrr) (:relations)
+       (?\u22D9 (:rrr) (:ordering :ordering-triple)
                 (">>>" haskell))        ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
@@ -747,49 +764,49 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; in `U2900.pdf', located at http://unicode.org/charts/PDF/U2900.pdf
 
        ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
-       (?\u2919 () (:arrows-tails)
+       (?\u2919 (:-<) (:arrows :arrows-tails)
                 ("-<" haskell))
 
        ;; 291A ⤚ RIGHTWARDS ARROW-TAIL
-       (?\u291A () (:arrows-tails)
+       (?\u291A (:>-) (:arrows :arrows-tails)
                 (">-" haskell))
 
        ;; 291B ⤛ LEFTWARDS DOUBLE ARROW-TAIL
-       (?\u291B () (:arrows-tails)
+       (?\u291B (:-<<) (:arrows :arrows-tails :arrows-tails-double)
                 ("-<<" haskell))
 
        ;; 291C ⤜ RIGHTWARDS DOUBLE ARROW-TAIL
-       (?\u291C () (:arrows-tails)
+       (?\u291C (:>>-) (:arrows :arrows-tails :arrows-tails-double)
                 (">>-" haskell))
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
        ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
-       (?\u2987 (:limg :Lparen) (:parentheses)
+       (?\u2987 (:limg :Lparen) (:parentheses) ; \Lparen is actually a different symbol
                 ("(|" haskell))
 
        ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
-       (?\u2988 (:rimg :Rparen) (:parentheses)
+       (?\u2988 (:rimg :Rparen) (:parentheses) ; \Rparen is actually a different symbol
                 ("|)" haskell))
 
        ;; 29F5 ⧵ REVERSE SOLIDUS OPERATOR
-       (?\u29F5 (:setminus) (:relations)
+       (?\u29F5 (:setminus) (:sets :sets-operations)
                 ("\\\\" haskell))
 
        ;; 29FA ⧺ DOUBLE PLUS
-       (?\u29FA () ()
+       (?\u29FA (:++) (:arithmetic :arithmetic-double)
                 ("++" haskell))
 
        ;; 29FB ⧻ TRIPLE PLUS
-       (?\u29FB () ()
+       (?\u29FB (:+++) (:arithmetic :arithmetic-triple)
                 ("+++" haskell))        ; Control.Arrow
 
        ;; Values taken directly from `The Unicode Standard, Version 5.2' documented
        ;; in `U2980.PDF', located at http://unicode.org/charts/PDF/U2980.pdf
 
        ;; 2AF4 ⫴ TRIPLE VERTICAL BAR BINARY RELATION
-       (?\u2AF4 (:VERT) ()
+       (?\u2AF4 (:VERT :|||) (:other)
                 ("|||" haskell))        ; Control.Arrow
 
        ))))

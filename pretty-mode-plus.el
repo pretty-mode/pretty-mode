@@ -172,7 +172,7 @@ pretty-active-patterns/groups and pretty-deactivated-patterns variables."
           (not (intersection patterns dpatterns))))
     ))
 
-(defun pretty-activate-groups (modes groups)
+(defun pretty-activate-groups (groups &optional modes)
   "Add GROUPS to each entry in `pretty-active-groups' for every entry
 in MODES. If MODES is empty, assumes that all modes should be affected."
   (let ((modes (ensure-modes modes))
@@ -181,7 +181,7 @@ in MODES. If MODES is empty, assumes that all modes should be affected."
           (let ((cell (assq mode pretty-active-groups)))
             (setcdr cell (union (cdr cell) groups))))))
 
-(defun pretty-deactivate-groups (modes groups)
+(defun pretty-deactivate-groups (groups &optional modes)
   "Remove all members of GROUPS from every entry in
 `pretty-active-groups' associated with each entry in MODES. If MODES is
 empty, assumes that all modes should be affected."
@@ -191,7 +191,7 @@ empty, assumes that all modes should be affected."
           (let ((cell (assq mode pretty-active-groups)))
             (setcdr cell (set-difference (cdr cell) groups))))))
 
-(defun pretty-activate-patterns (modes patterns)
+(defun pretty-activate-patterns (patterns &optional modes)
   "Add PATTERNS to each entry in `pretty-active-patterns' for every entry
 in MODES and remove them from `pretty-deactivated-patterns'. If MODES is
 empty, assumes that all modes should be affected."
@@ -203,7 +203,7 @@ empty, assumes that all modes should be affected."
           (let ((cell (assq mode pretty-deactivated-patterns)))
             (setcdr cell (set-difference (cdr cell) patterns))))))
 
-(defun pretty-deactivate-patterns (modes patterns)
+(defun pretty-deactivate-patterns (patterns &optional modes)
   "Remove all members of PATTERNS from every entry in
 `pretty-active-patterns' associated with each entry in MODES and add them
 to `pretty-deactivated-patterns'. If MODES is empty, assumes that all

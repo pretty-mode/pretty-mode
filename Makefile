@@ -21,7 +21,6 @@ TEST_DEP_1_LATEST_URL=https://raw.github.com/emacsmirror/emacs/master/lisp/emacs
 build :
 	$(EMACS) $(EMACS_BATCH) --eval             \
 	    "(progn                                \
-	      (setq byte-compile-error-on-warn t)  \
 	      (batch-byte-compile))" *.el
 
 test-dep-1 :

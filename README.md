@@ -1,5 +1,4 @@
-pretty-mode-plus
-================
+# pretty-mode-plus [![Build Status](https://travis-ci.org/akatov/pretty-mode-plus.png)](https://travis-ci.org/akatov/pretty-mode-plus)
 
 Redisplay parts of the Emacs buffer as pretty symbols.
 

@@ -61,6 +61,8 @@
     (tuareg-interactive-mode . tuareg-mode)
     (inferior-python-mode . python-mode)
     (inferior-octave-mode . octave-mode)
+    (js-mode . javascript-mode)
+    (js2-mode . javascript-mode)
     (inferior-ruby-mode . ruby-mode))
   "Alist mapping from modes that should have the same substitution
 patterns as to the mode they are mapping to. Usually these are
@@ -124,7 +126,8 @@ implied mode from MODE and return it."
     ess-mode java-mode octave-mode tuareg-mode
     python-mode sml-mode jess-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
-    perl-mode c++-mode c-mode haskell-mode)
+    perl-mode c++-mode c-mode haskell-mode
+    javascript-mode coffee-mode)
   "A list of all supported modes.")
 
 (defun ensure-modes (modes)
@@ -304,7 +307,7 @@ expected by `pretty-patterns'"
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess))
          (mley '(haskell tuareg sml))
-         (c-like '(c c++ perl sh python java ess ruby))
+         (c-like '(c c++ perl sh python java ess ruby javascript coffee))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
      `(
@@ -324,10 +327,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
        (?\u00AB :ll (:ordering :ordering-double)
-                (:<< "<<" haskell))
+                (:<< "<<" haskell ruby c c++ java javascript coffee))
        ;;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
        (?\u00BB :gg (:ordering :ordering-double)
-                (:>> ">>" haskell))
+                (:>> ">>" haskell ruby c c++ java javascript coffee))
        ;;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 :leq (:ordering)
                 (:<= "<=" ,@all))
@@ -339,13 +342,14 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:<<< "<<<" haskell))        ; Control.Arrow
        ;;; 22D9 ⋙ VERY MUCH GREATER-THAN
        (?\u22D9 :ggg (:ordering :ordering-triple)
-                (:>>> ">>>" haskell))        ; Control.Arrow
+                (:>>> ">>>" haskell ruby c c++ java javascript coffee))        ; Control.Arrow
 
        ;;; Equality
 
        ;;; 2260 ≠ NOT EQUAL TO
        (?\u2260 :neq (:equality)
                 (:!= "!=" ,@c-like scheme octave)
+                (:!== "!==" javascript)
                 (:not= "not=" clojure)
                 (:<> "<>" tuareg octave)
                 (:~= "~=" octave)
@@ -356,27 +360,35 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:== "==" ,@c-like haskell))
 
        ;;; 2A76 ⩶ THREE CONSECUTIVE EQUALS SIGNS
-       ;; (?\u2A76 :=== (:equality)
-       ;;          ("===" javascript))
+       (?\u2A76 :=== (:equality)
+                ("===" ruby javascript))
+
+       ;; 2245 ≅ APPROXIMATELY EQUAL TO
+       (?\u2245 :=~ (:equality)
+                ("=~" ruby))
+
+       ;; ≇ NEITHER APPROXIMATELY NOR ACTUALLY EQUAL TO
+       (?\u2247 :!~ (:equality)
+                ("!~" ruby))
 
        ;;; Logic
 
        ;;; 00AC ¬ NOT SIGN
        (?\u00AC :neg (:logic)
-                (:! "!" c c++ perl sh)
+                (:! "!" c c++ perl sh ruby javascript)
                 (:not "not" ,@lispy haskell sml))
 
        ;;; 2227 ∧ LOGICAL AND
        (?\u2227 :wedge (:logic)
-                (:and "and" ,@lispy python ruby)
+                (:and "and" ,@lispy python ruby coffee)
                 (:andalso "andalso" sml)
-                (:&& "&&" c c++ perl haskell ruby))
+                (:&& "&&" c c++ perl haskell ruby javascript coffee))
 
        ;;; 2228 ∨ LOGICAL OR
        (?\u2228 :vee (:logic)
-                (:or "or" ,@lispy python ruby)
+                (:or "or" ,@lispy python ruby coffee)
                 (:orelse "orelse" sml)
-                (:|| "||" c c++ perl haskell ruby))
+                (:|| "||" c c++ perl haskell ruby javascript coffee))
 
        ;;; 22C0 ⋀ N-ARY LOGICAL AND
        (?\u22C0 :bigwedge (:logic :logic-nary)
@@ -391,7 +403,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;;; 2208 ∈ ELEMENT OF
        (?\u2208 :in (:sets :sets-relations)
                 (:elem "`elem`" haskell)
-                (:in "in" python))
+                (:in "in" python coffee javascript))
 
        ;;; 2209 ∉ NOT AN ELEMENT OF
        (?\u2209 :notin (:sets :sets-relations)
@@ -462,17 +474,17 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 00B2 ² SUPERSCRIPT TWO
        (?\u00B2 :sup-2 (:sub-and-superscripts :superscripts)
-                (:**2 "**2" python tuareg octave)
+                (:**2 "**2" python tuareg octave ruby)
                 (:^2 "^2" haskell))
 
        ;;; 00B3 ³ SUPERSCRIPT THREE
        (?\u00B3 :sup-3 (:sub-and-superscripts :superscripts)
-                (:**3 "**3" python tuareg octave)
+                (:**3 "**3" python tuareg octave ruby)
                 (:^3 "^3" haskell))
 
        ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
        (?\u207F :sup-n (:sub-and-superscripts :superscripts)
-                (:**n "**n" python tuareg octave)
+                (:**n "**n" python tuareg octave ruby)
                 (:^n "^n" haskell))
 
        ;;; Function
@@ -481,6 +493,8 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u03BB :function (:function)
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
+                (:function "function" javascript)
+                (:lambda lisp emacs-lisp ruby)
                 (:\\ "\\" haskell))
 
        ;;; 039B Λ GREEK CAPITAL LETTER LAMDA
@@ -720,7 +734,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2026 … HORIZONTAL ELLIPSIS
        (?\u2026 :dots (:punctuation)
-                (:... "..." scheme))
+                (:... "..." scheme ruby))
 
        ;; 203C ‼ DOUBLE EXCLAMATION MARK
        (?\u203C :!! (:punctuation)
@@ -752,7 +766,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2192 → RIGHTWARDS ARROW
        (?\u2192 :rightarrow (:arrows)
-                (:-> "->" ,@mley ess c c++ perl ,@lispy))
+                (:-> "->" ,@mley ess c c++ perl ,@lispy coffee))
 
        ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
        (?\u21A0 :twoheadrightarrow (:arrows :arrows-twoheaded)
@@ -760,7 +774,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
        (?\u21D2 :Rightarrow (:arrows)
-                (:=> "=>" sml perl ruby ,@lispy haskell))
+                (:=> "=>" sml perl ruby ,@lispy haskell coffee))
 
        ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
        (?\u2919 :-< (:arrows :arrows-tails)
@@ -793,7 +807,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 2205 ∅ EMPTY SET
        (?\u2205 :emptyset (:nil)
                 (:nil "nil" emacs-lisp ruby clojure)
-                (:null "null" scheme java)
+                (:null "null" scheme java coffee javascript)
                 (:\'\(\) "'()" scheme)
                 (:empty "empty" scheme)
                 (:NULL "NULL" c c++)
@@ -813,11 +827,12 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 221a √ SQUARE ROOT
        (?\u221A :sqrt (:arithmetic)
-                (:sqrt "sqrt" ,@all))
+                (:sqrt "sqrt" ,@all)
+                (:Math.sqrt "Math.sqrt" javascript coffee ruby))
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA :++ (:arithmetic :arithmetic-double)
-                (:++ "++" haskell))
+                (:++ "++" haskell c c++ java javascript coffee))
 
        ;; 29FB ⧻ TRIPLE PLUS
        (?\u29FB :+++ (:arithmetic :arithmetic-triple)

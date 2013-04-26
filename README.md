@@ -5,3 +5,7 @@ Redisplay parts of the Emacs buffer as pretty symbols.
 Arthur Danskin <arthurdanskin@gmail.com> released the excellent pretty-mode which fontifies various symbols here: http://www.emacswiki.org/emacs/pretty-mode.el
 
 My addition was to add support for some Lispy stuff, Unicode character documentation, and Unicode source references.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/akatov/pretty-mode-plus/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+

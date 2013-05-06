@@ -127,7 +127,7 @@ implied mode from MODE and return it."
     python-mode sml-mode jess-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
     perl-mode c++-mode c-mode haskell-mode
-    javascript-mode coffee-mode)
+    javascript-mode coffee-mode groovy-mode)
   "A list of all supported modes.")
 
 (defun ensure-modes (modes)
@@ -307,7 +307,7 @@ expected by `pretty-patterns'"
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess))
          (mley '(haskell tuareg sml))
-         (c-like '(c c++ perl sh python java ess ruby javascript coffee))
+         (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
      `(
@@ -766,7 +766,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2192 → RIGHTWARDS ARROW
        (?\u2192 :rightarrow (:arrows)
-                (:-> "->" ,@mley ess c c++ perl ,@lispy coffee))
+                (:-> "->" ,@mley ess c c++ perl ,@lispy coffee groovy))
 
        ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
        (?\u21A0 :twoheadrightarrow (:arrows :arrows-twoheaded)
@@ -775,6 +775,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
        (?\u21D2 :Rightarrow (:arrows)
                 (:=> "=>" sml perl ruby ,@lispy haskell coffee))
+
+       ;; 21D4 ⇔ LEFT RIGHT DOUBLE ARROW
+       (?\u21D4 :eftrightarrow (:arrows)
+                (:<=> "<=>" groovy))
 
        ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
        (?\u2919 :-< (:arrows :arrows-tails)

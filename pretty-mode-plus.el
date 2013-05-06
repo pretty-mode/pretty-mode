@@ -842,7 +842,8 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 22A5 ⊥ UP TACK
        (?\u22A5 :bot (:undefined)
-                (:undefined "undefined" haskell))
+                (:undefined "undefined" haskell javascript coffee)
+                (:void0 "void 0" javascript))
 
        ;;; Parentheses
 

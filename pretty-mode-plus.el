@@ -361,15 +361,15 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 2A76 ⩶ THREE CONSECUTIVE EQUALS SIGNS
        (?\u2A76 :=== (:equality)
-                ("===" ruby javascript))
+                (:=== "===" ruby javascript))
 
        ;; 2245 ≅ APPROXIMATELY EQUAL TO
        (?\u2245 :=~ (:equality)
-                ("=~" ruby))
+                (:=~ "=~" ruby))
 
        ;; ≇ NEITHER APPROXIMATELY NOR ACTUALLY EQUAL TO
        (?\u2247 :!~ (:equality)
-                ("!~" ruby))
+                (:!~ "!~" ruby))
 
        ;;; Logic
 

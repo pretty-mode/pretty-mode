@@ -385,6 +385,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:andalso "andalso" sml)
                 (:&& "&&" c c++ perl haskell ruby javascript coffee))
 
+       ;;; 22AB ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
+       (?\u22AB :models (:logic :logic-extended)
+                (:||= "||=" ruby coffee))
+
        ;;; 2228 ∨ LOGICAL OR
        (?\u2228 :vee (:logic)
                 (:or "or" ,@lispy python ruby coffee)

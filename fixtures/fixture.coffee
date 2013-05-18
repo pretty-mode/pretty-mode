@@ -53,6 +53,7 @@ assert not(false)
 
 assert !false
 assert !(false)
+assert !0
 
 assert true && true
 assert true&&true
@@ -107,14 +108,16 @@ assert typeof String::substr == 'function'
 
 assert ((a) -> a) true
 assert ((a)->a) true
+assert (->)
 
 assert ((a) => a) true
 assert ((a)=>a) true
+assert (=>)
 
 # Quantifiers
 
 assert a for a in [true, true]
-assert 1for a in [true, true]
+assert 1for a in[true, true]
 
 # Nil
 
@@ -133,6 +136,7 @@ assert (++a)==2
 
 assert a++ == 2
 assert a++==3
+assert (a++)==4
 
 # Undefined
 

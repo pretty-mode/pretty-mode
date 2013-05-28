@@ -98,6 +98,17 @@ class Main < Test::Unit::TestCase
     assert({:a=>true}[:a])
     assert({(:a)=>(true)}[:a])
 
+    f = -> a { a**2 }
+    f=->a{ a**2 }
+    f = ->(a) { a**2 }
+    assert_equal f.(3), 9
+
+    # function
+
+    f = lambda {|a| a**2}
+    f=lambda{|a| a**2}
+    assert_equal f.(4), 16
+
     # nil
 
     assert_nil nil

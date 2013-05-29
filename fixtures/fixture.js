@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+var assert = require('assert');
+
 a=1;
 b=2;
 c=-1;
@@ -26,9 +30,13 @@ assert(2>=1);
 assert(b>=a);
 
 assert(-1 >>> 1 == 2147483647);
-assert((2-1)>>>(0+1)==2147483647);
+assert((1-2)>>>(0+1)==2147483647);
 assert(-1>>>1== 2147483647);
 assert(c>>>a==2147483647);
+
+// Function
+
+var fun = function(){return 1;};
 
 // Equality
 
@@ -46,6 +54,11 @@ assert(1 === 1);
 assert(1===1);
 assert((1+1)===(1+1));
 assert(a===a);
+
+assert(1 !== 2);
+assert(1!==2);
+assert((0+1)!==(1+1));
+assert(a!==b);
 
 // Logic
 
@@ -70,7 +83,7 @@ assert((1)in([1,2]));
 
 // Subscripts
 
-a(= [0,1,2,3,4]);
+a = [0,1,2,3,4];
 assert(a[0]==0);
 assert(a[1]==1);
 assert(a[2]==2);
@@ -85,7 +98,7 @@ assert(null==null);
 
 // Arithmetic
 
-assert(Math.sqrt 16 == 4);
+assert(Math.sqrt(16) == 4);
 
 a = 0
 

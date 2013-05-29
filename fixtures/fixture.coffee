@@ -1,6 +1,6 @@
 #!/usr/bin/env coffee
 
-require 'assert'
+assert = require 'assert'
 
 a=1
 b=2
@@ -30,7 +30,7 @@ assert 2>=1
 assert b>=a
 
 assert -1 >>> 1 == 2147483647
-assert (2-1)>>>(0+1)==2147483647
+assert (1-2)>>>(0+1)==2147483647
 assert -1>>>1== 2147483647
 assert c>>>a==2147483647
 
@@ -97,10 +97,10 @@ assert 2 in [1..10]
 assert 2 in [(1+1)..(9+9)]
 assert 2 in [a..b]
 
-assert not 10 in [5 ... 10]
-assert not 10 in [5...10]
-assert not 10 in [(5)...(10)]
-assert not 10 in [c...b]
+assert not(10 in [5 ... 10])
+assert not(10 in [5...10])
+assert not(10 in [(5)...(10)])
+assert not(10 in [c...b])
 
 assert typeof String::substr == 'function'
 
@@ -127,7 +127,7 @@ assert null==null
 
 # Arithmetic
 
-assert Math.sqrt 16 == 4
+assert (Math.sqrt 16) == 4
 
 a = 0
 

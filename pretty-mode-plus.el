@@ -499,7 +499,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
                 (:function "function" javascript)
-                (:lambda "lambda" lisp emacs-lisp ruby)
+                (:lambda "lambda" scheme lisp emacs-lisp ruby)
                 (:\\ "\\" haskell))
 
        ;;; 039B Λ GREEK CAPITAL LETTER LAMDA

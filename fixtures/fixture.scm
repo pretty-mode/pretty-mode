@@ -12,6 +12,7 @@
 ;;; Sets
 ;;; Subscripts and Superscripts
 ;;; Function
+(assert 'lambda) ; 03BB λ GREEK SMALL LETTER LAMDA
 ;;; Greek Letters
 ;;; Punctuation
 ;;; Types

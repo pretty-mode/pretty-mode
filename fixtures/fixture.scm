@@ -102,6 +102,7 @@
 (assert ''()) ; 2205 ∅ EMPTY SET "'()"
 (assert 'empty) ; 2205 ∅ EMPTY SET  "empty"
 ;;; Arithmetic
+(assert 'sqrt) ; 221a √ SQUARE ROOT
 ;;; Undefined
 ;;; Parentheses
 ;;; Other

@@ -64,6 +64,30 @@
 (assert 'Psi)
 (assert 'OMEGA) ; 03A9 Ω GREEK CAPITAL LETTER OMEGA
 (assert 'Omega)
+(assert 'alpha) ; 03B1 α GREEK SMALL LETTER ALPHA
+(assert 'beta) ; 03B2 β GREEK SMALL LETTER BETA
+(assert 'gamma) ; 03B3 γ GREEK SMALL LETTER GAMMA
+(assert 'delta) ; 03B4 δ GREEK SMALL LETTER DELTA
+(assert 'epsilon) ; 03B5 ε GREEK SMALL LETTER EPSILON
+(assert 'zeta) ; 03B6 ζ GREEK SMALL LETTER ZETA
+(assert 'eta) ; 03B7 η GREEK SMALL LETTER ETA
+(assert 'theta) ; 03B8 θ GREEK SMALL LETTER THETA
+(assert 'iota) ; 03B9 ι GREEK SMALL LETTER IOTA
+(assert 'kappa) ; 03BA κ GREEK SMALL LETTER KAPPA
+(assert 'lambda) ; 03BB λ GREEK SMALL LETTER LAMBDA
+(assert 'mu) ; 03BC μ GREEK SMALL LETTER MU
+(assert 'nu) ; 03BD ν GREEK SMALL LETTER NU
+(assert 'xi) ; 03BE ξ GREEK SMALL LETTER XI
+(assert 'omicron) ; 03BF ο GREEK SMALL LETTER OMICRON
+(assert 'pi) ; 03C0 π GREEK SMALL LETTER PI
+(assert 'rho) ; 03C1 ρ GREEK SMALL LETTER RHO
+(assert 'sigma) ; 03C3 σ GREEK SMALL LETTER SIGMA
+(assert 'tau) ; 03C4 τ GREEK SMALL LETTER TAU
+(assert 'upsilon) ; 03C5 υ GREEK SMALL LETTER UPSILON
+(assert 'phi) ; 03C6 φ GREEK SMALL LETTER PHI
+(assert 'chi) ; 03C7 χ GREEK SMALL LETTER CHI
+(assert 'psi) ; 03C8 ψ GREEK SMALL LETTER PSI
+(assert 'omega) ; 03C9 ω GREEK SMALL LETTER OMEGA
 ;;; Punctuation
 ;;; Types
 ;;; Arrows

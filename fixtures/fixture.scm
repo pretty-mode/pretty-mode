@@ -89,13 +89,13 @@
 (assert 'psi) ; 03C8 ψ GREEK SMALL LETTER PSI
 (assert 'omega) ; 03C9 ω GREEK SMALL LETTER OMEGA
 ;;; Punctuation
+(assert '...) ; 2026 … HORIZONTAL ELLIPSIS
 ;;; Types
 ;;; Arrows
 (assert '<-) ; 2190 ← LEFTWARDS ARROW
 (assert '->) ; 2192 → RIGHTWARDS ARROW
 (assert '->>) ; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
 (assert '=>) ; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
-(assert '...) ; 2026 … HORIZONTAL ELLIPSIS
 ;;; Quantifiers
 ;;; Nil
 (assert 'null) ; 2205 ∅ EMPTY SET "null"

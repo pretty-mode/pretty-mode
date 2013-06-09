@@ -2,17 +2,17 @@
 
 (import (rnrs base (6)))
 
-; Equality
+;;; Equality
 
 (assert '!=) ; 2260 ≠ NOT EQUAL TO
 
-; Logic
+;;; Logic
 
 (assert 'not) ; 00AC ¬ NOT SIGN
 (assert 'and) ; 2227 ∧ LOGICAL AND
 (assert 'or) ; 2228 ∨ LOGICAL OR
 
-; Arrows
+;;; Arrows
 
 (assert '<-) ; 2190 ← LEFTWARDS ARROW
 (assert '->) ; 2192 → RIGHTWARDS ARROW

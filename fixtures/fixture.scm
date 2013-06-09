@@ -2,6 +2,10 @@
 
 (import (rnrs base (6)))
 
+; Equality
+
+(assert '!=) ; 2260 ≠ NOT EQUAL TO
+
 ; Logic
 
 (assert 'not) ; 00AC ¬ NOT SIGN
@@ -14,10 +18,6 @@
 (assert '->) ; 2192 → RIGHTWARDS ARROW
 (assert '->>) ; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
 (assert '=>) ; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
-
-; Equality
-
-(assert '!=) ; 2260 ≠ NOT EQUAL TO
 (assert '...) ; 2026 … HORIZONTAL ELLIPSIS
 (assert 'null) ; 2205 ∅ EMPTY SET "null"
 (assert ''()) ; 2205 ∅ EMPTY SET "'()"

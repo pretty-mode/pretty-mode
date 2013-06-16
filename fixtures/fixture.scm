@@ -4,17 +4,34 @@
 
 ;;; Ordering
 (assert '<=) ; 2264 ≤ LESS-THAN OR EQUAL TO
+(assert (<= 1 10))
+(assert ( <= 1 10))
 (assert '>=) ; 2265 ≥ GREATER-THAN OR EQUAL TO
 ;;; Equality
 (assert '!=) ; 2260 ≠ NOT EQUAL TO
 ;;; Logic
 (assert 'not) ; 00AC ¬ NOT SIGN
+(assert (not #f))
+(assert ( not #f ))
+(assert (not (not #t)))
+(assert ( not ( not #t )))
 (assert 'and) ; 2227 ∧ LOGICAL AND
+(assert (and))
+(assert (and ))
+(assert ( and))
+(assert ( and ))
+(assert (and '()))
+(assert (and (and '())))
+(assert (and(and '())))
+(assert ( and(and '() )))
+(assert ( and ( and '() )))
 (assert 'or) ; 2228 ∨ LOGICAL OR
 ;;; Sets
 ;;; Subscripts and Superscripts
 ;;; Function
 (assert 'lambda) ; 03BB λ GREEK SMALL LETTER LAMDA
+(assert (lambda (lambda) lambda))
+(assert ( lambda ( lambda ) lambda ))
 ;;; Greek Letters
 (assert 'ALPHA) ; 0391 Α GREEK CAPITAL LETTER ALPHA
 (assert 'Alpha) 
@@ -93,16 +110,21 @@
 ;;; Types
 ;;; Arrows
 (assert '<-) ; 2190 ← LEFTWARDS ARROW
+(assert 'pull<-push) ; !
 (assert '->) ; 2192 → RIGHTWARDS ARROW
+(assert 'string->int) ; !
 (assert '->>) ; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
+(assert 'eta->>lambda) ; !
 (assert '=>) ; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
 ;;; Quantifiers
 ;;; Nil
 (assert 'null) ; 2205 ∅ EMPTY SET "null"
+(assert 'null )
 (assert ''()) ; 2205 ∅ EMPTY SET "'()"
 (assert 'empty) ; 2205 ∅ EMPTY SET  "empty"
 ;;; Arithmetic
 (assert 'sqrt) ; 221a √ SQUARE ROOT
+(assert 'sqrt)
 ;;; Undefined
 ;;; Parentheses
 ;;; Other

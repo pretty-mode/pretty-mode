@@ -6,20 +6,20 @@
 ;; Maintainer: Grant Rettke
 
 ;;; Commentary:
-;; 
+;;
 ;; Minor mode for redisplaying parts of the buffer as pretty symbols
 ;; originally modified from Trent Buck's version at http://paste.lisp.org/display/42335,2/raw
 ;; Also includes code from `sml-mode'
 ;; See also http://www.emacswiki.org/cgi-bin/wiki/PrettyLambda
-;; 
+;;
 ;; Released under the GPL. No implied warranties, etc. Use at your own risk.
 ;; Arthur Danskin <arthurdanskin@gmail.com>, March 2008
 ;;
 ;; Modifications made here only to mapped symbols by Grant Rettke <grettke@acm.org>, September 2012.
-;; 
+;;
 ;; to install:
 ;; (require 'pretty-mode-plus)
-;; and 
+;; and
 ;; (global-pretty-mode 1)
 ;; or
 ;; (add-hook 'my-pretty-language-hook 'turn-on-pretty-mode)
@@ -125,7 +125,7 @@ implied mode from MODE and return it."
 (defvar pretty-supported-modes
   '(ruby-mode
     ess-mode java-mode octave-mode tuareg-mode
-    python-mode sml-mode jess-mode clojure-mode
+    python-mode sml-mode jess-mode clips-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
     perl-mode c++-mode c-mode haskell-mode
     javascript-mode coffee-mode groovy-mode)
@@ -306,7 +306,7 @@ expected by `pretty-patterns'"
     "*List of pretty patterns.
 
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
-  (let* ((lispy '(scheme emacs-lisp lisp clojure jess))
+  (let* ((lispy '(scheme emacs-lisp lisp clojure jess clips))
          (mley '(haskell tuareg sml))
          (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
          (all (append lispy mley c-like (list 'octave))))
@@ -897,7 +897,7 @@ relevant buffer(s)."
 
 (defun pretty-regexp (regexp glyph)
   "Replace REGEXP with GLYPH in buffer."
-  (interactive "MRegexp to replace: 
+  (interactive "MRegexp to replace:
 MCharacter to replace with: ")
   (pretty-add-keywords nil `((,regexp . ,(string-to-char glyph))))
   (font-lock-fontify-buffer))

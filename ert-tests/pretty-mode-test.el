@@ -1,5 +1,5 @@
 (require 'ert)
-(require 'pretty-mode-plus)
+(require 'pretty-mode)
 
 (ert-deftest ensure-list ()
   "Tests `ensure-list'"

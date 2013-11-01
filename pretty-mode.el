@@ -1,6 +1,6 @@
-;;; pretty-mode-plus.el --- redisplay parts of the buffer as pretty symbols
+;;; pretty-mode.el --- redisplay parts of the buffer as pretty symbols
 ;;; -*- coding: utf-8 -*-
-;; Filename: pretty-mode-plus.el
+;; Filename: pretty-mode.el
 ;; Description: Redisplay parts of the buffer as pretty symbols.
 ;; Author: Arthur Danskin
 ;; Maintainer: Grant Rettke
@@ -13,12 +13,14 @@
 ;; See also http://www.emacswiki.org/cgi-bin/wiki/PrettyLambda
 ;;
 ;; Released under the GPL. No implied warranties, etc. Use at your own risk.
-;; Arthur Danskin <arthurdanskin@gmail.com>, March 2008
 ;;
-;; Modifications made here only to mapped symbols by Grant Rettke <grettke@acm.org>, September 2012.
+;; Arthur Danskin <arthurdanskin@gmail.com>, March 2008
+;; Grant Rettke <grettke@acm.org>, January 2013
+;; Dmitri Akatov <akatov@gmail.com>, April 2013
+;;
 ;;
 ;; to install:
-;; (require 'pretty-mode-plus)
+;; (require 'pretty-mode)
 ;; and
 ;; (global-pretty-mode 1)
 ;; or
@@ -902,7 +904,4 @@ MCharacter to replace with: ")
   (pretty-add-keywords nil `((,regexp . ,(string-to-char glyph))))
   (font-lock-fontify-buffer))
 
-
-
-
-(provide 'pretty-mode-plus)
+(provide 'pretty-mode)

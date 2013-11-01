@@ -1,4 +1,4 @@
 (define-package
-  "pretty-mode-plus"
-  "1.2"
+  "pretty-mode"
+  "2.0"
   "Redisplay parts of the buffer as pretty symbols.")

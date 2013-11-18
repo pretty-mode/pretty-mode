@@ -1,5 +1,5 @@
 (ert-deftest ensure-list ()
-  "Tests `ensure-list'"
+  "`ensure-list' should produce a list from nil, an atom or a list"
   (should (equal nil
                (ensure-list nil)))
   (should (equal '(1 2)
@@ -8,7 +8,7 @@
                (ensure-list 1))))
 
 (ert-deftest ensure-mode ()
-  "Tests `ensure-mode'"
+  "`ensure-mode' should produce a symbol ending with -mode symbols and keywords"
   (should (equal 'haskell-mode
                (ensure-mode 'haskell-mode)))
   (should (equal 'haskell-mode
@@ -17,7 +17,8 @@
                (ensure-mode :haskell))))
 
 (ert-deftest ensure-modes ()
-  "Tests `ensure-modes'"
+  "`ensure-modes' should return the `pretty-supported-modes' when applied to nil,
+and should return a list of mode symbols when applied to symbols and keywords"
   (should (equal pretty-supported-modes
                (ensure-modes '())))
   (should (equal '(haskell-mode python-mode)

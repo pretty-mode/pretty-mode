@@ -1,9 +1,34 @@
-;;; pretty-mode.el --- redisplay parts of the buffer as pretty symbols
+;;; pretty-mode.el --- Redisplay parts of the buffer as pretty symbols.
 ;;; -*- coding: utf-8 -*-
+
+;; Copyright © March 2008 Arthur Danskin <arthurdanskin@gmail.com>
+;; Copyright © January 2013 Grant Rettke <grettke@acm.org>
+;; Copyright © April 2013 Dmitri Akatov <akatov@gmail.com>
+
 ;; Filename: pretty-mode.el
 ;; Description: Redisplay parts of the buffer as pretty symbols.
-;; Author: Arthur Danskin
-;; Maintainer: Grant Rettke
+;; Author: Arthur Danskin <arthurdanskin@gmail.com>
+;; Maintainer: Dmitri Akatov <akatov@gmail.com>
+;; URL: https://github.com/akatov/pretty-mode
+;; Keywords: pretty, unicode, symbols
+;; Version: 2.0.0
+
+;; This file is NOT part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 ;;
@@ -12,14 +37,8 @@
 ;; Also includes code from `sml-mode'
 ;; See also http://www.emacswiki.org/cgi-bin/wiki/PrettyLambda
 ;;
-;; Released under the GPL. No implied warranties, etc. Use at your own risk.
-;;
-;; Arthur Danskin <arthurdanskin@gmail.com>, March 2008
-;; Grant Rettke <grettke@acm.org>, January 2013
-;; Dmitri Akatov <akatov@gmail.com>, April 2013
-;;
-;;
 ;; to install:
+;;
 ;; (require 'pretty-mode)
 ;; and
 ;; (global-pretty-mode 1)
@@ -905,3 +924,5 @@ MCharacter to replace with: ")
   (font-lock-fontify-buffer))
 
 (provide 'pretty-mode)
+
+;;; pretty-mode.el ends here

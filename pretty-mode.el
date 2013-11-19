@@ -693,8 +693,6 @@ displayed as λ in lisp modes."
          (bitshift (list (cons :bitshift (pm/names '(:>> :<<)))))
          (bitshift-with-unsigned (list (cons :bitshift (pm/names '(:>> :<< :>>>)))))
          (equality (list (cons :equality (pm/names '(:== :!=)))))
-         (equality-with-triple (list (cons :equality
-                                           (pm/names '(:=== :!== :== :!=)))))
          (logic-symbols (list (cons :logic-symbols (pm/names '(:&& :|| :!)))))
          (logic-words (list (cons :logic-words (pm/names '(:and :or :not)))))
          (ordering (list (cons :ordering (pm/names '(:>= :<=)))))
@@ -721,8 +719,9 @@ displayed as λ in lisp modes."
                          (cons :arithmetic (pm/names '(:++ :Math.sqrt)))
                          (cons :function (pm/names '(:function)))
                          (cons :sets (pm/names '(:in)))
-                         (cons :undefined (pm/names '(:undefined :void-0))))
-                        null equality-triple c-like))
+                         (cons :undefined (pm/names '(:undefined :void-0)))
+                         (cons :equality (pm/names '(:=== :!== :== :!=))))
+                        null c-like))
      (cons :ruby (append
                   (list (cons :equality (pm/names '(:== :=== :!= :=~ :!~ :||=)))
                         (cons :arithmetic (pm/names '(:Math.sqrt)))

@@ -1,6 +1,6 @@
 (source melpa)
 
-(package "pretty-mode" "2.0.0" "Redisplay parts of the buffer with pretty symbols")
+(package-file "pretty-mode.el")
 
 (development
  (depends-on "ecukes")

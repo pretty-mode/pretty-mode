@@ -326,6 +326,9 @@ displayed as λ in lisp modes."
 
     ;; equality
     (:!= "!=" ?\u2260)           ; ≠ NOT EQUAL TO
+    (:not= "not=" ?\u2247)       ; ≠ NOT EQUAL TO
+    (:<> "<>" ?\u2247)           ; ≠ NOT EQUAL TO
+    (:~= "~=" ?\u2247)           ; ≠ NOT EQUAL TO
     (:== "==" ?\u2A75)           ; ⩵ TWO CONSECUTIVE EQUALS SIGNS
     (:=== "===" ?\u2A76)         ; ⩶ THREE CONSECUTIVE EQUALS SIGNS
     (:=~ "=~" ?\u2245)           ; ≅ APPROXIMATELY EQUAL TO
@@ -389,6 +392,9 @@ displayed as λ in lisp modes."
     ;; function
     (:function "function" ?\u03BB)      ; λ GREEK SMALL LETTER LAMDA
     (:lambda "lambda" ?\u03BB)          ; λ GREEK SMALL LETTER LAMDA
+    (:\\ "\\" ?\u03BB)                  ; λ GREEK SMALL LETTER LAMDA
+    (:FN "FN" ?\u039B)                  ; Λ GREEK CAPITAL LETTER LAMDA
+    (:FUN "FUN" ?\u039B)                ; Λ GREEK CAPITAL LETTER LAMDA
 
     ;; greek letters
     ;;    ;;; 0391 Α GREEK CAPITAL LETTER ALPHA
@@ -639,20 +645,33 @@ displayed as λ in lisp modes."
     ;; nil
     (:nil "nil" ?\u2205)                ; ∅ EMPTY SET
     (:null "null" ?\u2205)              ; ∅ EMPTY SET
+    (:NULL "NULL" ?\u2205)              ; ∅ EMPTY SET
+    (:None "None" ?\u2205)              ; ∅ EMPTY SET
+    (:empty "empty" ?\u2205)            ; ∅ EMPTY SET
+    (:\(\) "()" ?\u2205)                ; ∅ EMPTY SET
+    (:\'\(\) "'()" ?\u2205)             ; ∅ EMPTY SET
+    (:\[\] "[]" ?\u2205)                ; ∅ EMPTY SET
 
     ;; arithmetic
     (:sqrt "sqrt" ?\u221A)              ; √ SQUARE ROOT
+    (:Math.sqrt "Math.sqrt" ?\u221A)    ; √ SQUARE ROOT
     (:++ "++" ?\u29FA)                  ; ⧺ DOUBLE PLUS
     (:+++ "+++" ?\u29FB)                ; ⧻ TRIPLE PLUS
+    (:product "product" ?\u220F)        ; ∏ N-ARY PRODUCT
+    (:sum "sum" ?\u2211)                ; Σ N-ARY SUMMATION
 
     ;; undefined
     (:undefined "undefined" ?\u22A5)    ; ⊥ UP TACK
+    (:void-0 "void 0" ?\u22A5)          ; ⊥ UP TACK
 
     ;; parentheses
     (:\[| "[|" ?\u27E6)              ; ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
     (:|\] "|]" ?\u27E7)              ; ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
     (:\(| "(|" ?\u2987)              ; ⦇ Z NOTATION LEFT IMAGE BRACKET
     (:|\) "|)" ?\u2988)              ; ⦈ Z NOTATION RIGHT IMAGE BRACKET
+
+    ;; types
+    (:Integer "Integer" ?\u2124)        ; ℤ DOUBLE-STRUCK CAPITAL Z
 
     ;; other
     (:||| "|||" ?\u2AF4)                ; ⫴ TRIPLE VERTICAL BAR BINARY RELATION
@@ -684,34 +703,41 @@ displayed as λ in lisp modes."
          (arrows-right (listp (cons :arrows (pm/names '(:-> :=>)))))
          (arrows-lisp (list (cons :arrows (pm/names '(:-> :->> :=>)))))
          (superscripts-** (list (cons :superscripts (pm/names '(:**2 :**3 :**n)))))
+         (function-lambda (list (cons :function (pm/names '(:lambda)))))
 
          ;; common language groups
          (c-like (append
                   (list
                    (cons :subscripts (pm/names '(:\[0\] :\[1\] :\[2\] :\[3\] :\[4\]))))
                   logic-symbols bitshift equality ordering))
-         (ml-like ordering)
+         (ml-like (append
+                   (list (cons :null (pm/names '(:\[\] :\(\)))))
+                   ordering))
          (lisp-like (append logic-words arrows-lisp ordering)))
     (list
      ;; popular languages
      (cons :javascript (append
                         (list
-                         (cons :arithmetic (pm/names '(:++)))
+                         (cons :arithmetic (pm/names '(:++ :Math.sqrt)))
                          (cons :function (pm/names '(:function)))
-                         (cons :null (pm/names '(:null)))
                          (cons :sets (pm/names '(:in)))
-                         (cons :undefined (pm/names '(:undefined))))
-                        equality-triple c-like))
+                         (cons :undefined (pm/names '(:undefined :void-0))))
+                        null equality-triple c-like))
      (cons :ruby (append
-                  (list (cons :equality (pm/names '(:== :=== :!= :=~ :!~ :||=))))
-                  superscripts-** logic-words c-like))
-     (cons :java c-like)
+                  (list (cons :equality (pm/names '(:== :=== :!= :=~ :!~ :||=)))
+                        (cons :arithmetic (pm/names '(:Math.sqrt)))
+                        (cons :punctuation (pm/names '(:.. :... :::))))
+                  null-nil function-lambda superscripts-** logic-words c-like))
+     (cons :java (append null c-like))
      (cons :python (append
-                    (list (cons :sets (pm/names '(:in :not-in))))
+                    (list (cons :sets (pm/names '(:in :not-in)))
+                          (cons :null (pm/names '(:None))))
                     superscripts-** logic-words bitshift equality ordering))
      (cons :sh c-like)
      ;; (cons :php nil) ; missing
-     (cons :c c-like)
+     (cons :c (append
+               (list (cons (:null (pm/names '(:NULL)))))
+               c-like))
      (cons :c++ c-like)
      (cons :perl c-like)
      ;; (cons :objective-c nil) ; missing
@@ -719,13 +745,17 @@ displayed as λ in lisp modes."
      ;; other languages
      (cons :coffee (append
                     (list
+                     (cons :arithmetic (pm/names '(:Math.sqrt)))
                      (cons :equality (pm/names '(:== :!= :||=)))
-                     (cons :sets (pm/names '(:in))))
-                    logic-words
-                    c-like))
+                     (cons :sets (pm/names '(:in)))
+                     (cons :undefined (pm/names '(:undefined))))
+                    null logic-words c-like))
      (cons :clips lisp-like)
-     (cons :clojure lisp-like)
-     (cons :emacs-lisp lisp-like)
+     (cons :clojure (append
+                     (list (cons :function (pm/names '(:fn)))
+                           (cons :equality (pm/names '(:not=))))
+                     null-nil lisp-like))
+     (cons :emacs-lisp (append null-nil function-lambda lisp-like))
      (cons :ess c-like)
      (cons :groovy c-like)     
      (cons :haskell (append
@@ -736,12 +766,14 @@ displayed as λ in lisp modes."
                             (pm/names '(:<<< :>>>)))
                       (cons :arrows-monads
                             (pm/names '(:<< :>>)))
+                      (cons :arrows
+                            (pm/names '(:<- :-> :=> :-< :>- :-<< :>>-)))
                       (cons :equality '(("==" . ?\u2A75)
                                         ("/=" . ?\u2260)))
                       (cons :logic-words (pm/names '(:not :and-nary :or-nary)))
                       (cons :logic-symbols (pm/names '(:&& :||)))
                       (cons :sets (pm/names '(:elem :notElem)))
-                      (cons :sets-lists (pm/names '(:intersect :union)))
+                      (cons :sets-lists (pm/names '(:intersect :union :++)))
                       (cons :sets-sets (pm/names '(:intersection
                                                    :union
                                                    :isProperSubsetOf
@@ -750,21 +782,36 @@ displayed as λ in lisp modes."
                                                    :\\\\)))
                       (cons :subscripts (pm/names '(:!!0 :!!1 :!!2 :!!3 :!!4)))
                       (cons :superscripts (pm/names '(:^2 :^3 :^n)))
+                      (cons :function (pm/names '(:\\)))
+                      (cons :punctuation (pm/names '(:.. :!! :. :::)))
+                      (cons :types (pm/names '(:Integer)))
+                      (cons :quantifiers (pm/names '(:forall :exists)))
+                      (cons :arithmetic (pm/names '(:sqrt :product :sum)))
+                      (cons :undefined (pm/names '(:undefined)))
+                      (cons :parentheses (pm/names '(:\[| :|\] :\(| :|\))))
                       )
                      arrows-right
                      ml-like))
      (cons :jess lisp-like)
-     (cons :lisp lisp-like)
+     (cons :lisp (append function-lambda lisp-like))
      (cons :octave (append
-                    (list (cons :subscripts (pm/names '(:\(0\) :\(1\) :\(2\) :\(3\) :\(4\)))))
+                    (list (cons :subscripts (pm/names '(:\(0\) :\(1\) :\(2\) :\(3\) :\(4\))))
+                          (cons :equality (pm/names '(:<> :~= :!=))))
                     superscripts-** ordering))
      ;; (cons :scala c-like) ; missing
-     (cons :scheme lisp-like)
+     (cons :scheme (append
+                    (list (cons :equality (pm/names '(:!=)))
+                          (cons :punctuation (pm/names '(:...)))
+                          (cons :null (pm/names '(:null :\'\(\) :empty))))
+                    function-lambda lisp-like))
      (cons :sml (append
-                 (list (cons :logic-words (pm/names '(:not :andalso :orelse))))
+                 (list (cons :logic-words (pm/names '(:not :andalso :orelse)))
+                       (cons :function (pm/names '(:fn :FN))))
                  ml-like))
      (cons :tuareg (append
-                    (list (cons :subscripts (pm/names '(:.\(0\) :.\(1\) :.\(2\) :.\(3\) :.\(4\)))))
+                    (list (cons :subscripts (pm/names '(:.\(0\) :.\(1\) :.\(2\) :.\(3\) :.\(4\))))
+                          (cons :function (pm/names '(:fun :FUN)))
+                          (cons :equality (pm/names '(:<>))))
                     superscripts-** ml-like))
      ))
   "Alist mapping from modes to mappings. An entry has the form
@@ -772,412 +819,37 @@ displayed as λ in lisp modes."
 a group name to Regexp / Glyph pairs. Each entry of GROUP_MAPPINGS has
 the form (GROUP . ((REGEXP . GLYPH) ...))")
 
-(defun pretty-patterns ()
-    "*List of pretty patterns.
 
-Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
-  (let* ((lispy '(scheme emacs-lisp lisp clojure jess clips))
-         (mley '(haskell tuareg sml))
-         (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
-         (all (append lispy mley c-like (list 'octave))))
-    (pretty-compile-patterns
-     `(
-       ;;; Equality
+;; TODO: arrows
+;; '(
+;;        ;;; Arrows
 
-       ;;; 2260 ≠ NOT EQUAL TO
-       (?\u2260 :neq (:equality)
-                (:!= "!=" ,@c-like scheme octave)
-                (:!== "!==" javascript)
-                (:not= "not=" clojure)
-                (:<> "<>" tuareg octave)
-                (:~= "~=" octave))
+;;   ;; 2190 ← LEFTWARDS ARROW
+;;   (?\u2190 :leftarrow (:arrows)
+;;            (:<- "<-" ,@mley ess ,@lispy))
 
-       ;;; Function
+;;   ;; 2191 ↑ UPWARDS ARROW
+;;   (?\u2191 :uparrow (:arrows)
+;;            (:\\^ "\\^" tuareg))
 
-       ;;; 03BB λ GREEK SMALL LETTER LAMDA
-       (?\u03BB :function (:function)
-                (:fn "fn" sml clojure)
-                (:fun "fun" tuareg)
-                (:function "function" javascript)
-                (:lambda "lambda" scheme lisp emacs-lisp ruby)
-                (:\\ "\\" haskell))
+;;   ;; 2192 → RIGHTWARDS ARROW
+;;   (?\u2192 :rightarrow (:arrows)
+;;            (:-> "->" ,@mley ess c c++ perl ,@lispy coffee groovy))
 
-       ;;; 039B Λ GREEK CAPITAL LETTER LAMDA
-       (?\u039B :Function (:function)
-                (:FN "FN" sml)
-                (:FUN "FUN" tuareg))
+;;   ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
+;;   (?\u21A0 :twoheadrightarrow (:arrows :arrows-twoheaded)
+;;            (:->> "->>" ,@lispy))
 
-       ;;; Greek Letters
+;;   ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
+;;   (?\u21D2 :Rightarrow (:arrows)
+;;            (:=> "=>" sml perl ruby ,@lispy haskell coffee))
 
-       ;;; 0391 Α GREEK CAPITAL LETTER ALPHA
-       (?\u0391 :Alpha (:greek :greek-capitals)
-                (:ALPHA "ALPHA" ,@all)
-                (:Alpha "Alpha" ,@all))
+;;   ;; 21D4 ⇔ LEFT RIGHT DOUBLE ARROW
+;;   (?\u21D4 :eftrightarrow (:arrows)
+;;            (:<=> "<=>" groovy))
 
-       ;;; 0392 Β GREEK CAPITAL LETTER BETA
-       (?\u0392 :Beta (:greek :greek-capitals)
-                (:BETA "BETA" ,@all)
-                (:Beta "Beta" ,@all))
 
-       ;;; 0393 Γ GREEK CAPITAL LETTER GAMMA
-       (?\u0393 :Gamma (:greek :greek-capitals)
-                (:GAMMA "GAMMA" ,@all)
-                (:Gamma "Gamma" ,@all))
-
-       ;;; 0394 Δ GREEK CAPITAL LETTER DELTA
-       (?\u0394 :Delta (:greek :greek-capitals)
-                (:DELTA "DELTA" ,@all)
-                (:Delta "Delta" ,@all))
-
-       ;;; 0395 Ε GREEK CAPITAL LETTER EPSILON
-       (?\u0395 :Epsilon (:greek :greek-capitals)
-                (:EPSILON "EPSILON" ,@all)
-                (:Epsilon "Epsilon" ,@all))
-
-       ;;; 0396 Ζ GREEK CAPITAL LETTER ZETA
-       (?\u0396 :Zeta (:greek :greek-capitals)
-                (:ZETA "ZETA" ,@all)
-                (:Zeta "Zeta" ,@all))
-
-       ;;; 0397 Η GREEK CAPITAL LETTER ETA
-       (?\u0397 :Eta (:greek :greek-capitals)
-                (:ETA "ETA" ,@all)
-                (:Eta "Eta" ,@all))
-
-       ;; 0398 Θ GREEK CAPITAL LETTER THETA
-       (?\u0398 :Theta (:greek :greek-capitals)
-                (:THETA "THETA" ,@all)
-                (:Theta "Theta" ,@all))
-
-       ;; 0399 Ι GREEK CAPITAL LETTER IOTA
-       (?\u0399 :Iota (:greek :greek-capitals)
-                (:IOTA "IOTA" ,@all)
-                (:Iota "Iota" ,@all))
-
-       ;; 039A Κ GREEK CAPITAL LETTER KAPPA
-       (?\u039A :Kappa (:greek :greek-capitals)
-                (:KAPPA "KAPPA" ,@all)
-                (:Kappa "Kappa" ,@all))
-
-       ;; 039B Λ GREEK CAPITAL LETTER LAMDA
-       (?\u039B :Lambda (:greek :greek-capitals)
-                (:LAMBDA "LAMBDA" ,@all)
-                (:Lambda "Lambda" ,@all))
-
-       ;; 039C Μ GREEK CAPITAL LETTER MU
-       (?\u039C :Mu (:greek :greek-capitals)
-                (:MU "MU" ,@all)
-                (:Mu "Mu" ,@all))
-
-       ;; 039D Ν GREEK CAPITAL LETTER NU
-       (?\u039D :Nu (:greek :greek-capitals)
-                (:NU "NU" ,@all)
-                (:Nu "Nu" ,@all))
-
-       ;; 039E Ξ GREEK CAPITAL LETTER XI
-       (?\u039E :Xi (:greek :greek-capitals)
-                (:XI "XI" ,@all)
-                (:Xi "Xi" ,@all))
-
-       ;; 039F Ο GREEK CAPITAL LETTER OMICRON
-       (?\u039F :Omicron (:greek :greek-capitals)
-                (:OMICRON "OMICRON" ,@all)
-                (:Omicron "Omicron" ,@all))
-
-       ;; 03A0 Π GREEK CAPITAL LETTER PI
-       (?\u03A0 :Pi (:greek :greek-capitals)
-                (:PI "PI" ,@all)
-                (:Pi "Pi" ,@all))
-
-       ;; 03A1 Ρ GREEK CAPITAL LETTER RHO
-       (?\u03A1 :Rho (:greek :greek-capitals)
-                (:RHO "RHO" ,@all)
-                (:Rho "Rho" ,@all))
-
-       ;; 03A3 Σ GREEK CAPITAL LETTER SIGMA
-       (?\u03A3 :Sigma (:greek :greek-capitals)
-                (:SIGMA "SIGMA" ,@all)
-                (:Sigma "Sigma" ,@all))
-
-       ;; 03A4 Τ GREEK CAPITAL LETTER TAU
-       (?\u03A4 :Tau (:greek :greek-capitals)
-                (:TAU "TAU" ,@all)
-                (:Tau "Tau" ,@all))
-
-       ;; 03A5 Υ GREEK CAPITAL LETTER UPSILON
-       (?\u03A5 :Upsilon (:greek :greek-capitals)
-                (:UPSILON "UPSILON" ,@all)
-                (:Upsilon "Upsilon" ,@all))
-
-       ;; 03A6 Φ GREEK CAPITAL LETTER PHI
-       (?\u03A6 :Phi (:greek :greek-capitals)
-                (:PHI "PHI" ,@all)
-                (:Phi "Phi" ,@all))
-
-       ;; 03A7 Χ GREEK CAPITAL LETTER CHI
-       (?\u03A7 :Chi (:greek :greek-capitals)
-                (:CHI "CHI" ,@all)
-                (:Chi "Chi" ,@all))
-
-       ;; 03A8 Ψ GREEK CAPITAL LETTER PSI
-       (?\u03A8 :Psi (:greek :greek-capitals)
-                (:PSI "PSI" ,@all)
-                (:Psi "Psi" ,@all))
-
-       ;; 03A9 Ω GREEK CAPITAL LETTER OMEGA
-       (?\u03A9 :Omega (:greek :greek-capitals)
-                (:OMEGA "OMEGA" ,@all)
-                (:Omega "Omega" ,@all))
-
-       ;; 03B1 α GREEK SMALL LETTER ALPHA
-       (?\u03B1 :alpha (:greek :greek-lowercase)
-                (:alpha "alpha" ,@all)
-                (:\'a "'a" ,@mley))
-
-       ;; 03B2 β GREEK SMALL LETTER BETA
-       (?\u03B2 :beta (:greek :greek-lowercase)
-                (:beta "beta" ,@all)
-                (:\'b "'b" ,@mley))
-
-       ;; 03B3 γ GREEK SMALL LETTER GAMMA
-       (?\u03B3 :gamma (:greek :greek-lowercase)
-                (:gamma "gamma" ,@all)
-                (:\'c "'c" ,@mley))
-
-       ;; 03B4 δ GREEK SMALL LETTER DELTA
-       (?\u03B4 :delta (:greek :greek-lowercase)
-                (:delta "delta" ,@all)
-                (:\'d "'d" ,@mley))
-
-       ;; 03B5 ε GREEK SMALL LETTER EPSILON
-       (?\u03B5 :epsilon (:greek :greek-lowercase)
-                (:epsilon "epsilon" ,@all)
-                (:\'e "'e" ,@mley))
-
-       ;; 03B6 ζ GREEK SMALL LETTER ZETA
-       (?\u03B6 :zeta (:greek :greek-lowercase)
-                (:zeta "zeta" ,@all))
-
-       ;; 03B7 η GREEK SMALL LETTER ETA
-       (?\u03B7 :eta (:greek :greek-lowercase)
-                (:eta "eta" ,@all))
-
-       ;; 03B8 θ GREEK SMALL LETTER THETA
-       (?\u03B8 :theta (:greek :greek-lowercase)
-                (:theta "theta" ,@all))
-
-       ;; 03B9 ι GREEK SMALL LETTER IOTA
-       (?\u03B9 :iota (:greek :greek-lowercase)
-                (:iota "iota" ,@all))
-
-       ;; 03BA κ GREEK SMALL LETTER KAPPA
-       (?\u03BA :kappa (:greek :greek-lowercase)
-                (:kappa "kappa" ,@all))
-
-       ;; 03BB λ GREEK SMALL LETTER LAMDA
-       (?\u03BB :lambda (:greek :greek-lowercase)
-                (:lambda "lambda" ,@all))
-
-       ;; 03BC μ GREEK SMALL LETTER MU
-       (?\u03BC :mu (:greek :greek-lowercase)
-                (:mu "mu" ,@all))
-
-       ;; 03BD ν GREEK SMALL LETTER NU
-       (?\u03BD :nu (:greek :greek-lowercase)
-                (:nu "nu" ,@all))
-
-       ;; 03BE ξ GREEK SMALL LETTER XI
-       (?\u03BE :xi (:greek :greek-lowercase)
-                (:xi "xi" ,@all))
-
-       ;; 03BF ο GREEK SMALL LETTER OMICRON
-       (?\u03BF :omicron (:greek :greek-lowercase)
-                (:omicron "omicron" ,@all))
-
-       ;; 03C0 π GREEK SMALL LETTER PI
-       (?\u03C0 :pi (:greek :greek-lowercase)
-                (:pi "pi" ,@all)
-                (:M_PI "M_PI" c c++))
-
-       ;; 03C1 ρ GREEK SMALL LETTER RHO
-       (?\u03C1 :rho (:greek :greek-lowercase)
-                (:rho "rho" ,@all))
-
-       ;; 03C3 σ GREEK SMALL LETTER SIGMA
-       (?\u03C3 :sigma (:greek :greek-lowercase)
-                (:sigma "sigma" ,@all))
-
-       ;; 03C4 τ GREEK SMALL LETTER TAU
-       (?\u03C4 :tau (:greek :greek-lowercase)
-                (:tau "tau" ,@all))
-
-       ;; 03C5 υ GREEK SMALL LETTER UPSILON
-       (?\u03C5 :upsilon (:greek :greek-lowercase)
-                (:upsilon "upsilon" ,@all))
-
-       ;; 03C6 φ GREEK SMALL LETTER PHI
-       (?\u03C6 :phi (:greek :greek-lowercase)
-                (:phi "phi" ,@all))
-
-       ;; 03C7 χ GREEK SMALL LETTER CHI
-       (?\u03C7 :chi (:greek :greek-lowercase)
-                (:chi "chi" ,@all))
-
-       ;; 03C8 ψ GREEK SMALL LETTER PSI
-       (?\u03C8 :psi (:greek :greek-lowercase)
-                (:psi "psi" ,@all))
-
-       ;; 03C9 ω GREEK SMALL LETTER OMEGA
-       (?\u03C9 :omega (:greek :greek-lowercase)
-                (:omega "omega" ,@all))
-
-       ;;; Punctuation
-
-       ;; 2025 ‥ TWO DOT LEADER
-       (?\u2025 :.. (:punctuation)
-                (:.. ".." haskell ruby))
-
-       ;; 2026 … HORIZONTAL ELLIPSIS
-       (?\u2026 :dots (:punctuation)
-                (:... "..." scheme ruby))
-
-       ;; 203C ‼ DOUBLE EXCLAMATION MARK
-       (?\u203C :!! (:punctuation)
-                (:!! "!!" haskell))
-
-       ;; 2218 ∘ RING OPERATOR
-       (?\u2218 :circ (:punctuation)
-                (:. "\." haskell))
-
-       ;; 2237 ∷ PROPORTION
-       (?\u2237 :Proportion (:punctuation)
-                (::: "::" haskell))
-
-       ;;; Types
-
-       ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
-       (?\u2124 :Z (:types)
-                (:Integer "Integer" haskell))
-
-       ;;; Arrows
-
-       ;; 2190 ← LEFTWARDS ARROW
-       (?\u2190 :leftarrow (:arrows)
-                (:<- "<-" ,@mley ess ,@lispy))
-
-       ;; 2191 ↑ UPWARDS ARROW
-       (?\u2191 :uparrow (:arrows)
-                (:\\^ "\\^" tuareg))
-
-       ;; 2192 → RIGHTWARDS ARROW
-       (?\u2192 :rightarrow (:arrows)
-                (:-> "->" ,@mley ess c c++ perl ,@lispy coffee groovy))
-
-       ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
-       (?\u21A0 :twoheadrightarrow (:arrows :arrows-twoheaded)
-                (:->> "->>" ,@lispy))
-
-       ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
-       (?\u21D2 :Rightarrow (:arrows)
-                (:=> "=>" sml perl ruby ,@lispy haskell coffee))
-
-       ;; 21D4 ⇔ LEFT RIGHT DOUBLE ARROW
-       (?\u21D4 :eftrightarrow (:arrows)
-                (:<=> "<=>" groovy))
-
-       ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
-       (?\u2919 :-< (:arrows :arrows-tails)
-                (:-< "-<" haskell))
-
-       ;; 291A ⤚ RIGHTWARDS ARROW-TAIL
-       (?\u291A :>- (:arrows :arrows-tails)
-                (:>- ">-" haskell))
-
-       ;; 291B ⤛ LEFTWARDS DOUBLE ARROW-TAIL
-       (?\u291B :-<< (:arrows :arrows-tails :arrows-tails-double)
-                (:-<< "-<<" haskell))
-
-       ;; 291C ⤜ RIGHTWARDS DOUBLE ARROW-TAIL
-       (?\u291C :>>- (:arrows :arrows-tails :arrows-tails-double)
-                (:>>- ">>-" haskell))
-
-       ;;; Quantifiers
-
-       ;; 2200 ∀ FOR ALL
-       (?\u2200 :forall (:quantifiers)
-                (:forall "forall" haskell))
-
-       ;; 2203 ∃ THERE EXISTS
-       (?\u2203 :exists (:quantifiers)
-                (:exists "exists" haskell))
-
-       ;;; Nil
-
-       ;; 2205 ∅ EMPTY SET
-       (?\u2205 :emptyset (:nil)
-                (:nil "nil" emacs-lisp ruby clojure)
-                (:null "null" scheme java coffee javascript)
-                (:\'\(\) "'()" scheme)
-                (:empty "empty" scheme)
-                (:NULL "NULL" c c++)
-                (:None "None" python)
-                (:\(\) "()" ,@mley)
-                (:\[\] "[]" ,@mley))
-
-       ;;; Arithmetic
-
-       ;; 220F ∏ N-ARY PRODUCT
-       (?\u220F :prod (:arithmetic :arithmetic-nary)
-                (:product "product" haskell))
-
-       ;; 2211 Σ N-ARY SUMMATION
-       (?\u2211 :sum (:arithmetic :arithmetic-nary)
-                (:sum "sum" python haskell))
-
-       ;; 221a √ SQUARE ROOT
-       (?\u221A :sqrt (:arithmetic)
-                (:sqrt "sqrt" ,@all)
-                (:Math.sqrt "Math.sqrt" javascript coffee ruby))
-
-       ;; 29FA ⧺ DOUBLE PLUS
-       (?\u29FA :++ (:arithmetic :arithmetic-double)
-                (:++ "++" haskell c c++ java javascript coffee))
-
-       ;; 29FB ⧻ TRIPLE PLUS
-       (?\u29FB :+++ (:arithmetic :arithmetic-triple)
-                (:+++ "+++" haskell))        ; Control.Arrow
-
-       ;;; Undefined
-
-       ;; 22A5 ⊥ UP TACK
-       (?\u22A5 :bot (:undefined)
-                (:undefined "undefined" haskell javascript coffee)
-                (:void0 "void 0" javascript))
-
-       ;;; Parentheses
-
-       ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
-       (?\u27E6 :llbracket (:parentheses)
-                (:\[| "[|" haskell))
-
-       ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
-       (?\u27E7 :rrbracket (:parentheses)
-                (:|\] "|]" haskell))
-
-       ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
-       (?\u2987 :limg (:parentheses) ; \Lparen is actually a different symbol
-                (:\(| "(|" haskell))
-
-       ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
-       (?\u2988 :rimg (:parentheses) ; \Rparen is actually a different symbol
-                (:|\) "|)" haskell))
-
-       ;;; Other
-
-       ;; 2AF4 ⫴ TRIPLE VERTICAL BAR BINARY RELATION
-       (?\u2AF4 :VERT (:other)
-                (:||| "|||" haskell))        ; Control.Arrow
-       ))))
+;;   )
 
 (defun pretty-patterns ()
   "Set pretty patterns in a convenient way."

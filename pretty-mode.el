@@ -336,13 +336,56 @@ displayed as λ in lisp modes."
     (:not "not" ?\u00AC)          ; ¬ NOT SIGN
     (:&& "&&" ?\u2227)            ; ∧ LOGICAL AND
     (:and "and" ?\u2227)          ; ∧ LOGICAL AND
-    (:||= "||=" ?\u22AB)          ; ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
+    (:andalso "andlso" ?\u2227)          ; ∧ LOGICAL AND
     (:|| "||" ?\u2228)            ; ∨ LOGICAL OR
     (:or "or" ?\u2228)            ; ∨ LOGICAL OR
+    (:||= "||=" ?\u22AB)          ; ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
+    (:and-nary "and" ?\u22C0)     ; ⋀ N-ARY LOGICAL AND
+    (:or-nary "or" ?\u22C1)       ; ⋁ N-ARY LOGICAL OR
 
     ;; sets
     (:in "in" ?\u2208)                  ; ∈ ELEMENT OF
+    (:elem "`elem`" ?\u2208)            ; ∈ ELEMENT OF
+    (:notElem "`notElem`" ?\u2209)      ; ∉ NOT AN ELEMENT OF
+    (:not-in "not in" ?\u2209)          ; ∉ NOT AN ELEMENT OF
+    (:intersect "`intersect`" ?\u2229)  ; ∩ INTERSECTION
+    (:intersection "`intersection`" ?\u2229) ; ∩ INTERSECTION
+    (:union "`union`" ?\u222A)               ; ∪ UNION
+    (:isProperSubsetOf "`isProperSubsetOf`" ?\u2282) ; ⊂ SUBSET OF
+    (:isSubsetOf "`isSubsetOf`" ?\u2286)             ; ⊆ SUBSET OF OR EQUAL TO
+    (:unions "unions" ?\u22C3)                       ; ⋃ N-ARY UNION
+    (:\\\\ "\\\\" ?\u29F5)              ; ⧵ REVERSE SOLIDUS OPERATOR
 
+    ;; subscripts
+    (:!!0 "!!0" ?\u2080)                ; ₀ SUBSCRIPT ZERO
+    (:\[0\] "[0]" ?\u2080)              ; ₀ SUBSCRIPT ZERO
+    (:\(0\) "(0)" ?\u2080)              ; ₀ SUBSCRIPT ZERO
+    (:.\(0\) ".(0)" ?\u2080)            ; ₀ SUBSCRIPT ZERO
+    (:!!1 "!!1" ?\u2081)                ; ₁ SUBSCRIPT ONE
+    (:\[1\] "[1]" ?\u2081)              ; ₁ SUBSCRIPT ONE
+    (:\(1\) "(1)" ?\u2081)              ; ₁ SUBSCRIPT ONE
+    (:.\(1\) ".(1)" ?\u2081)            ; ₁ SUBSCRIPT ONE
+    (:!!2 "!!2" ?\u2082)                ; ₂ SUBSCRIPT TWO
+    (:\[2\] "[2]" ?\u2082)              ; ₂ SUBSCRIPT TWO
+    (:\(2\) "(2)" ?\u2082)              ; ₂ SUBSCRIPT TWO
+    (:.\(2\) ".(2)" ?\u2082)            ; ₂ SUBSCRIPT TWO
+    (:!!3 "!!3" ?\u2083)                ; ₃ SUBSCRIPT THREE
+    (:\[3\] "[3]" ?\u2083)              ; ₃ SUBSCRIPT THREE
+    (:\(3\) "(3)" ?\u2083)              ; ₃ SUBSCRIPT THREE
+    (:.\(3\) ".(3)" ?\u2083)            ; ₃ SUBSCRIPT THREE
+    (:!!4 "!!4" ?\u2084)                ; ₄ SUBSCRIPT FOUR
+    (:\[4\] "[4]" ?\u2084)              ; ₄ SUBSCRIPT FOUR
+    (:\(4\) "(4)" ?\u2084)              ; ₄ SUBSCRIPT FOUR
+    (:.\(4\) ".(4)" ?\u2084)            ; ₄ SUBSCRIPT FOUR
+
+    ;; superscripts
+    (:**2 "**2" ?\u00B2)                ; ² SUPERSCRIPT TWO
+    (:^2 "^2" ?\u00B2)                  ; ² SUPERSCRIPT TWO
+    (:**3 "**3" ?\u00B3)                ; ³ SUPERSCRIPT THREE
+    (:^3 "^3" ?\u00B3)                  ; ³ SUPERSCRIPT THREE
+    (:**n "**n" ?\u207F)                ; ⁿ SUPERSCRIPT LATIN SMALL LETTER N
+    (:^n "^n" ?\u207F)                  ; ⁿ SUPERSCRIPT LATIN SMALL LETTER N
+    
     ;; function
     (:function "function" ?\u03BB)      ; λ GREEK SMALL LETTER LAMDA
     (:lambda "lambda" ?\u03BB)          ; λ GREEK SMALL LETTER LAMDA
@@ -640,11 +683,15 @@ displayed as λ in lisp modes."
          (null-nil (list (cons :null (pm/names '(:nil)))))
          (arrows-right (listp (cons :arrows (pm/names '(:-> :=>)))))
          (arrows-lisp (list (cons :arrows (pm/names '(:-> :->> :=>)))))
+         (superscripts-** (list (cons :superscripts (pm/names '(:**2 :**3 :**n)))))
 
          ;; common language groups
-         (c-like (append bitshift equality ordering))
+         (c-like (append
+                  (list
+                   (cons :subscripts (pm/names '(:\[0\] :\[1\] :\[2\] :\[3\] :\[4\]))))
+                  logic-symbols bitshift equality ordering))
          (ml-like ordering)
-         (lisp-like (append arrows-lisp ordering)))
+         (lisp-like (append logic-words arrows-lisp ordering)))
     (list
      ;; popular languages
      (cons :javascript (append
@@ -655,9 +702,13 @@ displayed as λ in lisp modes."
                          (cons :sets (pm/names '(:in)))
                          (cons :undefined (pm/names '(:undefined))))
                         equality-triple c-like))
-     (cons :ruby c-like)
+     (cons :ruby (append
+                  (list (cons :equality (pm/names '(:== :=== :!= :=~ :!~ :||=))))
+                  superscripts-** logic-words c-like))
      (cons :java c-like)
-     (cons :python c-like)
+     (cons :python (append
+                    (list (cons :sets (pm/names '(:in :not-in))))
+                    superscripts-** logic-words bitshift equality ordering))
      (cons :sh c-like)
      ;; (cons :php nil) ; missing
      (cons :c c-like)
@@ -666,7 +717,12 @@ displayed as λ in lisp modes."
      ;; (cons :objective-c nil) ; missing
 
      ;; other languages
-     (cons :coffee c-like)
+     (cons :coffee (append
+                    (list
+                     (cons :equality (pm/names '(:== :!= :||=)))
+                     (cons :sets (pm/names '(:in))))
+                    logic-words
+                    c-like))
      (cons :clips lisp-like)
      (cons :clojure lisp-like)
      (cons :emacs-lisp lisp-like)
@@ -682,15 +738,34 @@ displayed as λ in lisp modes."
                             (pm/names '(:<< :>>)))
                       (cons :equality '(("==" . ?\u2A75)
                                         ("/=" . ?\u2260)))
+                      (cons :logic-words (pm/names '(:not :and-nary :or-nary)))
+                      (cons :logic-symbols (pm/names '(:&& :||)))
+                      (cons :sets (pm/names '(:elem :notElem)))
+                      (cons :sets-lists (pm/names '(:intersect :union)))
+                      (cons :sets-sets (pm/names '(:intersection
+                                                   :union
+                                                   :isProperSubsetOf
+                                                   :isSubsetOf
+                                                   :unions
+                                                   :\\\\)))
+                      (cons :subscripts (pm/names '(:!!0 :!!1 :!!2 :!!3 :!!4)))
+                      (cons :superscripts (pm/names '(:^2 :^3 :^n)))
                       )
                      arrows-right
                      ml-like))
      (cons :jess lisp-like)
      (cons :lisp lisp-like)
-     (cons :octave all)
+     (cons :octave (append
+                    (list (cons :subscripts (pm/names '(:\(0\) :\(1\) :\(2\) :\(3\) :\(4\)))))
+                    superscripts-** ordering))
+     ;; (cons :scala c-like) ; missing
      (cons :scheme lisp-like)
-     (cons :sml ml-like)
-     (cons :tuareg ml-like)
+     (cons :sml (append
+                 (list (cons :logic-words (pm/names '(:not :andalso :orelse))))
+                 ml-like))
+     (cons :tuareg (append
+                    (list (cons :subscripts (pm/names '(:.\(0\) :.\(1\) :.\(2\) :.\(3\) :.\(4\)))))
+                    superscripts-** ml-like))
      ))
   "Alist mapping from modes to mappings. An entry has the form
  (MODE . GROUP_MAPPINGS), where each GROUP_MAPPINGS is a mapping from
@@ -716,142 +791,6 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:not= "not=" clojure)
                 (:<> "<>" tuareg octave)
                 (:~= "~=" octave))
-
-       ;;; 2A75 ⩵ TWO CONSECUTIVE EQUALS SIGNS
-       (?\u2A75 :== (:equality)
-                (:== "==" ,@c-like haskell))
-
-       ;;; 2A76 ⩶ THREE CONSECUTIVE EQUALS SIGNS
-       (?\u2A76 :=== (:equality)
-                (:=== "===" ruby javascript))
-
-       ;; 2245 ≅ APPROXIMATELY EQUAL TO
-       (?\u2245 :=~ (:equality)
-                (:=~ "=~" ruby))
-
-       ;; ≇ NEITHER APPROXIMATELY NOR ACTUALLY EQUAL TO
-       (?\u2247 :!~ (:equality)
-                (:!~ "!~" ruby))
-
-       ;;; Logic
-
-       ;;; 00AC ¬ NOT SIGN
-       (?\u00AC :neg (:logic)
-                (:! "!" c c++ perl sh ruby javascript)
-                (:not "not" ,@lispy haskell sml))
-
-       ;;; 2227 ∧ LOGICAL AND
-       (?\u2227 :wedge (:logic)
-                (:and "and" ,@lispy python ruby coffee)
-                (:andalso "andalso" sml)
-                (:&& "&&" c c++ perl haskell ruby javascript coffee))
-
-       ;;; 22AB ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
-       (?\u22AB :models (:logic :logic-extended)
-                (:||= "||=" ruby coffee))
-
-       ;;; 2228 ∨ LOGICAL OR
-       (?\u2228 :vee (:logic)
-                (:or "or" ,@lispy python ruby coffee)
-                (:orelse "orelse" sml)
-                (:|| "||" c c++ perl haskell ruby javascript coffee))
-
-       ;;; 22C0 ⋀ N-ARY LOGICAL AND
-       (?\u22C0 :bigwedge (:logic :logic-nary)
-                (:and "and" haskell))
-
-       ;;; 22C1 ⋁ N-ARY LOGICAL OR
-       (?\u22C1 :bigvee (:logic :logic-nary)
-                (:or "or" haskell))
-
-       ;;; Sets
-
-       ;;; 2208 ∈ ELEMENT OF
-       (?\u2208 :in (:sets :sets-relations)
-                (:elem "`elem`" haskell)
-                (:in "in" python coffee javascript))
-
-       ;;; 2209 ∉ NOT AN ELEMENT OF
-       (?\u2209 :notin (:sets :sets-relations)
-                (:notElem "`notElem`" haskell)
-                (:not_in "not in" python))
-
-       ;;; 2229 ∩ INTERSECTION
-       (?\u2229 :cap (:sets :sets-operations)
-                (:intersect "`intersect`" haskell)     ; Data.List
-                (:intersection "`intersection`" haskell)) ; Data.Set
-
-       ;;; 222A ∪ UNION
-       (?\u222A :cup (:sets :sets-operations)
-                (:union "`union`" haskell))    ; Data.List, Data.Set
-
-       ;; 2282 ⊂ SUBSET OF
-       (?\u2282 :subset (:sets :sets-relations)
-                (:isProperSubsetOf "`isProperSubsetOf`" haskell)) ; Data.Set
-
-       ;; 2286 ⊆ SUBSET OF OR EQUAL TO
-       (?\u2286 :subseteq (:sets :sets-relations)
-                (:isSubsetOf"`isSubsetOf`" haskell)) ; Data.Set
-
-       ;; 22C3 ⋃ N-ARY UNION
-       (?\u22C3 :bigcup (:sets :sets-operations :sets-operations-nary)
-                (:unions "unions" haskell))     ; Data.Set
-
-       ;; 29F5 ⧵ REVERSE SOLIDUS OPERATOR
-       (?\u29F5 :setminus (:sets :sets-operations)
-                (:\\\\ "\\\\" haskell))
-
-       ;;; Subscripts and Superscripts
-
-       ;;; 2080 ₀ SUBSCRIPT ZERO
-       (?\u2080 :sub-0 (:sub-and-superscripts :subscripts)
-                (:\[0\] "[0]" ,@c-like)
-                (:\(0\) "(0)" octave)
-                (:.\(0\) ".(0)" tuareg)
-                (:!!0 "!!0" haskell))
-
-       ;;; 2081 ₁ SUBSCRIPT ONE
-       (?\u2081 :sub-1 (:sub-and-superscripts :subscripts)
-                (:\[1\] "[1]" ,@c-like)
-                (:\(1\) "(1)" octave)
-                (:.\(1\) ".(1)" tuareg)
-                (:!!1 "!!1" haskell))
-
-       ;;; 2082 ₂ SUBSCRIPT TWO
-       (?\u2082 :sub-2 (:sub-and-superscripts :subscripts)
-                (:\[2\] "[2]" ,@c-like)
-                (:\(2\) "(2)" octave)
-                (:.\(2\) ".(2)" tuareg)
-                (:!!2 "!!2" haskell))
-
-       ;;; 2083 ₃ SUBSCRIPT THREE
-       (?\u2083 :sub-3  (:sub-and-superscripts :subscripts)
-                (:\[3\] "[3]" ,@c-like)
-                (:\(3\) "(3)" octave)
-                (:.\(3\) ".(3)" tuareg)
-                (:!!3 "!!3" haskell))
-
-       ;;; 2084 ₄ SUBSCRIPT FOUR
-       (?\u2084 :sub-4  (:sub-and-superscripts :subscripts)
-                (:\[4\] "[4]" ,@c-like)
-                (:\(4\) "(4)" octave)
-                (:.\(4\) ".(4)" tuareg)
-                (:!!4 "!!4" haskell))
-
-       ;;; 00B2 ² SUPERSCRIPT TWO
-       (?\u00B2 :sup-2 (:sub-and-superscripts :superscripts)
-                (:**2 "**2" python tuareg octave ruby)
-                (:^2 "^2" haskell))
-
-       ;;; 00B3 ³ SUPERSCRIPT THREE
-       (?\u00B3 :sup-3 (:sub-and-superscripts :superscripts)
-                (:**3 "**3" python tuareg octave ruby)
-                (:^3 "^3" haskell))
-
-       ;; 207F ⁿ SUPERSCRIPT LATIN SMALL LETTER N
-       (?\u207F :sup-n (:sub-and-superscripts :superscripts)
-                (:**n "**n" python tuareg octave ruby)
-                (:^n "^n" haskell))
 
        ;;; Function
 

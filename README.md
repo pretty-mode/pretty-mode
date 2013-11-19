@@ -30,7 +30,7 @@ In your [`Cask` file](https://github.com/cask/cask):
 ```bash
 cask install
 make test
-cask exec emacs -q -L . -eval "(progn (require 'pretty-mode) (global-pretty-mode t))"
+cask exec emacs -q -L . -l .dev/init.el
 ```
 
 ## Credits

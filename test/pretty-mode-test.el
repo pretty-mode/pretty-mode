@@ -1,6 +1,3 @@
-(require 'ert)
-(require 'pretty-mode)
-
 (ert-deftest ensure-list ()
   "Tests `ensure-list'"
   (should (equal nil

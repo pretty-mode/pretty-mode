@@ -10,5 +10,6 @@
 (require 'sml-mode)
 (require 'tuareg)
 
+(add-to-list 'load-path default-directory)
 (require 'pretty-mode)
 (global-pretty-mode t)

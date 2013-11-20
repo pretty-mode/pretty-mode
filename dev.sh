@@ -1,1 +1,1 @@
-cask exec emacs -q -L . -l .dev/init.el
+cask exec emacs -q -l .dev/init.el

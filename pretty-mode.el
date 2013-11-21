@@ -347,11 +347,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; Ordering
 
-       ;;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
-       (?\u00AB :ll (:ordering :ordering-double)
+       ;;; 226A ≪ MUCH LESS-THAN
+       (?\u226A :ll (:ordering :ordering-double)
                 (:<< "<<" haskell ruby c c++ java javascript coffee))
-       ;;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-       (?\u00BB :gg (:ordering :ordering-double)
+       ;;; 226B ≫ MUCH GREATER-THAN
+       (?\u226B :gg (:ordering :ordering-double)
                 (:>> ">>" haskell ruby c c++ java javascript coffee))
        ;;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 :leq (:ordering)

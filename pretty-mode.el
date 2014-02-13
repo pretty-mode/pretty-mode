@@ -85,6 +85,8 @@
     (inferior-octave-mode . octave-mode)
     (js-mode . javascript-mode)
     (js2-mode . javascript-mode)
+    (LiveScript-mode . livescript-mode)
+    (LiveScript . livescript-mode)
     (inferior-ruby-mode . ruby-mode))
   "Alist mapping from modes that should have the same substitution
 patterns as to the mode they are mapping to. Usually these are
@@ -149,7 +151,7 @@ implied mode from MODE and return it."
     python-mode sml-mode jess-mode clips-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
     perl-mode c++-mode c-mode haskell-mode
-    javascript-mode coffee-mode groovy-mode)
+    javascript-mode coffee-mode groovy-mode livescript-mode)
   "A list of all supported modes.")
 
 (defun ensure-modes (modes)
@@ -329,7 +331,7 @@ expected by `pretty-patterns'"
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess clips))
          (mley '(haskell tuareg sml))
-         (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
+         (c-like '(c c++ perl sh python java ess ruby javascript coffee livescript groovy))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
      `(
@@ -349,10 +351,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 00AB « LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
        (?\u00AB :ll (:ordering :ordering-double)
-                (:<< "<<" haskell ruby c c++ java javascript coffee))
+                (:<< "<<" haskell ruby c c++ java javascript coffee livescript))
        ;;; 00BB » RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
        (?\u00BB :gg (:ordering :ordering-double)
-                (:>> ">>" haskell ruby c c++ java javascript coffee))
+                (:>> ">>" haskell ruby c c++ java javascript coffee livescript))
        ;;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 :leq (:ordering)
                 (:<= "<=" ,@all))
@@ -379,11 +381,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 2A75 ⩵ TWO CONSECUTIVE EQUALS SIGNS
        (?\u2A75 :== (:equality)
-                (:== "==" ,@c-like haskell))
+                (:== "==" ,@c-like haskell livescript))
 
        ;;; 2A76 ⩶ THREE CONSECUTIVE EQUALS SIGNS
        (?\u2A76 :=== (:equality)
-                (:=== "===" ruby javascript))
+                (:=== "===" ruby javascript livescript))
 
        ;; 2245 ≅ APPROXIMATELY EQUAL TO
        (?\u2245 :=~ (:equality)
@@ -398,11 +400,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;;; 00AC ¬ NOT SIGN
        (?\u00AC :neg (:logic)
                 (:! "!" c c++ perl sh ruby javascript)
-                (:not "not" ,@lispy haskell sml))
+                (:not "not" ,@lispy haskell sml livescript))
 
        ;;; 2227 ∧ LOGICAL AND
        (?\u2227 :wedge (:logic)
-                (:and "and" ,@lispy python ruby coffee)
+                (:and "and" ,@lispy python ruby coffee livescript)
                 (:andalso "andalso" sml)
                 (:&& "&&" c c++ perl haskell ruby javascript coffee))
 
@@ -412,7 +414,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 2228 ∨ LOGICAL OR
        (?\u2228 :vee (:logic)
-                (:or "or" ,@lispy python ruby coffee)
+                (:or "or" ,@lispy python ruby coffee livescript)
                 (:orelse "orelse" sml)
                 (:|| "||" c c++ perl haskell ruby javascript coffee))
 
@@ -426,15 +428,19 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; Sets
 
-       ;;; 2208 ∈ ELEMENT OF
+       ;;; 2208 ∈ ELEMENT OF (List)
        (?\u2208 :in (:sets :sets-relations)
                 (:elem "`elem`" haskell)
-                (:in "in" python coffee javascript))
+                (:in "in" python coffee javascript livescript))
+
+       ;;; 2208 ⋶ ELEMENT OF (Hash)
+       (?\u22F6 :of (:sets :sets-relations)
+                (:of "of" livescript))
 
        ;;; 2209 ∉ NOT AN ELEMENT OF
        (?\u2209 :notin (:sets :sets-relations)
                 (:notElem "`notElem`" haskell)
-                (:not_in "not in" python))
+                (:not_in "not in" python livescript))
 
        ;;; 2229 ∩ INTERSECTION
        (?\u2229 :cap (:sets :sets-operations)
@@ -443,7 +449,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 222A ∪ UNION
        (?\u222A :cup (:sets :sets-operations)
-                (:union "`union`" haskell))    ; Data.List, Data.Set
+                (:union "`union`" haskell)  ; Data.List, Data.Set
+                (:concat "`concat`" livescript)
+                (:++ "++" livescript))     
+
 
        ;; 2282 ⊂ SUBSET OF
        (?\u2282 :subset (:sets :sets-relations)
@@ -520,6 +529,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
                 (:function "function" javascript)
+                (:-> "->" livescript)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby)
                 (:\\ "\\" haskell))
 
@@ -784,7 +794,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2190 ← LEFTWARDS ARROW
        (?\u2190 :leftarrow (:arrows)
-                (:<- "<-" ,@mley ess ,@lispy))
+                (:<- "<-" ,@mley ess ,@lispy livescript))
 
        ;; 2191 ↑ UPWARDS ARROW
        (?\u2191 :uparrow (:arrows)
@@ -826,18 +836,20 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2200 ∀ FOR ALL
        (?\u2200 :forall (:quantifiers)
-                (:forall "forall" haskell))
+                (:forall "forall" haskell)
+                (:for "for" livescript)
+                )
 
        ;; 2203 ∃ THERE EXISTS
        (?\u2203 :exists (:quantifiers)
                 (:exists "exists" haskell))
 
        ;;; Nil
-
+       ;;
        ;; 2205 ∅ EMPTY SET
        (?\u2205 :emptyset (:nil)
                 (:nil "nil" emacs-lisp ruby clojure)
-                (:null "null" scheme java coffee javascript)
+                (:null "null" scheme java coffee javascript livescript)
                 (:\'\(\) "'()" scheme)
                 (:empty "empty" scheme)
                 (:NULL "NULL" c c++)
@@ -849,16 +861,16 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 220F ∏ N-ARY PRODUCT
        (?\u220F :prod (:arithmetic :arithmetic-nary)
-                (:product "product" haskell))
+                (:product "product" haskell livescript))
 
        ;; 2211 Σ N-ARY SUMMATION
        (?\u2211 :sum (:arithmetic :arithmetic-nary)
-                (:sum "sum" python haskell))
+                (:sum "sum" python haskell livescript))
 
        ;; 221a √ SQUARE ROOT
        (?\u221A :sqrt (:arithmetic)
                 (:sqrt "sqrt" ,@all)
-                (:Math.sqrt "Math.sqrt" javascript coffee ruby))
+                (:Math.sqrt "Math.sqrt" javascript coffee ruby livescript))
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA :++ (:arithmetic :arithmetic-double)
@@ -873,7 +885,38 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 22A5 ⊥ UP TACK
        (?\u22A5 :bot (:undefined)
                 (:undefined "undefined" haskell javascript coffee)
-                (:void0 "void 0" javascript))
+                (:void0 "void 0" javascript)
+                )
+
+       ;; TODISQ:-----------------------------------------
+       ;; Math meaning of that symbol is 'false', use this for livescript:
+       ;; 22A5 ⊥ UP TACK
+       (?\u22A5 :false (:boolean)
+                (:no "no" livescript)
+                (:off "off" livescript)
+                (:false "false" livescript)
+                )
+
+       ;; same here 'true'
+       ;; 22A4 ⊤ UP TACK
+       (?\u22A4 :true (:boolean)
+                (:yes "yes" livescript)
+                (:on "on" livescript)
+                (:true "true" livescript)
+                )
+
+       ;; ...so LiveScript void/undefined here:
+       ;; 221E ∞ INFINITY
+       (?\u221E :void (:undefined)
+                (:void "void" livescript)
+                )
+       ;;-------------------------------------------------
+       
+       ;; Guard | 'when' very pretty in livescript expressions:
+       ;; 2502 │ BOX VERTICAL
+       (?\u2502 :when (:guard)
+                (:when "when" livescript)
+                )
 
        ;;; Parentheses
 

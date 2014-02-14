@@ -139,6 +139,8 @@ implied mode from MODE and return it."
     ;; turn on :arithmetic-triple and :arithmetic-nary manually
     :punctuation
     :subscripts :superscripts
+    :quantifiers
+    :other
     ;; turn on :sub-and-superscripts manually
     ;; turn on :parentheses manually
     ;; turn on :types manually
@@ -452,7 +454,6 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:union "`union`" haskell)  ; Data.List, Data.Set
                 (:concat "`concat`" livescript)
                 (:++ "++" livescript))     
-
 
        ;; 2282 ⊂ SUBSET OF
        (?\u2282 :subset (:sets :sets-relations)
@@ -813,7 +814,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:=> "=>" sml perl ruby ,@lispy haskell coffee))
 
        ;; 21D4 ⇔ LEFT RIGHT DOUBLE ARROW
-       (?\u21D4 :eftrightarrow (:arrows)
+       (?\u21D4 :LeftRightarrow (:arrows)
                 (:<=> "<=>" groovy))
 
        ;; 2919 ⤙ LEFTWARDS ARROW-TAIL
@@ -879,7 +880,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 29FB ⧻ TRIPLE PLUS
        (?\u29FB :+++ (:arithmetic :arithmetic-triple)
                 (:+++ "+++" haskell))        ; Control.Arrow
-
+       
        ;;; Undefined
 
        ;; 22A5 ⊥ UP TACK
@@ -888,35 +889,6 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:void0 "void 0" javascript)
                 )
 
-       ;; TODISQ:-----------------------------------------
-       ;; Math meaning of that symbol is 'false', use this for livescript:
-       ;; 22A5 ⊥ UP TACK
-       (?\u22A5 :false (:boolean)
-                (:no "no" livescript)
-                (:off "off" livescript)
-                (:false "false" livescript)
-                )
-
-       ;; same here 'true'
-       ;; 22A4 ⊤ UP TACK
-       (?\u22A4 :true (:boolean)
-                (:yes "yes" livescript)
-                (:on "on" livescript)
-                (:true "true" livescript)
-                )
-
-       ;; ...so LiveScript void/undefined here:
-       ;; 221E ∞ INFINITY
-       (?\u221E :void (:undefined)
-                (:void "void" livescript)
-                )
-       ;;-------------------------------------------------
-       
-       ;; Guard | 'when' very pretty in livescript expressions:
-       ;; 2502 │ BOX VERTICAL
-       (?\u2502 :when (:guard)
-                (:when "when" livescript)
-                )
 
        ;;; Parentheses
 
@@ -941,6 +913,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 2AF4 ⫴ TRIPLE VERTICAL BAR BINARY RELATION
        (?\u2AF4 :VERT (:other)
                 (:||| "|||" haskell))        ; Control.Arrow
+
+       ;; 2502 │ BOX VERTICAL
+       (?\u2502 :when (:other)
+                (:when "when" livescript))
        ))))
 
 (defun pretty-add-keywords (mode keywords)

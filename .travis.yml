@@ -14,7 +14,7 @@ install:
       sudo apt-get install -qq emacs-snapshot-el emacs-snapshot-gtk;
     fi
 before_script:
-  - curl -fsSkL https://raw.github.com/rejeep/cask.el/master/go | python
+  - curl -fsSkL https://raw.github.com/cask/cask/master/go | python
   - export PATH="/home/travis/.cask/bin:$PATH"
   - cask
 script:

@@ -5,6 +5,7 @@ all: test
 
 test: clean-elc
 	${MAKE} unit
+	${MAKE} features
 	${MAKE} compile
 	${MAKE} unit
 	${MAKE} clean-elc
@@ -18,4 +19,7 @@ compile:
 clean-elc:
 	rm -f pretty-mode.elc
 
-.PHONY: all test unit
+features:
+	${CASK} exec ecukes --win
+
+.PHONY: all test unit features

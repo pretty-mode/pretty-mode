@@ -11,7 +11,7 @@
 ;; Maintainer: Dmitri Akatov <akatov@gmail.com>
 ;; URL: https://github.com/akatov/pretty-mode
 ;; Keywords: pretty, unicode, symbols
-;; Version: 2.0.1
+;; Version: 2.0.2
 
 ;; This file is NOT part of GNU Emacs.
 

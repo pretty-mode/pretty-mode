@@ -11,7 +11,7 @@
 ;; Maintainer: Dmitri Akatov <akatov@gmail.com>
 ;; URL: https://github.com/akatov/pretty-mode
 ;; Keywords: pretty, unicode, symbols
-;; Version: 2.0.0
+;; Version: 2.0.2
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -269,6 +269,7 @@ MODE is nil. Return nil if there are no keywords."
 (defgroup pretty nil "Minor mode for replacing text with symbols "
   :group 'faces)
 
+;;;###autoload
 (define-minor-mode pretty-mode
   "Toggle Pretty minor mode.
 With arg, turn Pretty minor mode on if arg is positive, off otherwise.
@@ -291,15 +292,17 @@ displayed as λ in lisp modes."
   (if (pretty-keywords)
       (pretty-mode 1)))
 
+;;;###autoload
 (define-globalized-minor-mode global-pretty-mode
   pretty-mode turn-on-pretty-if-desired
   :init-value t)
 
+;;;###autoload
 (defun turn-off-pretty-mode ()
   (interactive)
   (pretty-mode -1))
 
-
+;;;###autoload
 (defun turn-on-pretty-mode ()
   (interactive)
   (pretty-mode +1))

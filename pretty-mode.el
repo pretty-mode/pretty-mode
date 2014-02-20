@@ -917,6 +917,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 2502 │ BOX VERTICAL
        (?\u2502 :when (:other)
                 (:when "when" livescript))
+
+       ;; 2502 │ BOX VERTICAL
+       (?\u2502 :case (:other)
+                (:case "|" livescript))
        ))))
 
 (defun pretty-add-keywords (mode keywords)

@@ -58,7 +58,7 @@
          (end (match-end 0))
          (syntax (char-syntax (char-after start)))
          (char-b (char-before start))
-         (char-a (char-before end)))
+         (char-a (char-after end)))
     (if (or (if (memq syntax pretty-syntax-types)
                 (or (and char-b (memq (char-syntax char-b) pretty-syntax-types))
                     (and char-a (memq (char-syntax char-a) pretty-syntax-types)))

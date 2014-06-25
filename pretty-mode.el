@@ -339,7 +339,7 @@ displayed as λ in lisp modes."
     (:not "not" ?\u00AC)          ; ¬ NOT SIGN
     (:&& "&&" ?\u2227)            ; ∧ LOGICAL AND
     (:and "and" ?\u2227)          ; ∧ LOGICAL AND
-    (:andalso "andlso" ?\u2227)          ; ∧ LOGICAL AND
+    (:andalso "andlso" ?\u2227)   ; ∧ LOGICAL AND
     (:|| "||" ?\u2228)            ; ∨ LOGICAL OR
     (:or "or" ?\u2228)            ; ∨ LOGICAL OR
     (:||= "||=" ?\u22AB)          ; ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE

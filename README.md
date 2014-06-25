@@ -1,7 +1,7 @@
-[![Stories in Ready](https://badge.waffle.io/akatov/pretty-mode.png?label=ready&title=Ready)](https://waffle.io/akatov/pretty-mode)
 # pretty-mode
+
+[![Stories in Ready](https://badge.waffle.io/akatov/pretty-mode.png?label=ready&title=Ready)](https://waffle.io/akatov/pretty-mode)
 [![Build Status](https://travis-ci.org/akatov/pretty-mode.png)](https://travis-ci.org/akatov/pretty-mode)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/akatov/pretty-mode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Redisplays parts of the Emacs buffer as pretty symbols. Highly configurable and extendable
 

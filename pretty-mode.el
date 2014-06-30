@@ -149,7 +149,7 @@ implied mode from MODE and return it."
     python-mode sml-mode jess-mode clips-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
     perl-mode c++-mode c-mode haskell-mode
-    javascript-mode coffee-mode groovy-mode)
+    javascript-mode coffee-mode groovy-mode idris-mode)
   "A list of all supported modes.")
 
 (defun ensure-modes (modes)
@@ -331,7 +331,7 @@ expected by `pretty-patterns'"
 
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess clips))
-         (mley '(haskell tuareg sml))
+         (mley '(haskell tuareg sml idris))
          (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
@@ -378,11 +378,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:not= "not=" clojure)
                 (:<> "<>" tuareg octave)
                 (:~= "~=" octave)
-                (:/= "/=" haskell))
+                (:/= "/=" haskell idris))
 
        ;;; 2A75 ⩵ TWO CONSECUTIVE EQUALS SIGNS
        (?\u2A75 :== (:equality)
-                (:== "==" ,@c-like haskell))
+                (:== "==" ,@c-like haskell idris))
 
        ;;; 2A76 ⩶ THREE CONSECUTIVE EQUALS SIGNS
        (?\u2A76 :=== (:equality)
@@ -401,13 +401,13 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;;; 00AC ¬ NOT SIGN
        (?\u00AC :neg (:logic)
                 (:! "!" c c++ perl sh ruby javascript)
-                (:not "not" ,@lispy haskell sml))
+                (:not "Not" ,@lispy haskell idris sml))
 
        ;;; 2227 ∧ LOGICAL AND
        (?\u2227 :wedge (:logic)
                 (:and "and" ,@lispy python ruby coffee)
                 (:andalso "andalso" sml)
-                (:&& "&&" c c++ perl haskell ruby javascript coffee))
+                (:&& "&&" c c++ perl haskell idris ruby javascript coffee))
 
        ;;; 22AB ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
        (?\u22AB :models (:logic :logic-extended)
@@ -417,21 +417,21 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u2228 :vee (:logic)
                 (:or "or" ,@lispy python ruby coffee)
                 (:orelse "orelse" sml)
-                (:|| "||" c c++ perl haskell ruby javascript coffee))
+                (:|| "||" c c++ perl haskell idris ruby javascript coffee))
 
        ;;; 22C0 ⋀ N-ARY LOGICAL AND
        (?\u22C0 :bigwedge (:logic :logic-nary)
-                (:and "and" haskell))
+                (:and "and" haskell idris))
 
        ;;; 22C1 ⋁ N-ARY LOGICAL OR
        (?\u22C1 :bigvee (:logic :logic-nary)
-                (:or "or" haskell))
+                (:or "or" haskell idris))
 
        ;;; Sets
 
        ;;; 2208 ∈ ELEMENT OF
        (?\u2208 :in (:sets :sets-relations)
-                (:elem "`elem`" haskell)
+                (:elem "`elem`" haskell idris)
                 (:in "in" python coffee javascript))
 
        ;;; 2209 ∉ NOT AN ELEMENT OF
@@ -446,7 +446,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 222A ∪ UNION
        (?\u222A :cup (:sets :sets-operations)
-                (:union "`union`" haskell))    ; Data.List, Data.Set
+                (:union "`union`" haskell idris))    ; Data.List, Data.Set
 
        ;; 2282 ⊂ SUBSET OF
        (?\u2282 :subset (:sets :sets-relations)
@@ -524,7 +524,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:fun "fun" tuareg)
                 (:function "function" javascript)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby)
-                (:\\ "\\" haskell))
+                (:\\ "\\" haskell idris))
 
        ;;; 039B Λ GREEK CAPITAL LETTER LAMDA
        (?\u039B :Function (:function)
@@ -775,13 +775,17 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2237 ∷ PROPORTION
        (?\u2237 :Proportion (:punctuation)
-                (::: "::" haskell))
+                (::: "::" haskell idris))
 
        ;;; Types
 
        ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
        (?\u2124 :Z (:types)
-                (:Integer "Integer" haskell))
+                (:Integer "Integer" haskell idris))
+
+       ;; 2115 ℕ DOUBLE-STRUCK CAPITAL N
+       (?\u2115 :N (:types)
+                (:Nat "Nat" idris))
 
        ;;; Arrows
 
@@ -803,7 +807,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
        (?\u21D2 :Rightarrow (:arrows)
-                (:=> "=>" sml perl ruby ,@lispy haskell coffee))
+                (:=> "=>" sml perl ruby ,@lispy haskell idris coffee))
 
        ;; 21D4 ⇔ LEFT RIGHT DOUBLE ARROW
        (?\u21D4 :eftrightarrow (:arrows)
@@ -865,7 +869,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA :++ (:arithmetic :arithmetic-double)
-                (:++ "++" haskell c c++ java javascript coffee))
+                (:++ "++" haskell idris c c++ java javascript coffee))
 
        ;; 29FB ⧻ TRIPLE PLUS
        (?\u29FB :+++ (:arithmetic :arithmetic-triple)
@@ -876,25 +880,26 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 22A5 ⊥ UP TACK
        (?\u22A5 :bot (:undefined)
                 (:undefined "undefined" haskell javascript coffee)
-                (:void0 "void 0" javascript))
+                (:void0 "void 0" javascript)
+                (:bottom "Void" idris))
 
        ;;; Parentheses
 
        ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
        (?\u27E6 :llbracket (:parentheses)
-                (:\[| "[|" haskell))
+                (:\[| "[|" haskell idris))
 
        ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
        (?\u27E7 :rrbracket (:parentheses)
-                (:|\] "|]" haskell))
+                (:|\] "|]" haskell idris))
 
        ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
        (?\u2987 :limg (:parentheses) ; \Lparen is actually a different symbol
-                (:\(| "(|" haskell))
+                (:\(| "(|" haskell idris))
 
        ;; 2988 ⦈ Z NOTATION RIGHT IMAGE BRACKET
        (?\u2988 :rimg (:parentheses) ; \Rparen is actually a different symbol
-                (:|\) "|)" haskell))
+                (:|\) "|)" haskell idris))
 
        ;;; Other
 

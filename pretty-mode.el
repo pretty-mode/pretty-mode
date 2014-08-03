@@ -531,6 +531,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:FN "FN" sml)
                 (:FUN "FUN" tuareg))
 
+       ;;; 23CE ⏎ RETURN SYMBOL
+       (?\u23CE :return (:function)
+                (:return "return" ess))
+
        ;;; Greek Letters
 
        ;;; 0391 Α GREEK CAPITAL LETTER ALPHA

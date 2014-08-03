@@ -843,7 +843,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:null "null" scheme java coffee javascript)
                 (:\'\(\) "'()" scheme)
                 (:empty "empty" scheme)
-                (:NULL "NULL" c c++)
+                (:NULL "NULL" c c++ ess)
                 (:None "None" python)
                 (:\(\) "()" ,@mley)
                 (:\[\] "[]" ,@mley))

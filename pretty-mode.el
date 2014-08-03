@@ -522,7 +522,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u03BB :function (:function)
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
-                (:function "function" javascript)
+                (:function "function" javascript ess)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby)
                 (:\\ "\\" haskell))
 

@@ -522,7 +522,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u03BB :function (:function)
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
-                (:function "function" javascript)
+                (:function "function" javascript ess)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby)
                 (:\\ "\\" haskell))
 
@@ -843,7 +843,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:null "null" scheme java coffee javascript)
                 (:\'\(\) "'()" scheme)
                 (:empty "empty" scheme)
-                (:NULL "NULL" c c++)
+                (:NULL "NULL" c c++ ess)
                 (:None "None" python)
                 (:\(\) "()" ,@mley)
                 (:\[\] "[]" ,@mley))

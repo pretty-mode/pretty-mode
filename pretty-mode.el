@@ -890,11 +890,13 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
        (?\u27E6 :llbracket (:parentheses)
-                (:\[| "[|" haskell))
+                (:\[| "[|" haskell)
+                (:\[\[ "[[" ess))
 
        ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
        (?\u27E7 :rrbracket (:parentheses)
-                (:|\] "|]" haskell))
+                (:|\] "|]" haskell)
+                (:\]\] "]]" ess))
 
        ;; 2987 ⦇ Z NOTATION LEFT IMAGE BRACKET
        (?\u2987 :limg (:parentheses) ; \Lparen is actually a different symbol

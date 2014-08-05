@@ -767,7 +767,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2026 … HORIZONTAL ELLIPSIS
        (?\u2026 :dots (:punctuation)
-                (:... "..." scheme ruby))
+                (:... "..." scheme ruby ess))
 
        ;; 203C ‼ DOUBLE EXCLAMATION MARK
        (?\u203C :!! (:punctuation)
@@ -793,6 +793,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u2190 :leftarrow (:arrows)
                 (:<- "<-" ,@mley ess ,@lispy))
 
+       ;; 219E ↞ LEFTWARDS TWO HEADED ARROW
+       (?\u219E :twoheadleftarrow (:arrows :arrows-twoheaded)
+                (:<<- "<<-" ess))
+
        ;; 2191 ↑ UPWARDS ARROW
        (?\u2191 :uparrow (:arrows)
                 (:\\^ "\\^" tuareg))
@@ -803,7 +807,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 21A0 ↠ RIGHTWARDS TWO HEADED ARROW
        (?\u21A0 :twoheadrightarrow (:arrows :arrows-twoheaded)
-                (:->> "->>" ,@lispy))
+                (:->> "->>" ,@lispy ess))
 
        ;; 21D2 ⇒ RIGHTWARDS DOUBLE ARROW
        (?\u21D2 :Rightarrow (:arrows)

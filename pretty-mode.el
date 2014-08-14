@@ -65,12 +65,11 @@
                  '(font-lock-doc-face font-lock-string-face
                                       font-lock-comment-face)))
         (remove-text-properties start end '(composition))
-      (compose-region start end (progn
-                                 (let* ((str (match-string 0))
-                                        (rule (cdr (assoc-if (lambda (x) (string-match x str)) alist))))
-                                  (if (functionp rule)
-                                    (funcall rule str)
-                                   rule))))
+      (let* ((str (match-string 0))
+             (rule (cdr (assoc-if (lambda (x) (string-match x str)) alist))))
+       (if (functionp rule)
+         (funcall rule start end str)
+        (compose-region start end rule)))
 ;;;       (add-text-properties start end `(display ,repl)))
       ))
   ;; Return nil because we're not adding any face property.
@@ -311,8 +310,8 @@ displayed as λ in lisp modes."
 (defun pretty-compile-patterns (patterns)
   "Set pretty patterns in a convenient way.
 
-PATTERNS should be of the form ((COMPONENT NAMES GROUPS (REGEXP MODE ...) ...)
-...). COMPONENT should either be a COMPONENT accepted by compose-region, like a character, or a function which accepts the matched string and returns a COMPONENT. NAMES and GROUPS should both be lists of keywords,
+PATTERNS should be of the form ((COMPONENT-OR-FUNCTIOn NAMES GROUPS (REGEXP MODE ...) ...)
+...). COMPONENT-OR-FUNCTIOn is either a COMPONENT accepted by compose-region, like a character, or a FUNCTION which accepts the start and end positions in the buffer along with the matched string. NAMES and GROUPS should both be lists of keywords,
 MODE should be the name of a
 major mode without the \"-mode\". Returns patterns in the form
 expected by `pretty-patterns'"
@@ -322,7 +321,7 @@ expected by `pretty-patterns'"
                 (loop for mode in major-modes do
                       (let* ((mode (ensure-mode mode))
                              (assoc-pair (assoc mode pretty-patterns))
-                             (entry (cons regexp component)))
+                             (entry (cons (concat "\\<" regexp "\\>") component)))
                         (when (pretty-is-active-pattern symbol-name groups
                                                         name mode)
                           (if assoc-pair

@@ -100,7 +100,10 @@ script editing modes.")
 regular expressions with symbols. ALIST has the form ((STRING .
 REPLACE-CHAR) ...)."
   (when alist
-    `((,(rx-to-string `(or ,@(mapcar (lambda (x) `(regexp ,(car x))) alist)))
+    `((,(rx-to-string `(or ,@(mapcar
+                              (lambda (x) `(regexp ,x))
+                              (sort (mapcar 'car alist)
+                                    (lambda (a b) (> (length a) (length b)))))))
        (0 (pretty-font-lock-compose-symbol
            ',alist))))))
 
@@ -321,7 +324,7 @@ expected by `pretty-patterns'"
                 (loop for mode in major-modes do
                       (let* ((mode (ensure-mode mode))
                              (assoc-pair (assoc mode pretty-patterns))
-                             (entry (cons (concat "\\<" regexp "\\>") component)))
+                             (entry (cons regexp component)))
                         (when (pretty-is-active-pattern symbol-name groups
                                                         name mode)
                           (if assoc-pair

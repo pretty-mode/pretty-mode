@@ -80,6 +80,7 @@
     (inf-haskell-mode . haskell-mode) ; is this still used??
     (inferior-haskell-mode . haskell-mode)
     (nrepl-mode . clojure-mode)
+    (cider-repl-mode . clojure-mode)
     (tuareg-interactive-mode . tuareg-mode)
     (inferior-python-mode . python-mode)
     (inferior-octave-mode . octave-mode)

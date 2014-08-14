@@ -65,7 +65,12 @@
                  '(font-lock-doc-face font-lock-string-face
                                       font-lock-comment-face)))
         (remove-text-properties start end '(composition))
-      (compose-region start end (cdr (assoc (match-string 0) alist)))
+      (compose-region start end (progn
+                                 (let* ((str (match-string 0))
+                                        (rule (cdr (assoc-if (lambda (x) (string-match x str)) alist))))
+                                  (if (functionp rule)
+                                    (funcall rule str)
+                                   rule))))
 ;;;       (add-text-properties start end `(display ,repl)))
       ))
   ;; Return nil because we're not adding any face property.
@@ -96,7 +101,7 @@ script editing modes.")
 regular expressions with symbols. ALIST has the form ((STRING .
 REPLACE-CHAR) ...)."
   (when alist
-    `((,(regexp-opt (mapcar 'car alist))
+    `((,(rx-to-string `(or ,@(mapcar (lambda (x) `(regexp ,(car x))) alist)))
        (0 (pretty-font-lock-compose-symbol
            ',alist))))))
 
@@ -306,18 +311,18 @@ displayed as λ in lisp modes."
 (defun pretty-compile-patterns (patterns)
   "Set pretty patterns in a convenient way.
 
-PATTERNS should be of the form ((GLYPH NAMES GROUPS (REGEXP MODE ...) ...)
-...). GLYPH should be a character. NAMES and GROUPS should both be lists of keywords,
+PATTERNS should be of the form ((COMPONENT NAMES GROUPS (REGEXP MODE ...) ...)
+...). COMPONENT should either be a COMPONENT accepted by compose-region, like a character, or a function which accepts the matched string and returns a COMPONENT. NAMES and GROUPS should both be lists of keywords,
 MODE should be the name of a
 major mode without the \"-mode\". Returns patterns in the form
 expected by `pretty-patterns'"
   (let ((pretty-patterns))
-    (loop for (glyph symbol-name groups . triples) in patterns do
+    (loop for (component symbol-name groups . triples) in patterns do
           (loop for (name regexp . major-modes) in triples do
                 (loop for mode in major-modes do
                       (let* ((mode (ensure-mode mode))
                              (assoc-pair (assoc mode pretty-patterns))
-                             (entry (cons regexp glyph)))
+                             (entry (cons regexp component)))
                         (when (pretty-is-active-pattern symbol-name groups
                                                         name mode)
                           (if assoc-pair
@@ -329,7 +334,7 @@ expected by `pretty-patterns'"
 (defun pretty-patterns ()
     "*List of pretty patterns.
 
-Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
+Should be a list of the form ((MODE ((REGEXP . COMPONENT) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess clips))
          (mley '(haskell tuareg sml))
          (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
@@ -468,37 +473,37 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 2080 ₀ SUBSCRIPT ZERO
        (?\u2080 :sub-0 (:sub-and-superscripts :subscripts)
-                (:\[0\] "[0]" ,@c-like)
+                (:\[0\] "\\[0]" ,@c-like)
                 (:\(0\) "(0)" octave)
-                (:.\(0\) ".(0)" tuareg)
+                (:.\(0\) "\\.(0)" tuareg)
                 (:!!0 "!!0" haskell))
 
        ;;; 2081 ₁ SUBSCRIPT ONE
        (?\u2081 :sub-1 (:sub-and-superscripts :subscripts)
-                (:\[1\] "[1]" ,@c-like)
+                (:\[1\] "\\[1]" ,@c-like)
                 (:\(1\) "(1)" octave)
-                (:.\(1\) ".(1)" tuareg)
+                (:.\(1\) "\\.(1)" tuareg)
                 (:!!1 "!!1" haskell))
 
        ;;; 2082 ₂ SUBSCRIPT TWO
        (?\u2082 :sub-2 (:sub-and-superscripts :subscripts)
-                (:\[2\] "[2]" ,@c-like)
+                (:\[2\] "\\[2]" ,@c-like)
                 (:\(2\) "(2)" octave)
-                (:.\(2\) ".(2)" tuareg)
+                (:.\(2\) "\\.(2)" tuareg)
                 (:!!2 "!!2" haskell))
 
        ;;; 2083 ₃ SUBSCRIPT THREE
        (?\u2083 :sub-3  (:sub-and-superscripts :subscripts)
-                (:\[3\] "[3]" ,@c-like)
+                (:\[3\] "\\[3]" ,@c-like)
                 (:\(3\) "(3)" octave)
-                (:.\(3\) ".(3)" tuareg)
+                (:.\(3\) "\\.(3)" tuareg)
                 (:!!3 "!!3" haskell))
 
        ;;; 2084 ₄ SUBSCRIPT FOUR
        (?\u2084 :sub-4  (:sub-and-superscripts :subscripts)
-                (:\[4\] "[4]" ,@c-like)
+                (:\[4\] "\\[4]" ,@c-like)
                 (:\(4\) "(4)" octave)
-                (:.\(4\) ".(4)" tuareg)
+                (:.\(4\) "\\.(4)" tuareg)
                 (:!!4 "!!4" haskell))
 
        ;;; 00B2 ² SUPERSCRIPT TWO
@@ -763,11 +768,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2025 ‥ TWO DOT LEADER
        (?\u2025 :.. (:punctuation)
-                (:.. ".." haskell ruby))
+                (:.. "\\.\\." haskell ruby))
 
        ;; 2026 … HORIZONTAL ELLIPSIS
        (?\u2026 :dots (:punctuation)
-                (:... "..." scheme ruby ess))
+                (:... "\\.\\.\\." scheme ruby ess))
 
        ;; 203C ‼ DOUBLE EXCLAMATION MARK
        (?\u203C :!! (:punctuation)
@@ -775,7 +780,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2218 ∘ RING OPERATOR
        (?\u2218 :circ (:punctuation)
-                (:. "\." haskell))
+                (:. "\\." haskell))
 
        ;; 2237 ∷ PROPORTION
        (?\u2237 :Proportion (:punctuation)
@@ -799,7 +804,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2191 ↑ UPWARDS ARROW
        (?\u2191 :uparrow (:arrows)
-                (:\\^ "\\^" tuareg))
+                (:\\^ "\\\\\\^" tuareg))
 
        ;; 2192 → RIGHTWARDS ARROW
        (?\u2192 :rightarrow (:arrows)
@@ -854,7 +859,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:NULL "NULL" c c++ ess)
                 (:None "None" python)
                 (:\(\) "()" ,@mley)
-                (:\[\] "[]" ,@mley))
+                (:\[\] "\\[]" ,@mley))
 
        ;;; Arithmetic
 
@@ -890,8 +895,8 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 27E6 ⟦ MATHEMATICAL LEFT WHITE SQUARE BRACKET
        (?\u27E6 :llbracket (:parentheses)
-                (:\[| "[|" haskell)
-                (:\[\[ "[[" ess))
+                (:\[| "\\[|" haskell)
+                (:\[\[ "\\[\\[" ess))
 
        ;; 27E7 ⟧ MATHEMATICAL RIGHT WHITE SQUARE BRACKET
        (?\u27E7 :rrbracket (:parentheses)
@@ -929,11 +934,11 @@ relevant buffer(s)."
                                                ,(cdr kw))))))
                 keywords)))
 
-(defun pretty-regexp (regexp glyph)
-  "Replace REGEXP with GLYPH in buffer."
+(defun pretty-regexp (regexp component)
+  "Replace REGEXP with COMPONENT in buffer."
   (interactive "MRegexp to replace:
 MCharacter to replace with: ")
-  (pretty-add-keywords nil `((,regexp . ,(string-to-char glyph))))
+  (pretty-add-keywords nil `((,regexp . ,component)))
   (font-lock-fontify-buffer))
 
 (provide 'pretty-mode)

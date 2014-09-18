@@ -541,6 +541,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u2B9E :ForwardPipe (:function)
                 (:ForwardPipe "%>%" ess))
 
+       ;;; 2666 ♦ BLACK DIAMOND SUIT
+       (?\u2666 :CompoundAssignmentPipe (:function)
+                (:CompoundAssignmentPipe "%<>%" ess))
+
        ;;; Greek Letters
 
        ;;; 0391 Α GREEK CAPITAL LETTER ALPHA

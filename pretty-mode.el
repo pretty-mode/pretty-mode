@@ -452,7 +452,8 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2282 ⊂ SUBSET OF
        (?\u2282 :subset (:sets :sets-relations)
-                (:isProperSubsetOf "`isProperSubsetOf`" haskell)) ; Data.Set
+                (:isProperSubsetOf "`isProperSubsetOf`" haskell)
+                (:subset "subset" ess))
 
        ;; 2286 ⊆ SUBSET OF OR EQUAL TO
        (?\u2286 :subseteq (:sets :sets-relations)

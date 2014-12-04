@@ -526,7 +526,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
                 (:fun "fun" fsharp)
-                (:function "function" javascript)
+                (:function "function" javascript ess)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby javascript)
                 (:\\ "\\" haskell))
 

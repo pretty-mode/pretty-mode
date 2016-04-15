@@ -864,6 +864,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:\'\(\) "'()" scheme)
                 (:empty "empty" scheme)
                 (:NULL "NULL" c c++ ess)
+                (:nullptr "nullptr" c++)
                 (:None "None" python)
                 (:\(\) "()" ,@mley)
                 (:\[\] "[]" ,@mley))

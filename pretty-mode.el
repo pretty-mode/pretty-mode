@@ -892,6 +892,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u29FB :+++ (:arithmetic :arithmetic-triple)
                 (:+++ "+++" haskell))        ; Control.Arrow
 
+       ;; 254C ╌ DOUBLE DASH (MINUS)
+       (?\u254C :-- (:arithmetic :arithmetic-double)
+                (:-- "--" haskell c c++ java javascript coffee))
+
        ;;; Undefined
 
        ;; 22A5 ⊥ UP TACK

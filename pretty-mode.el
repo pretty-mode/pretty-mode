@@ -1,4 +1,4 @@
-;;; pretty-mode.el --- Redisplay parts of the buffer as pretty symbols.
+;;; pretty-mode.el --- Redisplay parts of the buffer as pretty Unicode symbols.
 ;;; -*- coding: utf-8 -*-
 
 ;; Copyright © March 2008 Arthur Danskin <arthurdanskin@gmail.com>

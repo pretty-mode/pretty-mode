@@ -3,7 +3,7 @@
 [![Stories in Ready](https://badge.waffle.io/akatov/pretty-mode.png?label=ready&title=Ready)](https://waffle.io/akatov/pretty-mode)
 [![Build Status](https://travis-ci.org/akatov/pretty-mode.png)](https://travis-ci.org/akatov/pretty-mode)
 
-Redisplays parts of the Emacs buffer as pretty symbols. Highly configurable and extendable
+Redisplays parts of the Emacs buffer as pretty Unicode symbols. Highly configurable and extendable
 
 ## Installation
 

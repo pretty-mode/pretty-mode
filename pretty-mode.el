@@ -943,7 +943,7 @@ relevant buffer(s)."
                           (0 (prog1 nil
                                (compose-region (match-beginning 0)
                                                (match-end 0)
-                                               ,(cdr kw))))))
+                                               (string-to-char ,(cdr kw)))))))
                 keywords)))
 
 (defun pretty-regexp (regexp glyph)

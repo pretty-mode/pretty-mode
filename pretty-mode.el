@@ -528,6 +528,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:fun "fun" fsharp)
                 (:function "function" javascript ess)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby)
+                (:lambda_shorthand "->" ruby)
                 (:\\ "\\" haskell))
 
        ;;; 039B Λ GREEK CAPITAL LETTER LAMDA

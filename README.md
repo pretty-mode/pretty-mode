@@ -26,6 +26,8 @@ In your [`Cask` file](https://github.com/cask/cask):
 (add-hook 'my-pretty-language-hook 'turn-on-pretty-mode)
 ```
 
+If you are using the emacs package `swiper` you might want to disable `global-pretty-mode` as it generates a lot of garbage and instead enable pretty mode on a per-mode basis with `turn-on-pretty-mode`
+
 ## Development
 
 ```bash

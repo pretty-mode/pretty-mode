@@ -52,3 +52,22 @@ cask exec emacs -q -L . -l .dev/init.el
 - [[https://github.com/grettke][Grant Rettke]] added support for some Lispy stuff, Unicode character
   documentation, and Unicode source references and serves as the current
   maintainer.
+
+* Related Packages
+
+- [[https://bitbucket.org/mortiferus/latex-pretty-symbols.el][latex-pretty-symbols]] :: Makes emacs display unicode characters instead of
+     latex commands for a lot of the most usual symbols..
+- ~prettify-symbols-mode~ :: Built into Emacs
+
+* Discussion
+
+The elephant in the living room is the question of whether or not to use this
+package or ~prettify-symbols-mode~ which is built into Emacs. /Most/ of the time
+the answer is easy: use the built in package. In this case however it requires
+some consideration on your part.
+
+This package covers more symbols and is more flexible with how it does it.
+~prettify-symbols-mode~ is does less so on both parts, but eventually it will
+catch up.
+
+My advice: get what you need [[http://www.modernemacs.com/post/prettify-mode/][from both]].

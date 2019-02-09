@@ -45,6 +45,7 @@
 ;; or
 ;; (add-hook 'my-pretty-language-hook 'turn-on-pretty-mode)
 
+
 ;;; Code:
 
 (require 'cl)

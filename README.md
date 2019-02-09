@@ -39,8 +39,8 @@ cask exec emacs -q -L . -l .dev/init.el
 ## Credits
 
 - Arthur Danskin released pretty-mode in 2008 which fontifies various symbols.
-- [Grant Rettke](https://github.com/grettke) added support for some Lispy stuff,
-  Unicode character documentation, and Unicode source references.
 - [Dmitri Akatov](https://github.com/akatov) is currently maintaining
   `pretty-mode` and is adding support for more symbols, more modes and
   customization.
+- [Grant Rettke](https://github.com/grettke) added support for some Lispy stuff,
+  Unicode character documentation, and Unicode source references.

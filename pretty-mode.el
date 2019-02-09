@@ -2,8 +2,8 @@
 ;;; -*- coding: utf-8 -*-
 
 ;; Copyright © March 2008 Arthur Danskin <arthurdanskin@gmail.com>
-;; Copyright © January 2013 Grant Rettke <grant@wisdomandwonder.com>
 ;; Copyright © April 2013 Dmitri Akatov <akatov@gmail.com>
+;; Copyright © January 2013 Grant Rettke <grant@wisdomandwonder.com>
 
 ;; Filename: pretty-mode.el
 ;; Description: Redisplay parts of the buffer as pretty Unicode symbols.

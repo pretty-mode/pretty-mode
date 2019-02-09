@@ -8,7 +8,7 @@ Re-display parts of the Emacs buffer as pretty Unicode symbols. Highly configura
 
 * Installation
 
-Install the ELPA package from [[http://melpa.milkbox.net/#/pretty-mode][MELPA]]. 
+Install the ELPA package from [[http://melpa.milkbox.net/#/pretty-mode][MELPA]].
 
 * Usage
 
@@ -60,6 +60,30 @@ cask exec emacs -q -L . -l .dev/init.el
 - ~prettify-symbols-mode~ :: Built into Emacs
 
 * Discussion
+
+** Why Use It?
+
+Some programming languages are /wordy/. They require a lot of words to write
+functions and problems. Early on it helps because you understand what is
+happening. But once you understand how to program well with that language, all
+of those words just get in the way: they take up a lot of space doing things
+that have nothing to do with solving your problem. For example in most
+language you need to explicitly return the result of a function.
+
+In both Java and R the word is ~return~. It isn't a big deal to write it and see
+it, but, you just don't even really see it. You know where you are, that the
+function is over, and you are returning (at any point) so you don't need a
+reminder. In a case like this then you might replace ~return~ with a Smalltalk
+~↑~ or a fun ~⏎~. There are a lot of other cases.
+
+Browse the code and look at what is available. You will find it easy to enable
+logical groups of characters like Mathematics or Greek to get started pretty
+quickly. If it doesn't have what you need then try writing one yourself: it is
+really easy.
+
+If you are having fun with it then you are doing it right.
+
+*** Versus Other Packages
 
 The elephant in the living room is the question of whether or not to use this
 package or ~prettify-symbols-mode~ which is built into Emacs. /Most/ of the time

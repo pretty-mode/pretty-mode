@@ -91,7 +91,7 @@ the answer is easy: use the built in package. In this case however it requires
 some consideration on your part.
 
 This package covers more symbols and is more flexible with how it does it.
-~prettify-symbols-mode~ is does less so on both parts, but eventually it will
+~prettify-symbols-mode~ does less so on both parts, but eventually it will
 catch up.
 
 My advice: get what you need [[http://www.modernemacs.com/post/prettify-mode/][from both]].

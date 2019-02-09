@@ -8,7 +8,7 @@ Re-display parts of the Emacs buffer as pretty Unicode symbols. Highly configura
 
 * Installation
 
-Install the ELPA package from [MELPA](http://melpa.milkbox.net/#/pretty-mode)
+Install the ELPA package from [[http://melpa.milkbox.net/#/pretty-mode][MELPA]]. 
 
 * Usage
 

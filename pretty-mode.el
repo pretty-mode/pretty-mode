@@ -2,13 +2,13 @@
 ;;; -*- coding: utf-8 -*-
 
 ;; Copyright © March 2008 Arthur Danskin <arthurdanskin@gmail.com>
-;; Copyright © January 2013 Grant Rettke <grettke@acm.org>
+;; Copyright © January 2013 Grant Rettke <grant@wisdomandwonder.com>
 ;; Copyright © April 2013 Dmitri Akatov <akatov@gmail.com>
 
 ;; Filename: pretty-mode.el
 ;; Description: Redisplay parts of the buffer as pretty Unicode symbols.
 ;; Author: Arthur Danskin <arthurdanskin@gmail.com>
-;; Maintainer: Dmitri Akatov <akatov@gmail.com>
+;; Maintainer: Grant Rettke <grant@wisdomandwonder.com>
 ;; URL: https://github.com/akatov/pretty-mode
 ;; Keywords: pretty, unicode, symbols
 ;; Version: 2.0.3

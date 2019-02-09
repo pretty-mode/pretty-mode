@@ -1,46 +1,54 @@
+#+title: Pretty Mode Readme
+#+options: num:nil
+#+startup: odd
+#+style: <style> h1,h2,h3 {font-family: arial, helvetica, sans-serif} </style>
 # pretty-mode
 
-[![Stories in Ready](https://badge.waffle.io/akatov/pretty-mode.png?label=ready&title=Ready)](https://waffle.io/akatov/pretty-mode)
-[![Build Status](https://travis-ci.org/akatov/pretty-mode.png)](https://travis-ci.org/akatov/pretty-mode)
+Re-display parts of the Emacs buffer as pretty Unicode symbols. Highly configurable and extendable
 
-Redisplays parts of the Emacs buffer as pretty Unicode symbols. Highly configurable and extendable
-
-## Installation
+* Installation
 
 Install the ELPA package from [MELPA](http://melpa.milkbox.net/#/pretty-mode)
 
-In your [`Cask` file](https://github.com/cask/cask):
+* Usage
 
-```lisp
-(source melpa)
-(depends-on "pretty-mode")
-```
-
-## Usage
-
-```lisp
+#+name: org_gcr_2019-02-09T02-17-14-06-00_cosmicality_AFB15795-E729-4CC4-9DDC-AA3FF1B0D834
+#+begin_src emacs-lisp
 (require 'pretty-mode)
 ; if you want to set it globally
 (global-pretty-mode t)
 ; if you want to set it only for a specific mode
 (add-hook 'my-pretty-language-hook 'turn-on-pretty-mode)
-```
+#+end_src
 
-If you are using the emacs package `swiper` you might want to disable `global-pretty-mode` as it generates a lot of garbage and instead enable pretty mode on a per-mode basis with `turn-on-pretty-mode`
+If you are using the Emacs package ~Swiper~ you might want to disable
+~global-pretty-mode~ as it generates a lot of garbage: instead enable
+pretty mode on a per-mode basis with ~turn-on-pretty-mode~.
 
-## Development
+* Development
 
-```bash
+In your [[https://github.com/cask/cask][Cask]] file:
+
+#+name: org_gcr_2019-02-09T02-17-14-06-00_cosmicality_C6BB0544-DAB0-4819-BF25-2762CEB051A4
+#+begin_src emacs-lisp
+(source melpa)
+(depends-on "pretty-mode")
+#+end_src
+
+Then run:
+
+#+name: org_gcr_2019-02-09T02-17-14-06-00_cosmicality_81520500-84B6-45F0-9C6B-709795A37D39
+#+begin_src shell
 cask install
 make test
 cask exec emacs -q -L . -l .dev/init.el
-```
+#+end_src
 
-## Credits
+* Credits
 
 - Arthur Danskin released pretty-mode in 2008 which fontifies various symbols.
-- [Dmitri Akatov](https://github.com/akatov) is currently maintaining
-  `pretty-mode` and is adding support for more symbols, more modes and
-  customization.
-- [Grant Rettke](https://github.com/grettke) added support for some Lispy stuff,
-  Unicode character documentation, and Unicode source references.
+- [[https://github.com/akatov][Dmitri Akatov]] served as a maintainer and added support for more symbols,
+  more modes and customization.
+- [[https://github.com/grettke][Grant Rettke]] added support for some Lispy stuff, Unicode character
+  documentation, and Unicode source references and serves as the current
+  maintainer.

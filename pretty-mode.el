@@ -536,9 +536,13 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:FN "FN" sml)
                 (:FUN "FUN" tuareg))
 
-       ;;; 23CE ⏎ RETURN SYMBOL
-       (?\u23CE :return (:function)
-                (:return "return" ess))
+       ;;; 27FC ⟼ LONG RIGHTWARDS ARROW FROM BAR
+       (?\u27FC :return (:function)
+                (:return "return" python))
+
+       ;;; 0192 ƒ LATIN SMALL LETTER F WITH HOOK
+       (?\u0192 :def (:function)
+                (:def "def" python))
 
        ;;; 2B9E ⮞ BLACK RIGHTWARDS EQUILATERAL ARROWHEAD
        (?\u2B9E :ForwardPipe (:function)
@@ -798,7 +802,25 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2124 ℤ DOUBLE-STRUCK CAPITAL Z
        (?\u2124 :Z (:types)
-                (:Integer "Integer" haskell))
+                (:Integer "Integer" haskell)
+                (:int "int" python))
+
+       ;;; 211A ℚ DOUBLE-STRUCK CAPITAL Q
+       (?\u211a :Q (:types)
+                (:float "float" python)
+                (:Float "Float" haskell))
+
+       ;;; 1D54A 𝕊 MATHEMATICAL DOUBLE-STRUCK CAPITAL S
+       (?\x1d54a :S (:types)
+                 (:str "str" python))
+
+       ;;; 1D54B 𝕋 MATHEMATICAL DOUBLE-STRUCK CAPITAL T
+       (?\x1d54b :T (:types)
+                 (:True "True" python))
+
+       ;;; 1D53D  𝔽 MATHEMATICAL DOUBLE-STRUCK CAPITAL F
+       (?\x1d53d :F (:types)
+                 (:False "False" python))
 
        ;;; Arrows
 

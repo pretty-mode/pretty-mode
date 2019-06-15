@@ -57,11 +57,13 @@
   "Compose a sequence of ascii chars into a symbol."
   (let* ((start (match-beginning 0))
          (end (match-end 0))
-         (syntax (char-syntax (char-after start))))
+         (syntax (char-syntax (char-after start)))
+         (char-pre (char-before start))
+         (char-post (char-after end)))
     (if (or (if (memq syntax pretty-syntax-types)
-               (or (memq (char-syntax (char-before start)) pretty-syntax-types)
-                  (memq (char-syntax (char-after end)) pretty-syntax-types))
-             (memq (char-syntax (char-before start)) '(?. ?\\)))
+                (or (and char-pre (memq (char-syntax char-pre) pretty-syntax-types))
+                    (and char-post (memq (char-syntax char-post) pretty-syntax-types)))
+              (and char-pre  (memq (char-syntax char-pre) '(?. ?\\))))
            (memq (get-text-property start 'face)
                  '(font-lock-doc-face font-lock-string-face
                                       font-lock-comment-face)))

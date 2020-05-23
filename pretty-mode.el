@@ -152,7 +152,7 @@ implied mode from MODE and return it."
     python-mode sml-mode jess-mode clips-mode clojure-mode
     lisp-mode emacs-lisp-mode scheme-mode sh-mode
     perl-mode c++-mode c-mode haskell-mode
-    javascript-mode coffee-mode groovy-mode fsharp-mode)
+    javascript-mode typescript-mode coffee-mode groovy-mode fsharp-mode)
   "A list of all supported modes.")
 
 (defun ensure-modes (modes)
@@ -335,7 +335,7 @@ expected by `pretty-patterns'"
 Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
   (let* ((lispy '(scheme emacs-lisp lisp clojure jess clips))
          (mley '(haskell tuareg sml fsharp))
-         (c-like '(c c++ perl sh python java ess ruby javascript coffee groovy))
+         (c-like '(c c++ perl sh python java ess ruby javascript typescript coffee groovy))
          (all (append lispy mley c-like (list 'octave))))
     (pretty-compile-patterns
      `(
@@ -355,10 +355,10 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 226A ≪ MUCH LESS-THAN
        (?\u226A :ll (:ordering :ordering-double)
-                (:<< "<<" haskell ruby c c++ java javascript coffee))
+                (:<< "<<" haskell ruby c c++ java javascript typescript coffee))
        ;;; 226B ≫ MUCH GREATER-THAN
        (?\u226B :gg (:ordering :ordering-double)
-                (:>> ">>" haskell ruby c c++ java javascript coffee))
+                (:>> ">>" haskell ruby c c++ java javascript typescript coffee))
        ;;; 2264 ≤ LESS-THAN OR EQUAL TO
        (?\u2264 :leq (:ordering)
                 (:<= "<=" ,@all))
@@ -370,14 +370,14 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:<<< "<<<" haskell))        ; Control.Arrow
        ;;; 22D9 ⋙ VERY MUCH GREATER-THAN
        (?\u22D9 :ggg (:ordering :ordering-triple)
-                (:>>> ">>>" haskell ruby c c++ java javascript coffee))        ; Control.Arrow
+                (:>>> ">>>" haskell ruby c c++ java javascript typescript coffee))        ; Control.Arrow
 
        ;;; Equality
 
        ;;; 2260 ≠ NOT EQUAL TO
        (?\u2260 :neq (:equality)
                 (:!= "!=" ,@c-like scheme octave)
-                (:!== "!==" javascript)
+                (:!== "!==" javascript typescript)
                 (:not= "not=" clojure)
                 (:<> "<>" tuareg octave fsharp)
                 (:~= "~=" octave)
@@ -389,7 +389,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 2A76 ⩶ THREE CONSECUTIVE EQUALS SIGNS
        (?\u2A76 :=== (:equality)
-                (:=== "===" ruby javascript))
+                (:=== "===" ruby javascript typescript))
 
        ;; 2245 ≅ APPROXIMATELY EQUAL TO
        (?\u2245 :=~ (:equality)
@@ -403,14 +403,14 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;;; 00AC ¬ NOT SIGN
        (?\u00AC :neg (:logic)
-                (:! "!" c c++ perl sh ruby javascript)
+                (:! "!" c c++ perl sh ruby javascript typescript)
                 (:not "not" ,@lispy haskell sml fsharp))
 
        ;;; 2227 ∧ LOGICAL AND
        (?\u2227 :wedge (:logic)
                 (:and "and" ,@lispy python ruby coffee)
                 (:andalso "andalso" sml)
-                (:&& "&&" c c++ perl haskell ruby javascript coffee fsharp))
+                (:&& "&&" c c++ perl haskell ruby javascript typescript coffee fsharp))
 
        ;;; 22AB ⊫ DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
        (?\u22AB :models (:logic :logic-extended)
@@ -420,7 +420,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u2228 :vee (:logic)
                 (:or "or" ,@lispy python ruby coffee)
                 (:orelse "orelse" sml)
-                (:|| "||" c c++ perl haskell ruby javascript coffee fsharp))
+                (:|| "||" c c++ perl haskell ruby javascript typescript coffee fsharp))
 
        ;;; 22C0 ⋀ N-ARY LOGICAL AND
        (?\u22C0 :bigwedge (:logic :logic-nary)
@@ -435,7 +435,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;;; 2208 ∈ ELEMENT OF
        (?\u2208 :in (:sets :sets-relations)
                 (:elem "`elem`" haskell)
-                (:in "in" python coffee javascript))
+                (:in "in" python coffee javascript typescript))
 
        ;;; 2209 ∉ NOT AN ELEMENT OF
        (?\u2209 :notin (:sets :sets-relations)
@@ -527,7 +527,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
                 (:fn "fn" sml clojure)
                 (:fun "fun" tuareg)
                 (:fun "fun" fsharp)
-                (:function "function" javascript ess)
+                (:function "function" javascript typescript ess)
                 (:lambda "lambda" scheme lisp emacs-lisp ruby)
                 (:\\ "\\" haskell))
 
@@ -883,7 +883,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 2205 ∅ EMPTY SET
        (?\u2205 :emptyset (:nil)
                 (:nil "nil" emacs-lisp ruby clojure)
-                (:null "null" scheme java coffee javascript)
+                (:null "null" scheme java coffee javascript typescript)
                 (:\'\(\) "'()" scheme)
                 (:empty "empty" scheme)
                 (:NULL "NULL" c c++ ess)
@@ -905,11 +905,11 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        ;; 221a √ SQUARE ROOT
        (?\u221A :sqrt (:arithmetic)
                 (:sqrt "sqrt" ,@all)
-                (:Math.sqrt "Math.sqrt" javascript coffee ruby))
+                (:Math.sqrt "Math.sqrt" javascript typescript coffee ruby))
 
        ;; 29FA ⧺ DOUBLE PLUS
        (?\u29FA :++ (:arithmetic :arithmetic-double)
-                (:++ "++" haskell c c++ java javascript coffee))
+                (:++ "++" haskell c c++ java javascript typescript coffee))
 
        ;; 29FB ⧻ TRIPLE PLUS
        (?\u29FB :+++ (:arithmetic :arithmetic-triple)
@@ -917,14 +917,14 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 254C ╌ DOUBLE DASH (MINUS)
        (?\u254C :-- (:arithmetic :arithmetic-double)
-                (:-- "--" haskell c c++ java javascript coffee))
+                (:-- "--" haskell c c++ java javascript typescript coffee))
 
        ;;; Undefined
 
        ;; 22A5 ⊥ UP TACK
        (?\u22A5 :bot (:undefined)
-                (:undefined "undefined" haskell javascript coffee)
-                (:void0 "void 0" javascript))
+                (:undefined "undefined" haskell javascript typescript coffee)
+                (:void0 "void 0" javascript typescript))
 
        ;;; Parentheses
 

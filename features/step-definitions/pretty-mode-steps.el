@@ -62,7 +62,7 @@
                    (p (point))
                    (comp (get-text-property p 'composition))
                    (gl (if comp (aref (caddr comp) 0) (char-after p))))
-              (assert (= glyph gl) t)
+              (cl-assert (= glyph gl) t)
               (redisplay)
               (forward-char (glyph-width glyph)))
             (setq pos (1+ pos))))))

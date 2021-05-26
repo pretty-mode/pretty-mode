@@ -48,7 +48,7 @@
 
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 
 (defvar pretty-syntax-types '(?_ ?w))
 
@@ -161,7 +161,7 @@ returns all modes, otherwise it calls `ensure-mode' on every member
 of MODES."
   (if (null modes)
       pretty-supported-modes
-    (mapcar* 'ensure-mode (ensure-list modes))))
+    (cl-mapcar 'ensure-mode (ensure-list modes))))
 
 (defvar pretty-active-groups
   nil
@@ -185,15 +185,15 @@ PATTERN is either a keyword or a string.")
 
 (defun pretty-defaults ()
   (setq pretty-active-groups
-        (mapcar* (lambda (mode)
+        (cl-mapcar (lambda (mode)
                    (cons mode (copy-sequence pretty-default-groups)))
                  pretty-supported-modes))
   (setq pretty-active-patterns
-        (mapcar* (lambda (mode)
+        (cl-mapcar (lambda (mode)
                    (cons mode nil))
                  pretty-supported-modes))
   (setq pretty-deactivated-patterns
-        (mapcar* (lambda (mode)
+        (cl-mapcar (lambda (mode)
                    (cons mode nil))
                  pretty-supported-modes)))
 
@@ -206,18 +206,18 @@ pretty-active-patterns/groups and pretty-deactivated-patterns variables."
         (active-patterns   (cdr (assoc mode pretty-active-patterns)))
         (inactive-patterns (cdr (assoc mode pretty-deactivated-patterns)))
         (patterns          (list symbol-name name)))
-    (or (intersection patterns active-patterns)
-       (and (subsetp groups active-groups)
-          (not (intersection patterns inactive-patterns))))))
+    (or (cl-intersection patterns active-patterns)
+       (and (cl-subsetp groups active-groups)
+          (not (cl-intersection patterns inactive-patterns))))))
 
 (defun pretty-activate-groups (groups &optional modes)
   "Add GROUPS to each entry in `pretty-active-groups' for every entry
 in MODES. If MODES is empty, assumes that all modes should be affected."
   (let ((modes (ensure-modes modes))
         (groups (ensure-list groups)))
-    (loop for mode in modes do
+    (cl-loop for mode in modes do
           (let ((cell (assq mode pretty-active-groups)))
-            (setcdr cell (union (cdr cell) groups))))))
+            (setcdr cell (cl-union (cdr cell) groups))))))
 
 (defun pretty-deactivate-groups (groups &optional modes)
   "Remove all members of GROUPS from every entry in
@@ -225,9 +225,9 @@ in MODES. If MODES is empty, assumes that all modes should be affected."
 empty, assumes that all modes should be affected."
   (let ((modes (ensure-modes modes))
         (groups (ensure-list groups)))
-    (loop for mode in modes do
+    (cl-loop for mode in modes do
           (let ((cell (assq mode pretty-active-groups)))
-            (setcdr cell (set-difference (cdr cell) groups))))))
+            (setcdr cell (cl-set-difference (cdr cell) groups))))))
 
 (defun pretty-activate-patterns (patterns &optional modes)
   "Add PATTERNS to each entry in `pretty-active-patterns' for every entry
@@ -235,11 +235,11 @@ in MODES and remove them from `pretty-deactivated-patterns'. If MODES is
 empty, assumes that all modes should be affected."
   (let ((modes (ensure-modes modes))
         (patterns (ensure-list patterns)))
-    (loop for mode in modes do
+    (cl-loop for mode in modes do
           (let ((cell (assq mode pretty-active-patterns)))
-            (setcdr cell (union (cdr cell) patterns)))
+            (setcdr cell (cl-union (cdr cell) patterns)))
           (let ((cell (assq mode pretty-deactivated-patterns)))
-            (setcdr cell (set-difference (cdr cell) patterns))))))
+            (setcdr cell (cl-set-difference (cdr cell) patterns))))))
 
 (defun pretty-deactivate-patterns (patterns &optional modes)
   "Remove all members of PATTERNS from every entry in
@@ -248,11 +248,11 @@ to `pretty-deactivated-patterns'. If MODES is empty, assumes that all
 modes should be affected."
   (let ((modes (ensure-modes modes))
         (patterns (ensure-list patterns)))
-    (loop for mode in modes do
+    (cl-loop for mode in modes do
           (let ((cell (assq mode pretty-active-patterns)))
-            (setcdr cell (set-difference (cdr cell) patterns)))
+            (setcdr cell (cl-set-difference (cdr cell) patterns)))
           (let ((cell (assq mode pretty-deactivated-patterns)))
-            (setcdr cell (union (cdr cell) patterns))))))
+            (setcdr cell (cl-union (cdr cell) patterns))))))
 
 (defun pretty-keywords (&optional mode)
   "Return the font-lock keywords for MODE, or the current mode if
@@ -282,7 +282,7 @@ displayed as λ in lisp modes."
       (progn
         (font-lock-add-keywords nil (pretty-keywords) t)
         (when font-lock-mode
-          (font-lock-fontify-buffer)))
+          (font-lock-ensure)))
     (font-lock-remove-keywords nil (pretty-keywords))
     (remove-text-properties (point-min) (point-max) '(composition nil))))
 
@@ -315,9 +315,9 @@ MODE should be the name of a
 major mode without the \"-mode\". Returns patterns in the form
 expected by `pretty-patterns'"
   (let ((pretty-patterns))
-    (loop for (glyph symbol-name groups . triples) in patterns do
-          (loop for (name regexp . major-modes) in triples do
-                (loop for mode in major-modes do
+    (cl-loop for (glyph symbol-name groups . triples) in patterns do
+          (cl-loop for (name regexp . major-modes) in triples do
+                (cl-loop for mode in major-modes do
                       (let* ((mode (ensure-mode mode))
                              (assoc-pair (assoc mode pretty-patterns))
                              (entry (cons regexp glyph)))
@@ -974,7 +974,7 @@ relevant buffer(s)."
   (interactive "MRegexp to replace:
 MCharacter to replace with: ")
   (pretty-add-keywords nil `((,regexp . ,(string-to-char glyph))))
-  (font-lock-fontify-buffer))
+  (font-lock-ensure))
 
 (provide 'pretty-mode)
 

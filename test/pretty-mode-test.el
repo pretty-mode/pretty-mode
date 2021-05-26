@@ -29,18 +29,18 @@
   (let* ((modes (ensure-modes modes))
          (patterns (ensure-list patterns))
          (pp (pretty-patterns)))
-    (loop for mode in modes do
+    (cl-loop for mode in modes do
           (let ((pairs (cdr (assoc mode pp))))
-            (loop for pattern in patterns do
+            (cl-loop for pattern in patterns do
                   (should (assoc pattern pairs)))))))
 
 (defun should-not-have-patterns (modes patterns)
   (let* ((modes (ensure-modes modes))
          (patterns (ensure-list patterns))
          (pp (pretty-patterns)))
-    (loop for mode in modes do
+    (cl-loop for mode in modes do
           (let ((pairs (cdr (assoc mode pp))))
-            (loop for pattern in patterns do
+            (cl-loop for pattern in patterns do
                   (should-not (assoc pattern pairs)))))))
 
 (ert-deftest pretty-activate-groups ()
